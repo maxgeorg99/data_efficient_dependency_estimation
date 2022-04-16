@@ -1,2 +1,2 @@
 def test_all():
-    import active_learning_de.run_experiments
+    import data_efficient_dependency_estimation.run_experiments

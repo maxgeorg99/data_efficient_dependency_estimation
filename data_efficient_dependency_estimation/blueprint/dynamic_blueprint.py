@@ -36,7 +36,7 @@ from active_learning_ts.instance_properties.objectives.constant_instance_objecti
     ConstantInstanceObjective,
 )
 
-from active_learning_de.surrogate_models.pool_surrogate_model import PoolSurrogateModel
+from data_efficient_dependency_estimation.surrogate_models.pool_surrogate_model import PoolSurrogateModel
 
 from active_learning_ts.training.training_strategies.direct_training_strategy import (
     DirectTrainingStrategy,

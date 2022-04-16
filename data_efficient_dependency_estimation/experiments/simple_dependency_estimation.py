@@ -41,7 +41,7 @@ from active_learning_ts.query_selection.selection_criterias.knowledge_uncertaint
 from active_learning_ts.surrogate_model.surrogate_models.no_surrogate_model import (
     NoSurrogateModel,
 )
-from active_learning_de.surrogate_models.pool_surrogate_model import PoolSurrogateModel
+from data_efficient_dependency_estimation.surrogate_models.pool_surrogate_model import PoolSurrogateModel
 
 
 from active_learning_ts.training.training_strategies.no_training_strategy import (
@@ -90,14 +90,14 @@ from distribution_data_generation.data_sources.sine_data_source import SineDataS
 from distribution_data_generation.data_sources.star_data_source import StarDataSource
 from distribution_data_generation.data_sources.z_data_source import ZDataSource
 
-from active_learning_de.knowledge_discovery.dependency_knowledge_task import (
+from data_efficient_dependency_estimation.knowledge_discovery.dependency_knowledge_task import (
     DependencyKnowledgeTask,
 )
 
-from active_learning_de.experiments.simple_dependency_estimation_blueprint import SimpleDependencyBlueprint
+from data_efficient_dependency_estimation.experiments.simple_dependency_estimation_blueprint import SimpleDependencyBlueprint
 from active_learning_ts.experiments.blueprint_element import BlueprintElement
 
-test_blueprint = SimpleDependencyBlueprint(data_source = BlueprintElement[SineDataSource]({"dim": 1}), repeat=2)
+test_blueprint = SimpleDependencyBlueprint(data_source = BlueprintElement[SineDataSource]({"dim": 1}))
 
 data_sources1 = [
     ChaoticDataSource,
