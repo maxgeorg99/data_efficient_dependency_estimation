@@ -19,7 +19,7 @@ class XiCor(KnowledgeDiscoveryTask):
 
         xi_obj = Xi(xs,ys)
         #0 if and only if X and Y are independent
-        r = correlation = xi_obj.correlation
+        r = xi_obj.correlation
         p = xi_obj.pval_asymptotic(ties=False, nperm=1000)        
         
         self.global_uncertainty = p

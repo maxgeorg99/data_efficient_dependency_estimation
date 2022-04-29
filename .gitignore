@@ -136,3 +136,6 @@ src/settings/
 
 # Data Sets
 discrete_data_source/
+## exxperiments
+*fig*
+experiment_results

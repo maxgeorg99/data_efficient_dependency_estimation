@@ -1,4 +1,6 @@
+from asyncio import subprocess
 import numpy
+import pandas as pd
 import tensorflow as tf
 from py4j.java_gateway import JavaGateway
 
@@ -18,9 +20,12 @@ class MonteCarloDependencyEstimation(KnowledgeDiscoveryTask):
         query = self.sampler.sample(num_queries)
         xs, ys = self.surrogate_model.query(query)
         data = xs[:,0],ys[:,0]
+        #a comma-separated text file with 1 line header
+        dataFile = 'mcdeData.csv'
+        df = pd.DataFrame(data)
+        df.to_csv(dataFile, sep=",", header='true')
 
-        gateway = JavaGateway()          
-        p = gateway.jvm.kit.edu.DependencyEstimation.estimate()
+        p = subprocess.check_output(['java', '-jar', 'MCDE-experiments-1.0.jar', '-t EstimateDependency', '-f ' + dataFile ,'-a MWP'])
         self.global_uncertainty = p
 
         return p
