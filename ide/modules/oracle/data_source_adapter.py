@@ -27,11 +27,15 @@ class DataSourceAdapter(DataSource):
         self.distribution_data_source  = distribution_data_source
 
     def query(self, queries):
-        return self.distribution_data_source.query(tf.convert_to_tensor(queries))
+        q, r = self.distribution_data_source.query(queries)
+        results = np.asarray(r)
+        return queries, results
 
     @property
     def query_pool(self) -> QueryPool:
-        query_ranges = np.asarray(self.distribution_data_source.possible_queries().get_ranges())
+        x_min = 0
+        x_max = 1
+        query_ranges = np.asarray(tuple((x_min, x_max) for i in range(self.query_shape[0])))
         return QueryPool(query_count=None, query_shape=self.query_shape, query_ranges=query_ranges)
 
     @property
