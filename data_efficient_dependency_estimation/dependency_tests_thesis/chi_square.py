@@ -1,13 +1,13 @@
 import numpy
 import tensorflow as tf
-from scipy.stats import spearmanr
+from scipy.stats import chi2_contingency
 
-from active_learning_ts.knowledge_discovery.knowledge_discovery_task import KnowledgeDiscoveryTask
 from active_learning_ts.query_selection.query_sampler import QuerySampler
 from active_learning_ts.queryable import Queryable
 
+from ide.building_blocks.dependency_test import DependencyTest
 
-class Spearman(KnowledgeDiscoveryTask):
+class ChiSquareTest(DependencyTest):
 
     def __init__(self) -> None:
         super().__init__()
@@ -18,7 +18,7 @@ class Spearman(KnowledgeDiscoveryTask):
         query = self.sampler.sample(num_queries)
         xs, ys = self.surrogate_model.query(query)
 
-        r, p = spearmanr(xs[:,0], ys[:,0])
+        r, p = chi2_contingency(xs[:,0], ys[:,0])
         self.global_uncertainty = p
 
         return r, p

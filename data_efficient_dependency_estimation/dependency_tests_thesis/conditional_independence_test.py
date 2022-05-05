@@ -5,26 +5,37 @@ import rpy2.robjects as robjects
 import rpy2.robjects.packages as rpackages
 from rpy2.robjects.vectors import StrVector
 
-from data_efficient_dependency_estimation.active_learning_de.knowledge_discovery.dependency_tests_thesis.RKnowledgeDiscoveryTask import RKnowledgeDiscoveryTask
 from active_learning_ts.knowledge_discovery.knowledge_discovery_task import KnowledgeDiscoveryTask
 from active_learning_ts.query_selection.query_sampler import QuerySampler
 from active_learning_ts.queryable import Queryable
 
-class ConditionalIndependenceTest(RKnowledgeDiscoveryTask):
+from ide.building_blocks.dependency_test import DependencyTest
+
+class ConditionalIndependenceTest(DependencyTest):
 
     def __init__(self) -> None:
-        self.packageName = 'IndependenceTests'
+        self.packageName = 'CondIndTests'
         super().__init__()
-        self.test = self.package.A.dep.tests
+        self.test = self.package.CondIndTests
 
     def learn(self, num_queries):
+        """"
+        Available Methods
+        "KCI",
+        "InvariantConditionalQuantilePredict",
+        "InvariantEnvironmentPrediction",
+        "InvariantResidualDistributionTest",
+        "InvariantTargetPrediction",
+        "ResidualPredictionTest"
+        """
         self.sampler.update_pool(self.surrogate_model.get_query_pool())
         query = self.sampler.sample(num_queries)
         xs, ys = self.surrogate_model.query(query)
         xs = xs[:,0]
         ys = ys[:,0]
 
-        r, p = test(xs,ys)
+        r, p = self.test(xs, ys, method = "KCI")
+
         self.global_uncertainty = p
 
         return r, p

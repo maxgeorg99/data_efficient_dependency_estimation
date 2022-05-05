@@ -8,7 +8,9 @@ from active_learning_ts.knowledge_discovery.knowledge_discovery_task import Know
 from active_learning_ts.query_selection.query_sampler import QuerySampler
 from active_learning_ts.queryable import Queryable
 
-class RKnowledgeDiscoveryTask(KnowledgeDiscoveryTask):
+from ide.building_blocks.dependency_test import DependencyTest
+
+class RKnowledgeDiscoveryTask(DependencyTest):
 
     packageName: var
     package: var

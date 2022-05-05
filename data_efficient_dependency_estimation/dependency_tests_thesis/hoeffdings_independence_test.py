@@ -1,12 +1,13 @@
-from xicor.xicor import Xi
+import numpy
 import tensorflow as tf
+from  XtendedCorrel import hoeffding
 
-from active_learning_ts.knowledge_discovery.knowledge_discovery_task import KnowledgeDiscoveryTask
 from active_learning_ts.query_selection.query_sampler import QuerySampler
 from active_learning_ts.queryable import Queryable
 
+from ide.building_blocks.dependency_test import DependencyTest
 
-class XiCor(KnowledgeDiscoveryTask):
+class ConditionalIndependenceTest(DependencyTest):
 
     def __init__(self) -> None:
         super().__init__()
@@ -17,14 +18,10 @@ class XiCor(KnowledgeDiscoveryTask):
         query = self.sampler.sample(num_queries)
         xs, ys = self.surrogate_model.query(query)
 
-        xi_obj = Xi(xs,ys)
-        #0 if and only if X and Y are independent
-        r = xi_obj.correlation
-        p = xi_obj.pval_asymptotic(ties=False, nperm=1000)        
-        
+        p = hoeffding(xs[:,0], ys[:,0])
         self.global_uncertainty = p
 
-        return r, p
+        return p
 
 
     def uncertainty(self, points: tf.Tensor) -> tf.Tensor:

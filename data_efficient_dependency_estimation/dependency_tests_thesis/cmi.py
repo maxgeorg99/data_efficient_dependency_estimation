@@ -1,33 +1,34 @@
+import subprocess
 import numpy
+import pandas as pd
 import tensorflow as tf
-import rpy2
-import rpy2.robjects as robjects
-import rpy2.robjects.packages as rpackages
-from rpy2.robjects.vectors import StrVector
 
-from data_efficient_dependency_estimation.knowledge_discovery.dependency_tests_thesis.RKnowledgeDiscoveryTask import RKnowledgeDiscoveryTask
 from active_learning_ts.knowledge_discovery.knowledge_discovery_task import KnowledgeDiscoveryTask
 from active_learning_ts.query_selection.query_sampler import QuerySampler
 from active_learning_ts.queryable import Queryable
 
-class LISIndependenceTest(RKnowledgeDiscoveryTask):
+from ide.building_blocks.dependency_test import DependencyTest
+
+class CMI(DependencyTest):
 
     def __init__(self) -> None:
-        self.packageName = ('LIStest')
         super().__init__()
-        self.test = self.package.JLMn
+        self.global_uncertainty = 0
 
     def learn(self, num_queries):
         self.sampler.update_pool(self.surrogate_model.get_query_pool())
         query = self.sampler.sample(num_queries)
         xs, ys = self.surrogate_model.query(query)
-        xs = xs[:,0]
-        ys = ys[:,0]
+        data = xs[:,0],ys[:,0]
+        #a comma-separated text file with 1 line header
+        dataFile = 'cmiData.csv'
+        df = pd.DataFrame(data)
+        df.to_csv(dataFile, sep=",", header='true')
 
-        r, p = self.test(xs, ys)
+        p = subprocess.check_output(['java', '-jar', 'MCDE-experiments-1.0.jar', '-t EstimateDependency', '-f ' + dataFile ,'-a CMI'])        
         self.global_uncertainty = p
 
-        return r, p
+        return p
 
 
     def uncertainty(self, points: tf.Tensor) -> tf.Tensor:

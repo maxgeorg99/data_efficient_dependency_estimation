@@ -1,4 +1,5 @@
 from __future__ import annotations
+import os
 from typing import TYPE_CHECKING
 
 from sklearn.metrics import f1_score, roc_auc_score
@@ -23,13 +24,16 @@ if TYPE_CHECKING:
 class PlotQueriesEvaluator(Evaluator):
     interactive: bool = False
     folder: str = "fig"
-    fig_name:str = "Query distribution 2d"
+    fig_name:str = "QueryDistribution2d"
 
     queries: NDArray[Number, Shape["2, query_nr, ... query_dim"]] = field(init=False, default = None)
     iteration: int = field(init = False, default = 0)
 
     def register(self, experiment: Experiment):
         super().register(experiment)
+
+        if not os.path.isdir(self.folder):
+            os.makedirs(self.folder)
 
         self.experiment.oracle.query = Evaluate(self.experiment.oracle.query)
         self.experiment.oracle.query.pre(self.plot_queries)
@@ -73,6 +77,9 @@ class PlotScoresEvaluator(Evaluator):
 
     def register(self, experiment: Experiment):
         super().register(experiment)
+
+        if not os.path.isdir(self.folder):
+            os.makedirs(self.folder)
 
         self.experiment.query_optimizer.selection_criteria.query = Evaluate(self.experiment.query_optimizer.selection_criteria.query)
         self.experiment.query_optimizer.selection_criteria.query.warp(self.plot_scores)

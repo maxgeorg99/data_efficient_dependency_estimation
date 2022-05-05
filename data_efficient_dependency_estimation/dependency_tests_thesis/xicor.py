@@ -1,13 +1,14 @@
-import numpy
+import imp
+from xicor import Xi
 import tensorflow as tf
-from scipy.stats import pearsonr
 
 from active_learning_ts.knowledge_discovery.knowledge_discovery_task import KnowledgeDiscoveryTask
 from active_learning_ts.query_selection.query_sampler import QuerySampler
 from active_learning_ts.queryable import Queryable
 
+from ide.building_blocks.dependency_test import DependencyTest
 
-class DependencyKnowledgeTask(KnowledgeDiscoveryTask):
+class XiCor(DependencyTest):
 
     def __init__(self) -> None:
         super().__init__()
@@ -18,7 +19,11 @@ class DependencyKnowledgeTask(KnowledgeDiscoveryTask):
         query = self.sampler.sample(num_queries)
         xs, ys = self.surrogate_model.query(query)
 
-        r, p = pearsonr(xs[:,0], ys[:,0])
+        xi_obj = Xi(xs,ys)
+        #0 if and only if X and Y are independent
+        r = xi_obj.correlation
+        p = xi_obj.pval_asymptotic(ties=False, nperm=1000)        
+        
         self.global_uncertainty = p
 
         return r, p

@@ -1,13 +1,14 @@
 import numpy
 import tensorflow as tf
-from scipy.stats import pearsonr
+from scipy.stats import kendalltau
 
 from active_learning_ts.knowledge_discovery.knowledge_discovery_task import KnowledgeDiscoveryTask
 from active_learning_ts.query_selection.query_sampler import QuerySampler
 from active_learning_ts.queryable import Queryable
 
+from ide.building_blocks.dependency_test import DependencyTest
 
-class Pearson(KnowledgeDiscoveryTask):
+class Kendall(DependencyTest):
 
     def __init__(self) -> None:
         super().__init__()
@@ -18,7 +19,7 @@ class Pearson(KnowledgeDiscoveryTask):
         query = self.sampler.sample(num_queries)
         xs, ys = self.surrogate_model.query(query)
 
-        r, p = pearsonr(xs[:,0], ys[:,0])
+        r, p = kendalltau(xs[:,0], ys[:,0])
         self.global_uncertainty = p
 
         return r, p

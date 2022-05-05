@@ -10,7 +10,7 @@ python = ">=3.8,<3.10"
 #distribution-data-generation = { path = "/home/bela/Cloud/code/Git/distribution_data_generation", develop = true }
 distribution-data-generation = {git = "https://github.com/bela127/distribution_data_generation.git"}
 #active-learning-ts = { path = "/home/bela/Cloud/code/Git/active_learning_ts", develop = true }
-#active-learning-ts = {git = "https://github.com/bela127/active_learning_ts.git"}
+active-learning-ts = {git = "https://github.com/bela127/active_learning_ts.git"}
 libclang = "<12.0"
 #tensor-annotations = "^1.0.2"
 #tensor-annotations-jax-stubs = "^1.0.0"
@@ -27,6 +27,7 @@ scikit-learn = "^1.0.2"
 tensorflow = "^2.8.0"
 numpy = "^1.22.3"
 pandas = "^1.4.2"
+wfdb = "^3.4.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.5"

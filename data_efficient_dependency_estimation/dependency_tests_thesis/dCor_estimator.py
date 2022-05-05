@@ -2,12 +2,12 @@ import numpy
 import tensorflow as tf
 import dcor
 
-from active_learning_ts.knowledge_discovery.knowledge_discovery_task import KnowledgeDiscoveryTask
 from active_learning_ts.query_selection.query_sampler import QuerySampler
 from active_learning_ts.queryable import Queryable
 
+from ide.building_blocks.dependency_test import DependencyTest
 
-class DistanceCorrelationEstimator(KnowledgeDiscoveryTask):
+class DistanceCorrelationEstimator(DependencyTest):
 
     def __init__(self) -> None:
         super().__init__()

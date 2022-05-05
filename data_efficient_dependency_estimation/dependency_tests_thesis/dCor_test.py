@@ -1,13 +1,14 @@
 import numpy
 import tensorflow as tf
-from  XtendedCorrel import hoeffding
+import dcor
 
 from active_learning_ts.knowledge_discovery.knowledge_discovery_task import KnowledgeDiscoveryTask
 from active_learning_ts.query_selection.query_sampler import QuerySampler
 from active_learning_ts.queryable import Queryable
 
+from ide.building_blocks.dependency_test import DependencyTest
 
-class ConditionalIndependenceTest(KnowledgeDiscoveryTask):
+class DistanceCorrelationTest(DependencyTest):
 
     def __init__(self) -> None:
         super().__init__()
@@ -18,10 +19,10 @@ class ConditionalIndependenceTest(KnowledgeDiscoveryTask):
         query = self.sampler.sample(num_queries)
         xs, ys = self.surrogate_model.query(query)
 
-        p = hoeffding(xs[:,0], ys[:,0])
-        self.global_uncertainty = p
+        r = dcor.distance_correlation(xs[:,0], ys[:,0])
+        self.global_uncertainty = None
 
-        return p
+        return r
 
 
     def uncertainty(self, points: tf.Tensor) -> tf.Tensor:

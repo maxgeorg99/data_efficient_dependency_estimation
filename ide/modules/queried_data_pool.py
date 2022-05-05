@@ -2,7 +2,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from random import choice
-
+import tensorflow as tf
 import numpy as np
 from ide.core.data.data_pool import DataPool
 

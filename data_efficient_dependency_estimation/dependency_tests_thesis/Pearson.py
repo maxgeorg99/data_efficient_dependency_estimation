@@ -1,13 +1,14 @@
-from fcit import fcit
 import numpy
 import tensorflow as tf
+from scipy.stats import pearsonr
 
 from active_learning_ts.knowledge_discovery.knowledge_discovery_task import KnowledgeDiscoveryTask
 from active_learning_ts.query_selection.query_sampler import QuerySampler
 from active_learning_ts.queryable import Queryable
 
+from ide.building_blocks.dependency_test import DependencyTest
 
-class FIT(KnowledgeDiscoveryTask):
+class Pearson(DependencyTest):
 
     def __init__(self) -> None:
         super().__init__()
@@ -18,10 +19,10 @@ class FIT(KnowledgeDiscoveryTask):
         query = self.sampler.sample(num_queries)
         xs, ys = self.surrogate_model.query(query)
 
-        p = fcit.test(xs[:,0], ys[:,0])
+        r, p = pearsonr(xs[:,0], ys[:,0])
         self.global_uncertainty = p
 
-        return p
+        return r, p
 
 
     def uncertainty(self, points: tf.Tensor) -> tf.Tensor:

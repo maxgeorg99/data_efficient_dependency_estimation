@@ -1,15 +1,13 @@
+from fcit import fcit
 import numpy
 import tensorflow as tf
-from scipy.stats import kendalltau
 
-from active_learning_ts.knowledge_discovery.knowledge_discovery_task import KnowledgeDiscoveryTask
 from active_learning_ts.query_selection.query_sampler import QuerySampler
 from active_learning_ts.queryable import Queryable
 
 from ide.building_blocks.dependency_test import DependencyTest
 
-
-class Kendall(DependencyTest):
+class FIT(DependencyTest):
 
     def __init__(self) -> None:
         super().__init__()
@@ -20,10 +18,10 @@ class Kendall(DependencyTest):
         query = self.sampler.sample(num_queries)
         xs, ys = self.surrogate_model.query(query)
 
-        r, p = kendalltau(xs[:,0], ys[:,0])
+        p = fcit.test(xs[:,0], ys[:,0])
         self.global_uncertainty = p
 
-        return r, p
+        return p
 
 
     def uncertainty(self, points: tf.Tensor) -> tf.Tensor:

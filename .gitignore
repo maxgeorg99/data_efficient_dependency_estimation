@@ -135,7 +135,7 @@ src/settings/
 *__loc_out__/
 
 # Data Sets
-discrete_data_source/
+real_world_data_sets/
 ## exxperiments
 *fig*
 experiment_results

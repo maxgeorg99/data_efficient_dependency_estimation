@@ -1,15 +1,14 @@
 import numpy
 import tensorflow as tf
-import dcor
+from scipy.stats import spearmanr
 
 from active_learning_ts.knowledge_discovery.knowledge_discovery_task import KnowledgeDiscoveryTask
 from active_learning_ts.query_selection.query_sampler import QuerySampler
 from active_learning_ts.queryable import Queryable
 
-from data_efficient_dependency_estimation.knowledge_discovery.dependency_tests_thesis.independence_test_for_measure import IndependenceTestForMeasure
+from ide.building_blocks.dependency_test import DependencyTest
 
-
-class DistanceCorrelationTest(IndependenceTestForMeasure):
+class Spearman(DependencyTest):
 
     def __init__(self) -> None:
         super().__init__()
@@ -20,10 +19,10 @@ class DistanceCorrelationTest(IndependenceTestForMeasure):
         query = self.sampler.sample(num_queries)
         xs, ys = self.surrogate_model.query(query)
 
-        r = dcor.distance_correlation(xs[:,0], ys[:,0])
-        self.global_uncertainty = None
+        r, p = spearmanr(xs[:,0], ys[:,0])
+        self.global_uncertainty = p
 
-        return r
+        return r, p
 
 
     def uncertainty(self, points: tf.Tensor) -> tf.Tensor:

@@ -143,6 +143,47 @@ class PlotSampledQueriesEvaluator(Evaluator):
 
         self.iteration += 1
 
+class LogConvergenceEvaluator(Evaluator):
+    def __init__(self, logger) -> None:
+        super().__init__()
+        self.logger = logger
 
+    def register(self, experiment: Experiment):
+        super().register(experiment)
 
+        self.experiment.data_pool.add = Evaluate(self.experiment.data_pool.add)
+        self.experiment.data_pool.add.pre(self.log_new_data_points)
 
+    def log_new_data_points(self, data_points):
+        # self.logger(data_points)
+        ...
+
+class LogConsistencyEvaluator(Evaluator):
+    def __init__(self, logger) -> None:
+        super().__init__()
+        self.logger = logger
+
+    def register(self, experiment: Experiment):
+        super().register(experiment)
+
+        self.experiment.data_pool.add = Evaluate(self.experiment.data_pool.add)
+        self.experiment.data_pool.add.pre(self.log_new_data_points)
+
+    def log_new_data_points(self, data_points):
+        # self.logger(data_points)
+        ...
+
+class LogDataEfficencyEvaluator(Evaluator):
+    def __init__(self, logger) -> None:
+        super().__init__()
+        self.logger = logger
+
+    def register(self, experiment: Experiment):
+        super().register(experiment)
+
+        self.experiment.data_pool.add = Evaluate(self.experiment.data_pool.add)
+        self.experiment.data_pool.add.pre(self.log_new_data_points)
+
+    def log_new_data_points(self, data_points):
+        # self.logger(data_points)
+        ...

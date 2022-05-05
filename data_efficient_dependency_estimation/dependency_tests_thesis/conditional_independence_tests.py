@@ -1,20 +1,22 @@
+from cgi import test
 import numpy
 import tensorflow as tf
 import rpy2.robjects as robjects
 import rpy2.robjects.packages as rpackages
 from rpy2.robjects.vectors import StrVector
 
-from data_efficient_dependency_estimation.active_learning_de.knowledge_discovery.dependency_tests_thesis.RKnowledgeDiscoveryTask import RKnowledgeDiscoveryTask
 from active_learning_ts.knowledge_discovery.knowledge_discovery_task import KnowledgeDiscoveryTask
 from active_learning_ts.query_selection.query_sampler import QuerySampler
 from active_learning_ts.queryable import Queryable
 
-class ConditionalIndependenceTest(RKnowledgeDiscoveryTask):
+from ide.building_blocks.dependency_test import DependencyTest
+
+class ConditionalIndependenceTest(DependencyTest):
 
     def __init__(self) -> None:
-        self.packageName = 'IndepTest'
+        self.packageName = 'IndependenceTests'
         super().__init__()
-        self.test = self.package.IndepTest
+        self.test = self.package.A.dep.tests
 
     def learn(self, num_queries):
         self.sampler.update_pool(self.surrogate_model.get_query_pool())
@@ -23,7 +25,7 @@ class ConditionalIndependenceTest(RKnowledgeDiscoveryTask):
         xs = xs[:,0]
         ys = ys[:,0]
 
-        r, p = self.test(xs,ys)
+        r, p = test(xs,ys)
         self.global_uncertainty = p
 
         return r, p

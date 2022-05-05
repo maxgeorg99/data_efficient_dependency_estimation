@@ -1,29 +1,33 @@
 import numpy
 import tensorflow as tf
-import dcor
+import rpy2.robjects as robjects
+import rpy2.robjects.packages as rpackages
+from rpy2.robjects.vectors import StrVector
 
 from active_learning_ts.knowledge_discovery.knowledge_discovery_task import KnowledgeDiscoveryTask
 from active_learning_ts.query_selection.query_sampler import QuerySampler
 from active_learning_ts.queryable import Queryable
 
-class IndependenceTestForMeasure(KnowledgeDiscoveryTask):
-    measure: KnowledgeDiscoveryTask
-    num_perm: int 
+from ide.building_blocks.dependency_test import DependencyTest
 
+class LISIndependenceTest(DependencyTest):
 
     def __init__(self) -> None:
+        self.packageName = ('LIStest')
         super().__init__()
-        self.global_uncertainty = 0
+        self.test = self.package.JLMn
 
     def learn(self, num_queries):
         self.sampler.update_pool(self.surrogate_model.get_query_pool())
         query = self.sampler.sample(num_queries)
         xs, ys = self.surrogate_model.query(query)
+        xs = xs[:,0]
+        ys = ys[:,0]
 
-        r = self.measure(num_queries = 100)
+        r, p = self.test(xs, ys)
         self.global_uncertainty = p
 
-        return r
+        return r, p
 
 
     def uncertainty(self, points: tf.Tensor) -> tf.Tensor:
