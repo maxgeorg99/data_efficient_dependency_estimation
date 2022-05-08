@@ -44,6 +44,7 @@ class BlueprintFactory():
                             ),
                         ),
                     evaluators=evaluators,
+                    exp_name=type(test).__name__,
                     )
                 )
 

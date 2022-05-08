@@ -138,7 +138,7 @@ class PlotTestPEvaluator(Evaluator):
         plot.title(self.fig_name)
         if self.interactive: plot.show()
         else:
-            plot.savefig(f'{self.folder}/{self.fig_name}_{self.iteration:05d}.png')
+            plot.savefig(f'{self.folder}/{self.fig_name}_{self.experiment.exp_name}_{self.experiment.exp_nr}_{self.iteration:05d}.png')
             plot.clf()
 
         self.iteration += 1

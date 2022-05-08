@@ -8,9 +8,11 @@ if TYPE_CHECKING:
 
 class Experiment():
     exp_nr: int
+    exp_name: str
 
     def __init__(self, bp: Blueprint, exp_nr: int) -> None:
         self.exp_nr = exp_nr
+        self.exp_name = bp.exp_name
 
         self.oracle = bp.oracle()
 
