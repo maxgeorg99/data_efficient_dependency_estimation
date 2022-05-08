@@ -5,6 +5,7 @@ from distribution_data_generation.data_sources.graph_data_source import GraphDat
 from distribution_data_generation.data_sources.sine_data_source import SineDataSource
 from distribution_data_generation.data_sources.star_data_source import StarDataSource
 from distribution_data_generation.data_sources.z_data_source import ZDataSource
+from distribution_data_generation.data_sources.cross_data_source import CrossDataSource
 
 from ide.modules.queried_data_pool import FlatQueriedDataPool
 from ide.modules.data_sampler import KDTreeKNNDataSampler, KDTreeRegionDataSampler
@@ -18,12 +19,12 @@ from ide.building_blocks.experiment_modules import DependencyExperiment
 from ide.modules.oracle.augmentation import NoiseAugmentation
 from ide.modules.stopping_criteria import LearningStepStoppingCriteria
 from ide.core.blueprint import Blueprint
-from ide.modules.oracle.data_source import LineDataSource, SquareDataSource, HyperSphereDataSource, CrossDataSource
+from ide.modules.oracle.data_source import LineDataSource, SquareDataSource, HyperSphereDataSource
 from ide.modules.oracle.data_source_adapter import DataSourceAdapter
 from ide.modules.evaluator import LogNewDataPointsEvaluator, PlotNewDataPointsEvaluator, PrintNewDataPointsEvaluator, PlotQueryDistEvaluator
 from ide.building_blocks.evaluator import PlotScoresEvaluator, PlotQueriesEvaluator, PlotTestPEvaluator, BoxPlotTestPEvaluator
 from ide.building_blocks.dependency_test import DependencyTest
-from ide.building_blocks.multi_sample_test import KWHMultiSampleTest
+from ide.building_blocks.multi_sample_test import KWHMultiSampleTest, Pearson
 
 from ide.core.blueprint_factory import BlueprintFactory
 
@@ -31,7 +32,7 @@ synthetic_data_sources = [
     LineDataSource,
     SquareDataSource,
     HyperSphereDataSource,
-    CrossDataSource,
+    DataSourceAdapter(CrossDataSource(1)),
     DataSourceAdapter(DoubleLinearDataSource(1)),
     DataSourceAdapter(HourglassDataSource(1)),
     DataSourceAdapter(HypercubeDataSource(1,1)),
@@ -40,4 +41,4 @@ synthetic_data_sources = [
     DataSourceAdapter(StarDataSource(1)),
     DataSourceAdapter(ZDataSource(1)),
 ]
-blueprints = BlueprintFactory(KWHMultiSampleTest(),synthetic_data_sources).getBlueprints()
+blueprints = BlueprintFactory(Pearson(),synthetic_data_sources).getBlueprints()

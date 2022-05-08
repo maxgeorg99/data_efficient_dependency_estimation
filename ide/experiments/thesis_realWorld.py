@@ -1,3 +1,5 @@
+from data_efficient_dependency_estimation.dependency_tests_thesis.Kendall import Kendall
+from data_efficient_dependency_estimation.dependency_tests_thesis.Pearson import Pearson
 from ide.modules.queried_data_pool import FlatQueriedDataPool
 from ide.modules.data_sampler import KDTreeKNNDataSampler, KDTreeRegionDataSampler
 from ide.core.oracle.oracle import Oracle
@@ -29,4 +31,15 @@ real_world_data_sources = [
     SmartphoneDataSource,
     HydraulicDataSource 
 ]
-blueprints = BlueprintFactory(KWHMultiSampleTest(),real_world_data_sources).getBlueprints()
+
+algorithms = [
+    Pearson,
+    Kendall,
+       
+]
+
+evaluators = [
+
+]
+
+blueprints = BlueprintFactory(algorithms, real_world_data_sources, evaluators).getBlueprints()

@@ -10,5 +10,8 @@
         "asarray",
         "dtype",
         "scipy"
+    ],
+    "python.analysis.extraPaths": [
+        "./data_efficient_dependency_estimation/dependency_tests_thesis"
     ]
 }
