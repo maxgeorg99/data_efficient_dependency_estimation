@@ -27,7 +27,7 @@ class BlueprintFactory():
                     augmentation=NoiseAugmentation
                 ),
                 queried_data_pool=FlatQueriedDataPool(),
-                initial_query_sampler=LatinHypercubeQuerySampler(num_queries=2),
+                initial_query_sampler=RandomChoiceQuerySampler(num_queries=10),
                 query_optimizer=NoQueryOptimizer(
                     selection_criteria=QueryTestNoSelectionCritera(),
                     num_queries=4,

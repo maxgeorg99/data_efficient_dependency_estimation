@@ -171,7 +171,7 @@ class BoxPlotTestPEvaluator(Evaluator):
     def save_test_result(self, result):
         t,p = result
 
-        self.ps.append(p[0])
+        self.ps.append(p)
 
     def plot_test_results(self, _):
 
