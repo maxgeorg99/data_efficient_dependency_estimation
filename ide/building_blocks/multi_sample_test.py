@@ -6,7 +6,7 @@ from nptyping import NDArray
 import numpy as np
 
 from xicor.xicor import Xi
-from XtendedCorrel import hoeffding
+from data_efficient_dependency_estimation.dependency_tests_thesis.XtendedCorrel import hoeffding
 
 
 from scipy.stats import pearsonr

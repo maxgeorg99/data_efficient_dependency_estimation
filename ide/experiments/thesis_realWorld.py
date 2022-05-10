@@ -32,14 +32,4 @@ real_world_data_sources = [
     HydraulicDataSource 
 ]
 
-algorithms = [
-    Pearson,
-    Kendall,
-       
-]
-
-evaluators = [
-
-]
-
-blueprints = BlueprintFactory(algorithms, real_world_data_sources, evaluators).getBlueprints()
+blueprints = BlueprintFactory(dataSources=real_world_data_sources).getBlueprints()

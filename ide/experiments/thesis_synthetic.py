@@ -1,3 +1,4 @@
+from cgi import test
 from distribution_data_generation.data_sources.double_linear_data_source import DoubleLinearDataSource
 from distribution_data_generation.data_sources.hourglass_data_source import HourglassDataSource
 from distribution_data_generation.data_sources.hypercube_data_source import HypercubeDataSource
@@ -5,6 +6,7 @@ from distribution_data_generation.data_sources.graph_data_source import GraphDat
 from distribution_data_generation.data_sources.sine_data_source import SineDataSource
 from distribution_data_generation.data_sources.star_data_source import StarDataSource
 from distribution_data_generation.data_sources.z_data_source import ZDataSource
+from distribution_data_generation.data_sources.inv_z_data_source import InvZDataSource
 from distribution_data_generation.data_sources.cross_data_source import CrossDataSource
 
 from ide.modules.queried_data_pool import FlatQueriedDataPool
@@ -24,7 +26,7 @@ from ide.modules.oracle.data_source_adapter import DataSourceAdapter
 from ide.modules.evaluator import LogNewDataPointsEvaluator, PlotNewDataPointsEvaluator, PrintNewDataPointsEvaluator, PlotQueryDistEvaluator
 from ide.building_blocks.evaluator import PlotScoresEvaluator, PlotQueriesEvaluator, PlotTestPEvaluator, BoxPlotTestPEvaluator
 from ide.building_blocks.dependency_test import DependencyTest
-from ide.building_blocks.multi_sample_test import KWHMultiSampleTest, Pearson
+from ide.building_blocks.multi_sample_test import FIT, Hoeffdings, KWHMultiSampleTest, Kendalltau, Pearson, Spearmanr, XiCor
 
 from ide.core.blueprint_factory import BlueprintFactory
 
@@ -32,13 +34,17 @@ synthetic_data_sources = [
     LineDataSource,
     SquareDataSource,
     HyperSphereDataSource,
-    DataSourceAdapter(CrossDataSource(1)),
-    DataSourceAdapter(DoubleLinearDataSource(1)),
-    DataSourceAdapter(HourglassDataSource(1)),
-    DataSourceAdapter(HypercubeDataSource(1,1)),
-    DataSourceAdapter(GraphDataSource(1)),
-    DataSourceAdapter(SineDataSource(1)),
-    DataSourceAdapter(StarDataSource(1)),
-    DataSourceAdapter(ZDataSource(1)),
 ]
-blueprints = BlueprintFactory(Pearson(),synthetic_data_sources).getBlueprints()
+
+for i in range(1,4):
+    synthetic_data_sources.append(
+    [
+        DataSourceAdapter(CrossDataSource(1,i)),
+        DataSourceAdapter(DoubleLinearDataSource(1,i)),
+        DataSourceAdapter(SineDataSource(1,i)),
+        DataSourceAdapter(StarDataSource(1,i)),
+        DataSourceAdapter(ZDataSource(1,i)),
+        DataSourceAdapter(InvZDataSource(1,i)),
+    ])
+
+blueprints = BlueprintFactory(dataSources=synthetic_data_sources).getBlueprints()

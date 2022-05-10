@@ -25,6 +25,8 @@ class DataSourceAdapter(DataSource):
 
     def __init__(self, distribution_data_source: oldDataSource):
         self.distribution_data_source  = distribution_data_source
+        self.query_shape = distribution_data_source.point_shape
+        self.result_shape = distribution_data_source.value_shape
 
     def query(self, queries):
         q, r = self.distribution_data_source.query(queries)

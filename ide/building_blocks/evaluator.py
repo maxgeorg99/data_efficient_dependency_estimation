@@ -131,7 +131,7 @@ class PlotTestPEvaluator(Evaluator):
     def plot_test_result(self, result):
         t,p = result
 
-        self.ps.append(p[0])
+        self.ps.append(p)
 
         fig = plot.figure(self.fig_name)
         plot.plot([i for i in range(len(self.ps))], self.ps)
@@ -194,7 +194,7 @@ class BoxPlotTestPEvaluator(Evaluator):
 
         self.iteration += 1
 @dataclass
-class consistency_evaluator(Evaluator):
+class ConsistencyEvaluator(Evaluator):
     """
     Eveluate concistency in an experiment.
     Compare uncertainties with different starting samples.
@@ -241,7 +241,7 @@ class consistency_evaluator(Evaluator):
         self.iteration += 1
 
 @dataclass
-class convergence_evaluator(Evaluator):
+class ConvergenceEvaluator(Evaluator):
     """
     Eveluate convergence of an dependency estimation in an experiment.
     Calculates the Convergence rate. 
@@ -287,7 +287,7 @@ class convergence_evaluator(Evaluator):
 
         self.iteration += 1
 
-class data_efficiency_evaluator(Evaluator):
+class DataEfficiencyEvaluator(Evaluator):
     """
     Measures data efficiency metrics of an dependency estimation in an experiment.
     The metric includes 

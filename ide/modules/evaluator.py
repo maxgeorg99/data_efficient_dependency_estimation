@@ -6,7 +6,9 @@ from dataclasses import dataclass, field
 from ide.core.evaluator import Evaluator, Evaluate
 
 import numpy as np
-from matplotlib import pyplot as plot # type: ignore
+from matplotlib import pyplot as plot
+
+from ide.modules.oracle.data_source_adapter import DataSourceAdapter # type: ignore
 
 
 if TYPE_CHECKING:
@@ -75,11 +77,23 @@ class PlotNewDataPointsEvaluator(Evaluator):
             self.results = np.concatenate((self.results, results))
 
         fig = plot.figure(self.fig_name)
-        plot.scatter(self.queries,self.results)
+        if np.squeeze(self.results).ndim == 2:
+            x = np.array([item for sublist in self.queries for item in sublist])
+            y = self.results[:,0]
+            z = self.results[:,1]
+            ax = plot.axes(projection="3d")
+            ax.scatter3D(x, y, z, c=z, cmap='cividis')
+        else:    
+            plot.scatter(self.queries,self.results)
         plot.title(self.fig_name)
+        name = ''
+        if isinstance(self.experiment.oracle.data_source, DataSourceAdapter) :
+            name = type(self.experiment.oracle.data_source.distribution_data_source).__name__
+        else:
+            name = type(self.experiment.oracle.data_source).__name__
         if self.interactive: plot.show()
         else:
-            plot.savefig(f'{self.folder}/{self.fig_name}_{self.iteration:05d}.png')
+            plot.savefig(f'{self.folder}/{self.fig_name}_{name}_{self.experiment.exp_nr}_{self.iteration:05d}.png')
             plot.clf()
 
         self.iteration += 1
