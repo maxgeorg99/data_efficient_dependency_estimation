@@ -89,3 +89,6 @@ class RealWorldDataSourceFactory():
         r = switcher.get(realWorldDataSource, lambda: "Invalid data source")
 
         return r()
+
+    def get_all_data_sources(self):
+        return [self.chf,self.office, self.sunspot, self.personal_activity, self.NASDAQ, self.hipe, self.smartphonem, self.hydraulic]
