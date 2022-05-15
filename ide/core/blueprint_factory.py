@@ -1,6 +1,6 @@
 from typing import List
 from ide.building_blocks.dependency_test import DependencyTest
-from ide.building_blocks.evaluator import ConsistencyEvaluator, ConvergenceEvaluator, DataEfficiencyEvaluator, consistency_evaluator
+from ide.building_blocks.evaluator import ConsistencyEvaluator, ConvergenceEvaluator, DataEfficiencyEvaluator
 from ide.building_blocks.experiment_modules import DependencyExperiment
 from ide.building_blocks.multi_sample_test import FIT, Hoeffdings, Kendalltau, MultiSampleTest, Pearson, Spearmanr, XiCor
 from ide.building_blocks.selection_criteria import QueryTestNoSelectionCritera
