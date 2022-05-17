@@ -13,13 +13,10 @@ class RealWorldDataSourceFactory():
         return RealWorldDataSetDataSource(q,r)
 
     def office(self):
-        connectivity_file = 'C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/real_world_data_sets/Office/connectivity.txt'
         data_file = 'C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/real_world_data_sets/Office/data.txt'
-        locs_file = 'C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/real_world_data_sets/Office/mote_locs.txt'
 
-        df = pd.read_csv(connectivity_file, sep=" ", header=None)
-        data_df = pd.read_csv(data_file, sep=" ", header=None)
-        locs_df = pd.read_csv(locs_file, sep=" ", header=None)
+        df = pd.read_csv(data_file, sep=" ", header=None)
+        df = df[~df.isnull().any(axis=1)]
         q = list(range(1, len(df.index)))
         return RealWorldDataSetDataSource(q,df.to_numpy())
 
@@ -39,13 +36,10 @@ class RealWorldDataSourceFactory():
         return RealWorldDataSetDataSource(q,df.to_numpy())
     
     def smartphone(self):
-        df = pd.read_csv('C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/real_world_data_sets/Smartphone/final_acc_test.txt', sep=" ", header=None)
-        df2 = pd.read_csv('C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/real_world_data_sets/Smartphone/final_gyro_test.txt', sep=" ", header=None)
-        df3 = pd.read_csv('C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/real_world_data_sets/Smartphone/final_X_test.txt', sep=" ", header=None)
-        df4 = pd.read_csv('C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/real_world_data_sets/Smartphone/final_Y_test.txt', sep=" ", header=None)
-        df.merge(df2,on = df.columns.values.tolist(), how = 'right')
-        df.merge(df3,on = df.columns.values.tolist(), how = 'right')
-        df.merge(df4,on = df.columns.values.tolist(), how = 'right')
+        df = pd.read_csv('C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/real_world_data_sets/Smartphone/final_X_test.txt')
+        df = df[~df.isnull().any(axis=1)]
+        df2 = pd.read_csv('C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/real_world_data_sets/Smartphone/final_Y_test.txt', sep=",", header=None)
+        df['y'] = df2
         q = list(range(1, len(df.index)))
         return RealWorldDataSetDataSource(q,df.to_numpy())
 
@@ -56,19 +50,23 @@ class RealWorldDataSourceFactory():
         df = pd.read_csv(filename1)
         df2 = pd.read_csv(filename2)
         df3 = pd.read_csv(filename3)
-        df.merge(df2,on = df.columns.values.tolist(), how = 'right')
-        df.merge(df3,on = df.columns.values.tolist(), how = 'right')
+        df.append(df2, ignore_index=True)
+        df.append(df3, ignore_index=True)
         q = list(range(1, len(df.index)))
         return RealWorldDataSetDataSource(q,df.to_numpy())
 
     def hydraulic(self):
-        df = pd.read_csv('C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/real_world_data_sets/HydraulicSystemsDataSet/PS1', sep=" ", header=None)
-        df2 = pd.read_csv('C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/real_world_data_sets/HydraulicSystemsDataSet/PS2', sep=" ", header=None)
-        df3 = pd.read_csv('C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/real_world_data_sets/HydraulicSystemsDataSet/PS3', sep=" ", header=None)
-        df4 = pd.read_csv('C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/real_world_data_sets/HydraulicSystemsDataSet/PS4', sep=" ", header=None)
-        df.merge(df2,on = df.columns.values.tolist(), how = 'right')
-        df.merge(df3,on = df.columns.values.tolist(), how = 'right')
-        df.merge(df4,on = df.columns.values.tolist(), how = 'right')
+        df = pd.read_csv('C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/real_world_data_sets/HydraulicSystemsDataSet/PS1.txt', sep=" ", header=None)
+        df2 = pd.read_csv('C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/real_world_data_sets/HydraulicSystemsDataSet/PS2.txt', sep=" ", header=None)
+        df3 = pd.read_csv('C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/real_world_data_sets/HydraulicSystemsDataSet/PS3.txt', sep=" ", header=None)
+        df4 = pd.read_csv('C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/real_world_data_sets/HydraulicSystemsDataSet/PS4.txt', sep=" ", header=None)
+        df5 = pd.read_csv('C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/real_world_data_sets/HydraulicSystemsDataSet/PS4.txt', sep=" ", header=None)
+        df6 = pd.read_csv('C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/real_world_data_sets/HydraulicSystemsDataSet/PS4.txt', sep=" ", header=None)
+        df.append(df2, ignore_index=True)
+        df.append(df3, ignore_index=True)
+        df.append(df4, ignore_index=True)
+        df.append(df5, ignore_index=True)
+        df.append(df6, ignore_index=True)
         q = list(range(1, len(df.index)))
         return RealWorldDataSetDataSource(q,df.to_numpy())
 
@@ -91,5 +89,4 @@ class RealWorldDataSourceFactory():
         return r()
 
     def get_all_data_sources(self):
-        #return [self.chf(),self.office(), self.sunspot(), self.NASDAQ(), self.hipe(), self.smartphone(), self.hydraulic()]
-        return [self.chf(),self.office(), self.NASDAQ(), self.hipe(), self.hydraulic()]
+        return [self.chf(),self.office(), self.sunspot(), self.NASDAQ(), self.hipe(), self.smartphone(), self.hydraulic()]
