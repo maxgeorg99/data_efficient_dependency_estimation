@@ -31,20 +31,19 @@ from ide.building_blocks.multi_sample_test import FIT, Hoeffdings, KWHMultiSampl
 from ide.core.blueprint_factory import BlueprintFactory
 
 synthetic_data_sources = [
-    LineDataSource,
-    SquareDataSource,
-    HyperSphereDataSource,
+    LineDataSource((1,),(1,)),
+    SquareDataSource((1,),(1,)),
+    HyperSphereDataSource(),
 ]
 
-for i in range(1,4):
-    synthetic_data_sources.append(
-    [
-        DataSourceAdapter(CrossDataSource(1,i)),
-        DataSourceAdapter(DoubleLinearDataSource(1,i)),
-        DataSourceAdapter(SineDataSource(1,i)),
-        DataSourceAdapter(StarDataSource(1,i)),
-        DataSourceAdapter(ZDataSource(1,i)),
-        DataSourceAdapter(InvZDataSource(1,i)),
-    ])
+for i in range(1,3):
+        synthetic_data_sources.append(DataSourceAdapter(CrossDataSource(1,i))),
+        synthetic_data_sources.append(DataSourceAdapter(DoubleLinearDataSource(1,i))),
+        synthetic_data_sources.append(DataSourceAdapter(HourglassDataSource(1,i))),
+        synthetic_data_sources.append(DataSourceAdapter(HypercubeDataSource(1,i))),
+        synthetic_data_sources.append(DataSourceAdapter(SineDataSource(1,i))),
+        synthetic_data_sources.append(DataSourceAdapter(StarDataSource(1,i))),
+        synthetic_data_sources.append(DataSourceAdapter(ZDataSource(1,i))),
+        synthetic_data_sources.append(DataSourceAdapter(InvZDataSource(1,i))),
 
-blueprints = BlueprintFactory(dataSources=synthetic_data_sources).getBlueprints()
+blueprints = BlueprintFactory(dataSources=synthetic_data_sources,algorithms=[KWHMultiSampleTest()],evaluators=[PlotNewDataPointsEvaluator()]).getBlueprints()

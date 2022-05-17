@@ -17,6 +17,27 @@ from ide.modules.queried_data_pool import FlatQueriedDataPool
 from ide.modules.query.query_sampler import LatinHypercubeQuerySampler, RandomChoiceQuerySampler, UniformQuerySampler
 from ide.modules.stopping_criteria import LearningStepStoppingCriteria
 
+#Measuring Statistical Dependence with Hilbert-Schmidt Norms (dHSIC) [1]
+#Cumulative Mutual Information (CMI)[2]
+#Geometric Estimation of Multivariate Dependency (GMI) [3]
+#Fast Mutual Information Computation for Dependency-Monitoring on DataStreams (DIMID) [4]
+#Iterative Estimation of Mutual Information with Error Bounds (IMIE) [5]
+#Peak Similarity (PeakSim) [6]
+#Kendall 𝜏 [7]
+#Spearman 𝜌 [8]
+#Pearson r [9]
+#High Contrast Subspaces (HiCS) [10]
+#Monte Carlo Dependency Estimation (MCDE) [11]
+#New Coefficitent of Correlation (XiCor) [12]
+#Fast Conditional Independence Test (FIT) [13]
+#Nonparametric tests of independence between random vectors (A.dep.test)[14]
+#Hoeffding’s independence test (Hoeffding) [15]
+#Correlation of Distance Independence Test (dCOR) [16]
+#A Chi-square Test for Conditional Independence (𝜒2) [17]
+#Nonparametric Independence Tests Based on Entropy Estimation (IndepTest)[18]
+#Nonlinear Conditional Independence Tests (CondIndTests) [19]
+#Independence tests for continuous random variables based on the longest increasing subsequence (LISTest) [20]
+
 class BlueprintFactory():
     blueprints = []
     tests = [

@@ -98,35 +98,6 @@ class HyperSphereDataSource(DataSource):
     @property
     def data_pool(self) -> DataPool:
         return DataPool(self.query_pool, self.result_shape)
-
-@dataclass
-class HourglasDataSource(DataSource):
-    query_shape: Tuple[int,...] = (1,)
-    result_shape: Tuple[int,...] = (1,)
-
-    def query(self, queries):
-        r = np.random.randint(4)
-        o  = np.ones(self.result_shape)
-        if r == 0:
-            results = np.zeros(self.result_shape)
-        elif r == 1:
-            results = queries*o
-        elif r == 2:
-            results = o - queries*o
-        else:
-            results = o
-        return queries, results
-
-    @property
-    def query_pool(self) -> QueryPool:
-        x_min = 0
-        x_max = 1
-        query_ranges = np.asarray(tuple((x_min, x_max) for i in range(self.query_shape[0])))
-        return QueryPool(query_count=None, query_shape=self.query_shape, query_ranges=query_ranges)
-    
-    @property
-    def data_pool(self) -> DataPool:
-        return DataPool(self.query_pool, self.result_shape)
 @dataclass
 class InterpolatingDataSource(DataSource):
     data_sampler: DataSampler
