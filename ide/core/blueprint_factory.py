@@ -1,8 +1,8 @@
 from typing import List
 from ide.building_blocks.dependency_test import DependencyTest
-from ide.building_blocks.evaluator import ConsistencyEvaluator, ConvergenceEvaluator, DataEfficiencyEvaluator
+from ide.building_blocks.evaluator import DataEfficiencyEvaluator
 from ide.building_blocks.experiment_modules import DependencyExperiment
-from ide.building_blocks.multi_sample_test import FIT, Hoeffdings, Kendalltau, MultiSampleTest, Pearson, Spearmanr, XiCor
+from ide.building_blocks.multi_sample_test import FIT, Hoeffdings, Kendalltau, MultiSampleTest, PeakSim, Pearson, Spearmanr, XiCor, dHSIC, CMI, GMI, DIMID, IMIE, HiCS, MCDE, A_dep_test,dCor,chi_square,IndepTest,CondIndTest,LISTest
 from ide.building_blocks.selection_criteria import QueryTestNoSelectionCritera
 from ide.core.blueprint import Blueprint
 from ide.core.evaluator import Evaluator
@@ -41,18 +41,29 @@ from ide.modules.stopping_criteria import LearningStepStoppingCriteria
 class BlueprintFactory():
     blueprints = []
     tests = [
-        Pearson(),
-        Spearmanr(),
+        #dHSIC(),
+        #CMI(),
+        #GMI(),
+        #DIMID(),
+        #IMIE(),
+        #PeakSim(),
         Kendalltau(),
-        XiCor(),
-        Hoeffdings(),
-        FIT(),
+        Spearmanr(),
+        Pearson(),
+        #HiCS(),
+        #MCDE(),
+        ##XiCor(),
+        ##FIT(),
+        #A_dep_test(),
+        ##Hoeffdings(),
+        ##dCor(),
+        ##chi_square(),
+        #IndepTest(),
+        #CondIndTest(),
+        #LISTest(),
     ]
     evaluators = [
-        PlotNewDataPointsEvaluator(), 
-        ConsistencyEvaluator(),
-        ConvergenceEvaluator(),
-        DataEfficiencyEvaluator()
+        DataEfficiencyEvaluator(),
     ]
     
     def __init__(

@@ -26,7 +26,7 @@ from ide.modules.oracle.data_source_adapter import DataSourceAdapter
 from ide.modules.evaluator import LogNewDataPointsEvaluator, PlotNewDataPointsEvaluator, PrintNewDataPointsEvaluator, PlotQueryDistEvaluator
 from ide.building_blocks.evaluator import PlotScoresEvaluator, PlotQueriesEvaluator, PlotTestPEvaluator, BoxPlotTestPEvaluator
 from ide.building_blocks.dependency_test import DependencyTest
-from ide.building_blocks.multi_sample_test import FIT, Hoeffdings, KWHMultiSampleTest, Kendalltau, Pearson, Spearmanr, XiCor
+from ide.building_blocks.multi_sample_test import FIT, Hoeffdings, KWHMultiSampleTest, Kendalltau, Pearson, Spearmanr, XiCor, dHSIC
 
 from ide.core.blueprint_factory import BlueprintFactory
 
@@ -46,4 +46,4 @@ for i in range(1,3):
         synthetic_data_sources.append(DataSourceAdapter(ZDataSource(1,i))),
         synthetic_data_sources.append(DataSourceAdapter(InvZDataSource(1,i))),
 
-blueprints = BlueprintFactory(dataSources=synthetic_data_sources,algorithms=[KWHMultiSampleTest()],evaluators=[PlotNewDataPointsEvaluator()]).getBlueprints()
+blueprints = BlueprintFactory(dataSources=synthetic_data_sources).getBlueprints()

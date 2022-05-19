@@ -11,6 +11,6 @@ from ide.experiments.thesis_synthetic import blueprints
 #from ide.experiments.thesis_realWorld import blueprints
 from ide.core.experiment_runner import ExperimentRunner
 
-er = ExperimentRunner([blueprint])
-#er = ExperimentRunner(blueprints)
+#er = ExperimentRunner([blueprint])
+er = ExperimentRunner(blueprints)
 er.run_experiments()

@@ -1,4 +1,5 @@
 from __future__ import annotations
+import logging
 import os
 from typing import TYPE_CHECKING
 
@@ -10,7 +11,9 @@ from ide.core.evaluator import Evaluator, Evaluate
 from statsmodels.stats.power import TTestIndPower
 
 import numpy as np
-from matplotlib import pyplot as plot # type: ignore
+from matplotlib import pyplot as plot
+
+from ide.modules.oracle.data_source_adapter import DataSourceAdapter # type: ignore
 
 
 if TYPE_CHECKING:
@@ -193,100 +196,6 @@ class BoxPlotTestPEvaluator(Evaluator):
             plot.clf()
 
         self.iteration += 1
-@dataclass
-class ConsistencyEvaluator(Evaluator):
-    """
-    Eveluate concistency in an experiment.
-    Compare uncertainties with different starting samples.
-    """
-    interactive: bool = False
-    folder: str = "fig"
-    fig_name:str = "Concistency"
-
-    ts: List[float] = field(init=False, default_factory=list)
-    ps: List[float] = field(init=False, default_factory=list)
-    pss: List[float] = field(init=False, default_factory=list)
-    iteration: int = field(init = False, default = 0)
-
-    def register(self, experiment: Experiment):
-        super().register(experiment)
-
-        if isinstance(self.experiment.experiment_modules, DependencyExperiment):
-            self.experiment.experiment_modules.dependency_test.test = Evaluate(self.experiment.experiment_modules.dependency_test.test)
-            self.experiment.experiment_modules.dependency_test.test.post(self.save_test_result)
-        else:
-            raise ValueError
-
-        self.experiment.run = Evaluate(self.experiment.run)
-        self.experiment.run.post(self.plot_test_results)
-
-        self.ps = []
-        self.ts = []
-    
-    def save_test_result(self, result):
-        t,p = result
-
-        self.ps.append(p[0])
-        self.ps.append(t[0])
-
-    def plot_test_results(self, _):
-
-        self.pss.append(self.ps)
-
-        data = np.asarray(self.pss)
-        positions = np.arange(data.shape[1]) + 1
-
-        fig = plot.figure(self.fig_name)
-
-        self.iteration += 1
-
-@dataclass
-class ConvergenceEvaluator(Evaluator):
-    """
-    Eveluate convergence of an dependency estimation in an experiment.
-    Calculates the Convergence rate. 
-    """
-    interactive: bool = False
-    folder: str = "fig"
-    fig_name:str = "Concistency"
-
-    ts: List[float] = field(init=False, default_factory=list)
-    ps: List[float] = field(init=False, default_factory=list)
-    pss: List[float] = field(init=False, default_factory=list)
-    iteration: int = field(init = False, default = 0)
-
-    def register(self, experiment: Experiment):
-        super().register(experiment)
-
-        if isinstance(self.experiment.experiment_modules, DependencyExperiment):
-            self.experiment.experiment_modules.dependency_test.test = Evaluate(self.experiment.experiment_modules.dependency_test.test)
-            self.experiment.experiment_modules.dependency_test.test.post(self.save_test_result)
-        else:
-            raise ValueError
-
-        self.experiment.run = Evaluate(self.experiment.run)
-        self.experiment.run.post(self.plot_test_results)
-
-        self.ps = []
-        self.ts = []
-    
-    def save_test_result(self, result):
-        t,p = result
-
-        self.ps.append(p[0])
-        self.ps.append(t[0])
-
-    def plot_test_results(self, _):
-
-        self.pss.append(self.ps)
-
-        data = np.asarray(self.pss)
-        positions = np.arange(data.shape[1]) + 1
-
-        fig = plot.figure(self.fig_name)
-
-        self.iteration += 1
-
 class DataEfficiencyEvaluator(Evaluator):
     """
     Measures data efficiency metrics of an dependency estimation in an experiment.
@@ -297,9 +206,8 @@ class DataEfficiencyEvaluator(Evaluator):
     * AUC
     in propotion to the amount of samples.
     """
-    interactive: bool = False
-    folder: str = "fig"
-    fig_name:str = "DataEfficiency"
+    folder: str = "log"
+    evaluator:str = "DataEfficiency"
 
     evaluation_metrics: None
     effect: None
@@ -308,47 +216,61 @@ class DataEfficiencyEvaluator(Evaluator):
     y_true: None
     ts: List[float] = field(init=False, default_factory=list)
     ps: List[float] = field(init=False, default_factory=list)
+    pt: List[float] = field(init=False, default_factory=list)
     pss: List[float] = field(init=False, default_factory=list)
     iteration: int = field(init = False, default = 0)
+
+    def setup_logger(self, l_name, log_file_name):
+
+        handler = logging.FileHandler(log_file_name)        
+
+        logger = logging.getLogger(l_name)
+        logger.setLevel(logging.INFO)
+        logger.addHandler(handler)
+
+        return logger
 
     def register(self, experiment: Experiment):
         super().register(experiment)
 
+        self.ps = []
+        self.ts = []
+
+        self.iteration = 0
+
         if isinstance(self.experiment.experiment_modules, DependencyExperiment):
             self.experiment.experiment_modules.dependency_test.test = Evaluate(self.experiment.experiment_modules.dependency_test.test)
+
             self.experiment.experiment_modules.dependency_test.test.post(self.save_test_result)
         else:
             raise ValueError
 
         self.experiment.run = Evaluate(self.experiment.run)
-        self.experiment.run.post(self.plot_test_results)
-
-        self.ps = []
-        self.ts = []
-
+        self.experiment.run.post(self.log_test_results)
         """
         calculate metrics
         """
-        result = self.blueprint.knowledge_discovery_task.learn(100)
-        self.evaluation_metrics['Power'] = TTestIndPower().solve_power(self.effect, power=self.power, nobs1=None, ratio=1.0, alpha=self.alpha)
-        self.evaluation_metrics['Dependency score'] = result.p
-        self.evaluation_metrics['F1'] = f1_score(self.y_true, result)
-        self.evaluation_metrics['AUC'] = roc_auc_score(self.y_true, result)
-        self.results.append(result)
+        #self.evaluation_metrics['Power'] = TTestIndPower().solve_power(self.effect, power=self.power, nobs1=None, ratio=1.0, alpha=self.alpha)
+        #self.evaluation_metrics['Dependency score'] = self.ps
+        #self.evaluation_metrics['F1'] = f1_score(self.y_true, result)
+        #self.evaluation_metrics['AUC'] = roc_auc_score(self.y_true, result)
     
     def save_test_result(self, result):
         t,p = result
 
         self.ps.append(p[0])
-        self.ps.append(t[0])
+        self.ts.append(t[0])
 
-    def plot_test_results(self, _):
-
-        self.pss.append(self.ps)
-
-        data = np.asarray(self.pss)
-        positions = np.arange(data.shape[1]) + 1
-
-        fig = plot.figure(self.fig_name)
-
+    def log_test_results(self, _):
+        if isinstance(self.experiment.oracle.data_source, DataSourceAdapter) :
+            self.name = type(self.experiment.oracle.data_source.distribution_data_source).__name__
+        else:
+            self.name = type(self.experiment.oracle.data_source).__name__
+        l_name = f'{self.experiment.exp_name}_{self.name}'
+        f_name = f'{self.folder}/{self.evaluator}_{self.experiment.exp_name}_{self.name}_{self.experiment.exp_nr}.txt'
+        logger = self.setup_logger(l_name, f_name)
+        logger.info('P-value:')
+        logger.info(self.ps)
+        logger.info('Score:')
+        logger.info(self.ts)
         self.iteration += 1

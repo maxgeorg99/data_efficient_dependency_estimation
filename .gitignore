@@ -138,4 +138,5 @@ src/settings/
 real_world_data_sets/
 ## exxperiments
 *fig*
+*log*
 experiment_results

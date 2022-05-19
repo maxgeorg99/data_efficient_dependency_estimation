@@ -7,6 +7,7 @@ from ide.core.evaluator import Evaluator, Evaluate
 
 import numpy as np
 from matplotlib import pyplot as plot
+import logging
 
 from ide.modules.oracle.data_source_adapter import DataSourceAdapter # type: ignore
 
@@ -21,27 +22,43 @@ class PrintNewDataPointsEvaluator(Evaluator):
     def register(self, experiment: Experiment):
         super().register(experiment)
 
-        self.experiment.data_pool.add = Evaluate(self.experiment.data_pool.add)
-        self.experiment.data_pool.add.pre(self.log_new_data_points)
+        self.experiment.queried_data_pool.add = Evaluate(self.experiment.queried_data_pool.add)
+        self.experiment.queried_data_pool.add.pre(self.log_new_data_points)
 
     def log_new_data_points(self, data_points):
         print(data_points)
 
-
 class LogNewDataPointsEvaluator(Evaluator):
-    def __init__(self, logger) -> None:
+    
+    folder: str = "log"
+    name: str = ""
+    evaluator:  str = "Data"
+    logger: logging.Logger
+    iteration: int = field(init = False, default = 0)
+
+    def __init__(self) -> None:
         super().__init__()
-        self.logger = logger
 
     def register(self, experiment: Experiment):
         super().register(experiment)
+        self.experiment.queried_data_pool.add = Evaluate(self.experiment.queried_data_pool.add)
+        self.experiment.queried_data_pool.add.pre(self.log_new_data_points)
+        self.iteration = 0
 
-        self.experiment.data_pool.add = Evaluate(self.experiment.data_pool.add)
-        self.experiment.data_pool.add.pre(self.log_new_data_points)
 
     def log_new_data_points(self, data_points):
-        # self.logger(data_points)
-        ...
+        if isinstance(self.experiment.oracle.data_source, DataSourceAdapter) :
+            self.name = type(self.experiment.oracle.data_source.distribution_data_source).__name__
+        else:
+            self.name = type(self.experiment.oracle.data_source).__name__
+        logging.basicConfig(filename=f'{self.folder}/{self.evaluator}_{self.name}_{self.experiment.exp_nr}.txt',
+            filemode='a',
+            format='%(asctime)s, %(message)s',
+            datefmt='%H:%M:%S',
+            level=logging.DEBUG)
+        self.logger = logging.getLogger()
+        self.logger.info(data_points)
+        self.iteration += 1
 
 @dataclass
 class PlotNewDataPointsEvaluator(Evaluator):
@@ -84,7 +101,7 @@ class PlotNewDataPointsEvaluator(Evaluator):
             z = self.results[:,1]
             ax = plot.axes(projection="3d")
             ax.scatter3D(x, y, z, c=z, cmap='cividis')
-            name = '_3D_'
+            name = '3D_'
         else:    
             plot.scatter(self.queries,self.results)
         plot.title(self.fig_name)
@@ -157,48 +174,3 @@ class PlotSampledQueriesEvaluator(Evaluator):
             plot.clf()
 
         self.iteration += 1
-
-class LogConvergenceEvaluator(Evaluator):
-    def __init__(self, logger) -> None:
-        super().__init__()
-        self.logger = logger
-
-    def register(self, experiment: Experiment):
-        super().register(experiment)
-
-        self.experiment.data_pool.add = Evaluate(self.experiment.data_pool.add)
-        self.experiment.data_pool.add.pre(self.log_new_data_points)
-
-    def log_new_data_points(self, data_points):
-        # self.logger(data_points)
-        ...
-
-class LogConsistencyEvaluator(Evaluator):
-    def __init__(self, logger) -> None:
-        super().__init__()
-        self.logger = logger
-
-    def register(self, experiment: Experiment):
-        super().register(experiment)
-
-        self.experiment.data_pool.add = Evaluate(self.experiment.data_pool.add)
-        self.experiment.data_pool.add.pre(self.log_new_data_points)
-
-    def log_new_data_points(self, data_points):
-        # self.logger(data_points)
-        ...
-
-class LogDataEfficencyEvaluator(Evaluator):
-    def __init__(self, logger) -> None:
-        super().__init__()
-        self.logger = logger
-
-    def register(self, experiment: Experiment):
-        super().register(experiment)
-
-        self.experiment.data_pool.add = Evaluate(self.experiment.data_pool.add)
-        self.experiment.data_pool.add.pre(self.log_new_data_points)
-
-    def log_new_data_points(self, data_points):
-        # self.logger(data_points)
-        ...
