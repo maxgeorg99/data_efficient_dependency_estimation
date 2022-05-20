@@ -33,7 +33,7 @@ class LineDataSource(DataSource):
 
 
     def query(self, queries):
-        results = queries*np.ones(self.result_shape)*self.a + np.ones(self.result_shape)*self.b
+        results = np.dot(queries, np.ones((*self.query_shape,*self.result_shape))*self.a) + np.ones(self.result_shape)*self.b
         return queries, results
 
     @property
@@ -59,7 +59,7 @@ class SquareDataSource(DataSource):
 
 
     def query(self, queries):
-        results = (queries - self.x0)**2*np.ones(self.result_shape)*self.s + np.ones(self.result_shape)*self.y0
+        results = np.dot((queries - self.x0)**2, np.ones((*self.query_shape,*self.result_shape))*self.s) + np.ones(self.result_shape)*self.y0
         return queries, results
 
     @property
@@ -79,11 +79,11 @@ class HyperSphereDataSource(DataSource):
 
     query_shape: Tuple[int,...] = (1,)
     result_shape: Tuple[int,...] = (1,)
-    radius = 1
-
 
     def query(self, queries):
-        results = np.sqrt(-1*queries**2*np.ones(self.result_shape) + self.radius**2*np.ones(self.result_shape))
+        x = np.dot(-1*np.square(queries), np.ones((*self.query_shape,*self.result_shape)))
+        y = x + np.ones(self.result_shape)
+        results = np.sqrt(np.abs(y))
         if (random() <= 0.5):
             results = np.negative(results)
         return queries, results
