@@ -1,11 +1,12 @@
 from __future__ import annotations
+from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from ide.core.blueprint import Blueprint
     from nptyping import NDArray, Number, Shape
 
-
+@dataclass
 class Experiment():
     exp_nr: int
     exp_name: str

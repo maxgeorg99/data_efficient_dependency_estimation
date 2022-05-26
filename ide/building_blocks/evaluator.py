@@ -3,12 +3,12 @@ import logging
 import os
 from typing import TYPE_CHECKING
 
-from sklearn.metrics import f1_score, roc_auc_score
 
 from ide.building_blocks.experiment_modules import DependencyExperiment
 from dataclasses import dataclass, field
 from ide.core.evaluator import Evaluator, Evaluate
 from statsmodels.stats.power import TTestIndPower
+from sklearn.metrics import f1_score, roc_auc_score
 
 import numpy as np
 from matplotlib import pyplot as plot
@@ -247,13 +247,7 @@ class DataEfficiencyEvaluator(Evaluator):
 
         self.experiment.run = Evaluate(self.experiment.run)
         self.experiment.run.post(self.log_test_results)
-        """
-        calculate metrics
-        """
-        #self.evaluation_metrics['Power'] = TTestIndPower().solve_power(self.effect, power=self.power, nobs1=None, ratio=1.0, alpha=self.alpha)
-        #self.evaluation_metrics['Dependency score'] = self.ps
-        #self.evaluation_metrics['F1'] = f1_score(self.y_true, result)
-        #self.evaluation_metrics['AUC'] = roc_auc_score(self.y_true, result)
+        self.experiment.run.post(self.numpy_save_results)
     
     def save_test_result(self, result):
         t,p = result
@@ -274,3 +268,32 @@ class DataEfficiencyEvaluator(Evaluator):
         logger.info('Score:')
         logger.info(self.ts)
         self.iteration += 1
+    
+    def numpy_save_results(self, _):
+        file_name = f'{self.folder}/{self.experiment.exp_name}.npz'
+        np.savez(file_name, pValues=self.ps, score=self.ts)
+
+class LogBluePrint(Evaluator):
+    folder: str = "log"
+    evaluator:str = "Experiment"
+
+    def setup_logger(self, l_name, log_file_name):
+
+        handler = logging.FileHandler(log_file_name)        
+
+        logger = logging.getLogger(l_name)
+        logger.setLevel(logging.INFO)
+        logger.addHandler(handler)
+
+        return logger
+
+    def register(self, experiment: Experiment):
+        super().register(experiment)
+
+        self.experiment.run = Evaluate(self.experiment.run)
+        self.experiment.run.post(self.log_blueprint)
+
+    def log_blueprint(self, _):
+        l_name = f'{self.experiment.exp_name}'
+        f_name = f'{self.folder}/{self.evaluator}_{self.experiment.exp_name}.txt'
+        logger = self.setup_logger(l_name, f_name)

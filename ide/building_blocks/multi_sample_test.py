@@ -93,7 +93,7 @@ class PeakSim(MultiSampleTest):
 class Pearson(MultiSampleTest):
 
     def test(self, samples: NDArray):
-        x = [item for sublist in samples for item in sublist]
+        x = [item for sublist in np.squeeze(samples) for item in sublist]
         y = [item for sublist in x for item in sublist]
         t, p = pearsonr(y, y)
         return [t],[p]
