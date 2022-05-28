@@ -7,7 +7,7 @@ from requests import get
 from statsmodels.stats.power import TTestIndPower
 from sklearn.metrics import f1_score, roc_auc_score
 
-result_folder = "./experiment_results"
+result_folder = "./experiment_results/data_efficiency"
 log_folder = "./log"
 log_prefix = "DataEfficiency_"
 algorithms = ["Pearson"]

@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from nptyping import NDArray
 import numpy as np
 import pandas as pd
-#import dcor
+import dcor
 
 from xicor.xicor import Xi
 from data_efficient_dependency_estimation.dependency_tests_thesis.XtendedCorrel import hoeffding
@@ -93,7 +93,7 @@ class PeakSim(MultiSampleTest):
 class Pearson(MultiSampleTest):
 
     def test(self, samples: NDArray):
-        x = [item for sublist in np.squeeze(samples) for item in sublist]
+        x = [item for sublist in samples for item in sublist]
         y = [item for sublist in x for item in sublist]
         t, p = pearsonr(y, y)
         return [t],[p]

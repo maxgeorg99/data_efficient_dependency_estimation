@@ -1,6 +1,13 @@
 from __future__ import annotations
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
+from ide.core.data.queried_data_pool import QueriedDataPool
+from ide.core.experiment_modules import ExperimentModules
+from ide.core.oracle.oracle import Oracle
+from ide.core.query.query_optimizer import QueryOptimizer
+from ide.core.query.query_sampler import QuerySampler
+
+from ide.core.stopping_criteria import StoppingCriteria
 
 if TYPE_CHECKING:
     from ide.core.blueprint import Blueprint
@@ -10,8 +17,14 @@ if TYPE_CHECKING:
 class Experiment():
     exp_nr: int
     exp_name: str
+    repeat: int
+    stopping_criteria: StoppingCriteria
+    oracle: Oracle
+    initial_query_sampler: QuerySampler
+    experiment_modules: ExperimentModules
 
     def __init__(self, bp: Blueprint, exp_nr: int) -> None:
+        self.repeat = bp.repeat
         self.exp_nr = exp_nr
         self.exp_name = bp.exp_name
 

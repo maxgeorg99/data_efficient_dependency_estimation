@@ -28,6 +28,9 @@ tensorflow = "^2.8.0"
 numpy = "^1.22.3"
 pandas = "^1.4.2"
 wfdb = "^3.4.1"
+fcit = "^1.2.0"
+dcor = "^0.5.3"
+statsmodels = "^0.13.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.5"

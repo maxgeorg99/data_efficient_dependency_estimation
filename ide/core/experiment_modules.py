@@ -14,8 +14,8 @@ if TYPE_CHECKING:
 
 @dataclass
 class ExperimentModules(Configurable):
-    queried_data_pool: QueriedDataPool = field(init=False)
-    oracle_data_pool: DataPool = field(init=False)
+    queried_data_pool: QueriedDataPool = field(init=False, repr=False)
+    oracle_data_pool: DataPool = field(init=False, repr=False)
 
     def run(self):
         ...

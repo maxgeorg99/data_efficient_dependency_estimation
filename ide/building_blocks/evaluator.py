@@ -1,7 +1,7 @@
 from __future__ import annotations
 import logging
 import os
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Dict
 
 
 from ide.building_blocks.experiment_modules import DependencyExperiment
@@ -260,13 +260,14 @@ class DataEfficiencyEvaluator(Evaluator):
             self.name = type(self.experiment.oracle.data_source.distribution_data_source).__name__
         else:
             self.name = type(self.experiment.oracle.data_source).__name__
-        l_name = f'{self.experiment.exp_name}_{self.name}'
-        f_name = f'{self.folder}/{self.evaluator}_{self.experiment.exp_name}_{self.name}_{self.experiment.exp_nr}.txt'
-        logger = self.setup_logger(l_name, f_name)
-        logger.info('P-value:')
-        logger.info(self.ps)
-        logger.info('Score:')
-        logger.info(self.ts)
+        l_name = f'{self.experiment.exp_name}_{self.name}_p'
+        f_name = f'{self.folder}/{self.evaluator}_Ps_{self.experiment.exp_name}_{self.name}_{self.experiment.exp_nr}.txt'
+        p_logger = self.setup_logger(l_name, f_name)
+        p_logger.info(self.ps)
+        l_name = f'{self.experiment.exp_name}_{self.name}_t'
+        f_name = f'{self.folder}/{self.evaluator}_Ts_{self.experiment.exp_name}_{self.name}_{self.experiment.exp_nr}.txt'
+        t_logger = self.setup_logger(l_name, f_name)
+        t_logger.info(self.ts)
         self.iteration += 1
     
     def numpy_save_results(self, _):
@@ -297,3 +298,4 @@ class LogBluePrint(Evaluator):
         l_name = f'{self.experiment.exp_name}'
         f_name = f'{self.folder}/{self.evaluator}_{self.experiment.exp_name}.txt'
         logger = self.setup_logger(l_name, f_name)
+        logger.info(self.experiment)

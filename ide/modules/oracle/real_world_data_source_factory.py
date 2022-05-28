@@ -17,13 +17,15 @@ class RealWorldDataSourceFactory():
 
         df = pd.read_csv(data_file, sep=" ", header=None)
         df = df[~df.isnull().any(axis=1)]
-        q = list(range(1, len(df.index)))
+        n = len(df.index)
+        q = [x/(n+1) for x in range(1, n+1)]
         return RealWorldDataSetDataSource(q,df.to_numpy())
 
     def sunspot(self):
         filename = 'C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/real_world_data_sets/Sunspot/SN_d_tot_V2.0.txt'
         df = pd.read_csv(filename, sep=" ", header=None)
-        q = list(range(1, len(df.index)))
+        n = len(df.index)
+        q = [x/(n+1) for x in range(1, n+1)]
         return RealWorldDataSetDataSource(q,df.to_numpy())
     
     def personal_activity(self):
@@ -32,7 +34,8 @@ class RealWorldDataSourceFactory():
     def NASDAQ(self):
         filename = 'C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/real_world_data_sets/NASDAQ/WIKI-PRICES.csv'
         df = pd.read_csv(filename)
-        q = list(range(1, len(df.index)))
+        n = len(df.index)
+        q = [x/(n+1) for x in range(1, n+1)]
         return RealWorldDataSetDataSource(q,df.to_numpy())
     
     def smartphone(self):
@@ -40,7 +43,8 @@ class RealWorldDataSourceFactory():
         df = df[~df.isnull().any(axis=1)]
         df2 = pd.read_csv('C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/real_world_data_sets/Smartphone/final_Y_test.txt', sep=",", header=None)
         df['y'] = df2
-        q = list(range(1, len(df.index)))
+        n = len(df.index)
+        q = [x/(n+1) for x in range(1, n+1)]
         return RealWorldDataSetDataSource(q,df.to_numpy())
 
     def hipe(self):
@@ -52,7 +56,8 @@ class RealWorldDataSourceFactory():
         df3 = pd.read_csv(filename3)
         df.append(df2, ignore_index=True)
         df.append(df3, ignore_index=True)
-        q = list(range(1, len(df.index)))
+        n = len(df.index)
+        q = [x/(n+1) for x in range(1, n+1)]
         return RealWorldDataSetDataSource(q,df.to_numpy())
 
     def hydraulic(self):
@@ -67,7 +72,8 @@ class RealWorldDataSourceFactory():
         df.append(df4, ignore_index=True)
         df.append(df5, ignore_index=True)
         df.append(df6, ignore_index=True)
-        q = list(range(1, len(df.index)))
+        n = len(df.index)
+        q = [x/(n+1) for x in range(1, n+1)]
         return RealWorldDataSetDataSource(q,df.to_numpy())
 
 

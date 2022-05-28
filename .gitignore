@@ -137,7 +137,7 @@ src/settings/
 # Data Sets
 real_world_data_sets/
 ## exxperiments
-*fig*
-*log*
+/fig
+/log
 experiment_results
 thesis.patch

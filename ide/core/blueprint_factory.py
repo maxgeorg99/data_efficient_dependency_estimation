@@ -1,6 +1,6 @@
 from typing import List
 from ide.building_blocks.dependency_test import DependencyTest
-from ide.building_blocks.evaluator import DataEfficiencyEvaluator
+from ide.building_blocks.evaluator import DataEfficiencyEvaluator, LogBluePrint
 from ide.building_blocks.experiment_modules import DependencyExperiment
 from ide.building_blocks.multi_sample_test import FIT, Hoeffdings, Kendalltau, MultiSampleTest, PeakSim, Pearson, Spearmanr, XiCor, dHSIC, CMI, GMI, DIMID, IMIE, HiCS, MCDE, A_dep_test,dCor,chi_square,IndepTest,CondIndTest,LISTest
 from ide.building_blocks.selection_criteria import QueryTestNoSelectionCritera
@@ -64,6 +64,7 @@ class BlueprintFactory():
     ]
     evaluators = [
         DataEfficiencyEvaluator(),
+        LogBluePrint()
     ]
     
     def __init__(
@@ -77,7 +78,7 @@ class BlueprintFactory():
                 self.blueprints.append(Blueprint(
                     #define fitting repeat and querie nums
                     repeat=10,
-                    stopping_criteria= LearningStepStoppingCriteria(10),
+                    stopping_criteria= LearningStepStoppingCriteria(20),
                     oracle = Oracle(
                         data_source=dataSource,
                         augmentation=NoiseAugmentation
@@ -92,7 +93,6 @@ class BlueprintFactory():
                     experiment_modules=DependencyExperiment(
                         dependency_test=DependencyTest(
                             query_sampler = LatinHypercubeQuerySampler(num_queries=10),
-                            #use default option ehre
                             data_sampler = KDTreeRegionDataSampler(0.05),
                             multi_sample_test = test 
                             ),
