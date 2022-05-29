@@ -218,6 +218,7 @@ class DataEfficiencyEvaluator(Evaluator):
     ps: List[float] = field(init=False, default_factory=list)
     pt: List[float] = field(init=False, default_factory=list)
     pss: List[float] = field(init=False, default_factory=list)
+    predictions: List[int] = field(init=False, default_factory=list)
     iteration: int = field(init = False, default = 0)
 
     def setup_logger(self, l_name, log_file_name):
@@ -235,6 +236,7 @@ class DataEfficiencyEvaluator(Evaluator):
 
         self.ps = []
         self.ts = []
+        self.predictions = []
 
         self.iteration = 0
 
@@ -244,16 +246,31 @@ class DataEfficiencyEvaluator(Evaluator):
             self.experiment.experiment_modules.dependency_test.test.post(self.save_test_result)
         else:
             raise ValueError
+        if isinstance(self.experiment.oracle.data_source, DataSourceAdapter) :
+            self.name = type(self.experiment.oracle.data_source.distribution_data_source).__name__
+        else:
+            self.name = type(self.experiment.oracle.data_source).__name__
 
         self.experiment.run = Evaluate(self.experiment.run)
         self.experiment.run.post(self.log_test_results)
-        self.experiment.run.post(self.numpy_save_results)
+        #self.experiment.run.post(self.numpy_save_results)
     
     def save_test_result(self, result):
         t,p = result
 
-        self.ps.append(p[0])
-        self.ts.append(t[0])
+        v = 0
+        if (type(p) is list):
+            v = t[0]
+            self.ps.append(p[0])
+            self.ts.append(v)
+        else: 
+            v = t
+            self.ps.append(p)
+            self.ts.append(v)
+        if( v > 0.99 ):
+            self.predictions.append(1)
+        else:
+            self.predictions.append(0)
 
     def log_test_results(self, _):
         if isinstance(self.experiment.oracle.data_source, DataSourceAdapter) :
@@ -271,8 +288,8 @@ class DataEfficiencyEvaluator(Evaluator):
         self.iteration += 1
     
     def numpy_save_results(self, _):
-        file_name = f'{self.folder}/{self.experiment.exp_name}.npz'
-        np.savez(file_name, pValues=self.ps, score=self.ts)
+        file_name = f'{self.folder}/{self.experiment.exp_name}_{self.name}.npz'
+        np.savez(file_name, pValues=self.ps, score=self.ts, predictions=self.predictions)
 
 class LogBluePrint(Evaluator):
     folder: str = "log"

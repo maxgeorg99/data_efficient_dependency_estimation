@@ -5,11 +5,12 @@ from ide.building_blocks.experiment_modules import DependencyExperiment
 from ide.building_blocks.multi_sample_test import FIT, Hoeffdings, Kendalltau, MultiSampleTest, PeakSim, Pearson, Spearmanr, XiCor, dHSIC, CMI, GMI, DIMID, IMIE, HiCS, MCDE, A_dep_test,dCor,chi_square,IndepTest,CondIndTest,LISTest
 from ide.building_blocks.selection_criteria import QueryTestNoSelectionCritera
 from ide.core.blueprint import Blueprint
+from ide.core.data_sampler import DataSampler
 from ide.core.evaluator import Evaluator
 from ide.core.oracle.data_source import DataSource
 from ide.core.oracle.oracle import Oracle
 from ide.core.query.query_optimizer import NoQueryOptimizer
-from ide.modules.data_sampler import KDTreeRegionDataSampler
+from ide.modules.data_sampler import KDTreeRegionDataSampler, DefaultDataSampler
 from ide.modules.evaluator import PlotNewDataPointsEvaluator
 from ide.modules.oracle.augmentation import NoiseAugmentation
 from ide.modules.oracle.data_source import LineDataSource
@@ -52,12 +53,12 @@ class BlueprintFactory():
         Pearson(),
         #HiCS(),
         #MCDE(),
-        ##XiCor(),
-        ##FIT(),
+        XiCor(),
+        #FIT(),
         #A_dep_test(),
-        ##Hoeffdings(),
-        ##dCor(),
-        ##chi_square(),
+        Hoeffdings(),
+        #dCor(),
+        #chi_square(),
         #IndepTest(),
         #CondIndTest(),
         #LISTest(),
@@ -77,14 +78,14 @@ class BlueprintFactory():
             for test in algorithms:
                 self.blueprints.append(Blueprint(
                     #define fitting repeat and querie nums
-                    repeat=10,
-                    stopping_criteria= LearningStepStoppingCriteria(20),
+                    repeat=5,
+                    stopping_criteria= LearningStepStoppingCriteria(100),
                     oracle = Oracle(
                         data_source=dataSource,
                         augmentation=NoiseAugmentation
                     ),
                     queried_data_pool=FlatQueriedDataPool(),
-                    initial_query_sampler=LatinHypercubeQuerySampler(num_queries=10),
+                    initial_query_sampler=LatinHypercubeQuerySampler(num_queries=20),
                     query_optimizer=NoQueryOptimizer(
                         selection_criteria=QueryTestNoSelectionCritera(),
                         num_queries=4,
@@ -92,8 +93,8 @@ class BlueprintFactory():
                     ),
                     experiment_modules=DependencyExperiment(
                         dependency_test=DependencyTest(
-                            query_sampler = LatinHypercubeQuerySampler(num_queries=10),
-                            data_sampler = KDTreeRegionDataSampler(0.05),
+                            query_sampler = LatinHypercubeQuerySampler(num_queries=20),
+                            data_sampler = DefaultDataSampler(),
                             multi_sample_test = test 
                             ),
                         ),

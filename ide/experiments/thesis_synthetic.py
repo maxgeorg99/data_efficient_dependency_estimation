@@ -35,7 +35,6 @@ synthetic_data_sources = [
     SquareDataSource((1,),(1,)),
     HyperSphereDataSource(),
 ]
-""""
 for i in range(1,3):
         synthetic_data_sources.append(DataSourceAdapter(CrossDataSource(1,i))),
         synthetic_data_sources.append(DataSourceAdapter(DoubleLinearDataSource(1,i))),
@@ -45,6 +44,5 @@ for i in range(1,3):
         synthetic_data_sources.append(DataSourceAdapter(StarDataSource(1,i))),
         synthetic_data_sources.append(DataSourceAdapter(ZDataSource(1,i))),
         synthetic_data_sources.append(DataSourceAdapter(InvZDataSource(1,i))),
-"""
 
 blueprints = BlueprintFactory(dataSources=synthetic_data_sources).getBlueprints()

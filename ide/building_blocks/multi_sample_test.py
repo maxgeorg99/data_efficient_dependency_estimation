@@ -135,6 +135,7 @@ class MCDE(MultiSampleTest):
 class FIT(MultiSampleTest):
 
     def test(self, samples: NDArray):
+        samples.squeeze()
         p = fcit.test(samples, samples)
         return 0,p
 @dataclass
@@ -174,7 +175,7 @@ class dCor(MultiSampleTest):
 class chi_square(MultiSampleTest):
 
     def test(self, samples: NDArray):
-        r, p = chi2_contingency(samples, samples)
+        r, p, dof, expected = chi2_contingency(samples, samples)
         return r,p
 
 

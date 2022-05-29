@@ -3,9 +3,11 @@ from abc import abstractmethod, abstractproperty
 from typing import TYPE_CHECKING
 
 from dataclasses import dataclass, field
+from ide.core.data.data_pool import DataPool
 
 
 from ide.core.data_subscriber import DataSubscriber
+from ide.core.query.query_pool import QueryPool
 
 
 if TYPE_CHECKING:
