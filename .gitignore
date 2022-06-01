@@ -139,5 +139,5 @@ real_world_data_sets/
 ## exxperiments
 /fig
 /log
-experiment_results
+*experiment_results*
 thesis.patch

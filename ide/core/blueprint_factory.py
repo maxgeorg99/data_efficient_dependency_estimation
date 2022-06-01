@@ -53,10 +53,10 @@ class BlueprintFactory():
         Pearson(),
         #HiCS(),
         #MCDE(),
-        XiCor(),
+        #XiCor(),
         #FIT(),
         #A_dep_test(),
-        Hoeffdings(),
+        #Hoeffdings(),
         #dCor(),
         #chi_square(),
         #IndepTest(),
@@ -79,13 +79,13 @@ class BlueprintFactory():
                 self.blueprints.append(Blueprint(
                     #define fitting repeat and querie nums
                     repeat=5,
-                    stopping_criteria= LearningStepStoppingCriteria(100),
+                    stopping_criteria= LearningStepStoppingCriteria(200),
                     oracle = Oracle(
                         data_source=dataSource,
-                        augmentation=NoiseAugmentation
+                        augmentation=NoiseAugmentation(noise_ratio=0.2)
                     ),
                     queried_data_pool=FlatQueriedDataPool(),
-                    initial_query_sampler=LatinHypercubeQuerySampler(num_queries=20),
+                    initial_query_sampler=LatinHypercubeQuerySampler(num_queries=10),
                     query_optimizer=NoQueryOptimizer(
                         selection_criteria=QueryTestNoSelectionCritera(),
                         num_queries=4,
@@ -94,7 +94,7 @@ class BlueprintFactory():
                     experiment_modules=DependencyExperiment(
                         dependency_test=DependencyTest(
                             query_sampler = LatinHypercubeQuerySampler(num_queries=20),
-                            data_sampler = DefaultDataSampler(),
+                            data_sampler = KDTreeRegionDataSampler(0.05),
                             multi_sample_test = test 
                             ),
                         ),

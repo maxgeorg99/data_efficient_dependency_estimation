@@ -37,7 +37,6 @@ class MultiSampleTest(Configurable):
 @dataclass
 class KWHMultiSampleTest(MultiSampleTest):
     
-    
     def test(self, samples):
         t, p = kruskal(*samples)
         return t, p
@@ -135,7 +134,6 @@ class MCDE(MultiSampleTest):
 class FIT(MultiSampleTest):
 
     def test(self, samples: NDArray):
-        samples.squeeze()
         p = fcit.test(samples, samples)
         return 0,p
 @dataclass

@@ -31,6 +31,7 @@ wfdb = "^3.4.1"
 fcit = "^1.2.0"
 dcor = "^0.5.3"
 statsmodels = "^0.13.2"
+stats = "^0.1.2-alpha.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.5"

@@ -197,15 +197,6 @@ class BoxPlotTestPEvaluator(Evaluator):
 
         self.iteration += 1
 class DataEfficiencyEvaluator(Evaluator):
-    """
-    Measures data efficiency metrics of an dependency estimation in an experiment.
-    The metric includes 
-    * Statistical Power
-    * Distribution of dependency estimation scores
-    * F1
-    * AUC
-    in propotion to the amount of samples.
-    """
     folder: str = "log"
     evaluator:str = "DataEfficiency"
 
@@ -242,7 +233,6 @@ class DataEfficiencyEvaluator(Evaluator):
 
         if isinstance(self.experiment.experiment_modules, DependencyExperiment):
             self.experiment.experiment_modules.dependency_test.test = Evaluate(self.experiment.experiment_modules.dependency_test.test)
-
             self.experiment.experiment_modules.dependency_test.test.post(self.save_test_result)
         else:
             raise ValueError
@@ -252,8 +242,8 @@ class DataEfficiencyEvaluator(Evaluator):
             self.name = type(self.experiment.oracle.data_source).__name__
 
         self.experiment.run = Evaluate(self.experiment.run)
-        self.experiment.run.post(self.log_test_results)
-        #self.experiment.run.post(self.numpy_save_results)
+        #self.experiment.run.post(self.log_test_results)
+        self.experiment.run.post(self.numpy_save_results)
     
     def save_test_result(self, result):
         t,p = result
@@ -288,7 +278,7 @@ class DataEfficiencyEvaluator(Evaluator):
         self.iteration += 1
     
     def numpy_save_results(self, _):
-        file_name = f'{self.folder}/{self.experiment.exp_name}_{self.name}.npz'
+        file_name = f'{self.folder}/{self.experiment.exp_name}_{self.name}_{self.experiment.exp_nr}.npz'
         np.savez(file_name, pValues=self.ps, score=self.ts, predictions=self.predictions)
 
 class LogBluePrint(Evaluator):
