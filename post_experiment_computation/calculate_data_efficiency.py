@@ -10,8 +10,10 @@ from sklearn.metrics import f1_score, roc_auc_score
 result_folder = "./experiment_results/data_efficiency"
 log_folder = "./log"
 log_prefix = "DataEfficiency_"
-algorithms = ["Pearson","Kendalltau","Spearmanr","XiCor"]
-datasources = ["LineDataSource","SquareDataSource","HyperSphereDataSource"]
+algorithms = ["DependencyTestAdapter"]
+#algorithms = ["Pearson","Kendalltau","Spearmanr","XiCor"]
+datasources = ["LineDataSource","SquareDataSource"]
+#datasources = ["LineDataSource","SquareDataSource","HyperSphereDataSource"]
 
 ignore_nans_count = -1
 
@@ -30,10 +32,12 @@ def walk_files( algorithm, datasource):
 algorithm_data: Dict = {}
 algorithm_pvalues: Dict = {}
 algorithm_score: Dict = {}
+algorithm_variance: Dict = {}
 def compute_data_efficiency(data, algorithm, datasource):
     algorithm_data[(algorithm, datasource)] = data
     algorithm_pvalues[(algorithm, datasource)] = data['pValues']
     algorithm_score[(algorithm, datasource)] = data['score']
+    algorithm_variance[(algorithm, datasource)] = data['var']
 
 
 algorithm_power90: Dict = {}

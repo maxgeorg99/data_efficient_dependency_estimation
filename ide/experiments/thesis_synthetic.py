@@ -8,6 +8,7 @@ from distribution_data_generation.data_sources.star_data_source import StarDataS
 from distribution_data_generation.data_sources.z_data_source import ZDataSource
 from distribution_data_generation.data_sources.inv_z_data_source import InvZDataSource
 from distribution_data_generation.data_sources.cross_data_source import CrossDataSource
+from ide.building_blocks.multi_sample_test import KWHMultiSampleTest
 
 from ide.modules.queried_data_pool import FlatQueriedDataPool
 from ide.modules.data_sampler import KDTreeKNNDataSampler, KDTreeRegionDataSampler
@@ -25,7 +26,7 @@ from ide.modules.oracle.data_source import LineDataSource, SquareDataSource, Hyp
 from ide.modules.oracle.data_source_adapter import DataSourceAdapter
 from ide.modules.evaluator import LogNewDataPointsEvaluator, PlotNewDataPointsEvaluator, PrintNewDataPointsEvaluator, PlotQueryDistEvaluator
 from ide.building_blocks.evaluator import PlotScoresEvaluator, PlotQueriesEvaluator, PlotTestPEvaluator, BoxPlotTestPEvaluator
-from ide.building_blocks.dependency_test import DependencyTest
+from ide.building_blocks.dependency_test import DependencyTest, NaivDependencyTest
 
 from ide.core.blueprint_factory import BlueprintFactory
 
@@ -42,5 +43,12 @@ for i in range(2,3):
         synthetic_data_sources.append(DataSourceAdapter(SineDataSource(1,i))),
         synthetic_data_sources.append(DataSourceAdapter(StarDataSource(1,i))),
         synthetic_data_sources.append(DataSourceAdapter(ZDataSource(1,i))),
-        synthetic_data_sources.append(DataSourceAdapter(InvZDataSource(1,i))),
-blueprints = BlueprintFactory(dataSources=synthetic_data_sources).getBlueprints()
+        synthetic_data_sources.append(DataSourceAdapter(InvZDataSource(1,i)))
+
+deptest = NaivDependencyTest(
+            query_sampler = RandomChoiceQuerySampler(num_queries=20),
+            data_sampler = KDTreeRegionDataSampler(0.05),
+            multi_sample_test=KWHMultiSampleTest()
+        )
+
+blueprints = BlueprintFactory.getBlueprintsForSyntheticData(algorithms=[deptest] ,dataSources=synthetic_data_sources)

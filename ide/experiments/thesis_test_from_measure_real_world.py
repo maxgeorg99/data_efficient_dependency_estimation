@@ -28,4 +28,4 @@ test = DependencyTestAdapter(
                 datasource=real_world_data_sources
             )
 
-blueprints = BlueprintFactory(dataSources=[real_world_data_sources],algorithms=[test]).getBlueprints()
+blueprints = BlueprintFactory().getBlueprintsForRealWorldData(dataSources=[real_world_data_sources],algorithms=[test])

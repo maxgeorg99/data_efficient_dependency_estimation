@@ -40,7 +40,6 @@ from ide.modules.stopping_criteria import LearningStepStoppingCriteria
 #Independence tests for continuous random variables based on the longest increasing subsequence (LISTest) [20]
 
 class BlueprintFactory():
-    blueprints = []
     tests = [
         #dHSIC(),
         #CMI(),
@@ -50,7 +49,7 @@ class BlueprintFactory():
         #PeakSim(),
         #Kendalltau(),
         #Spearmanr(),
-        Pearson(),
+        #Pearson(),
         #HiCS(),
         #MCDE(),
         #XiCor(),
@@ -65,41 +64,70 @@ class BlueprintFactory():
     ]
     evaluators = [
         DataEfficiencyEvaluator(),
-        LogBluePrint()
     ]
-    
-    def __init__(
-    self, 
-    algorithms: List[DependencyTest] = tests , 
-    dataSources: List[DataSource] = [LineDataSource], 
-    evaluators: List[Evaluator] = evaluators
-    ):
-        for dataSource in dataSources:
-            for test in algorithms:
-                self.blueprints.append(Blueprint(
-                    #define fitting repeat and querie nums
-                    repeat=1,
-                    stopping_criteria= LearningStepStoppingCriteria(100),
+
+    def getBlueprintsForSyntheticData(    
+        algorithms: List[DependencyTest] = tests, 
+        dataSources: List[DataSource] = [LineDataSource], 
+        evaluators: List[Evaluator] = evaluators
+        ):
+            blueprints = []
+            for dataSource in dataSources:
+                for test in algorithms:
+                    blueprints.append(Blueprint(
+                        repeat=1,
+                        stopping_criteria= LearningStepStoppingCriteria(100),
+                        
+                        queried_data_pool=FlatQueriedDataPool(),
+                        initial_query_sampler=UniformQuerySampler(num_queries=10),
+                        query_optimizer=NoQueryOptimizer(
+                            selection_criteria=QueryTestNoSelectionCritera(),
+                            num_queries=4,
+                            query_sampler=RandomChoiceQuerySampler(),
+                        ),
+                        experiment_modules=
+                        DependencyExperiment(
+                            dependency_test=test,
+                        ),
+                        oracle = Oracle(
+                            data_source=dataSource,
+                            augmentation=NoiseAugmentation(noise_ratio=0.2)
+                        ),
+                        evaluators=evaluators,
+                        exp_name=type(test).__name__,
+                        )
+                    )
+            return blueprints
+
+    def getBlueprintsForRealWorldData(    
+        algorithms: List[DependencyTest] = tests, 
+        dataSources: List[DataSource] = [LineDataSource], 
+        evaluators: List[Evaluator] = evaluators
+        ):
+            blueprints = []
+            for dataSource in dataSources:
+                for test in algorithms:
+                    blueprints.append(Blueprint(
+                        repeat=1,
+                        stopping_criteria= LearningStepStoppingCriteria(100),
                     
-                    queried_data_pool=FlatQueriedDataPool(),
-                    initial_query_sampler=UniformQuerySampler(num_queries=10),
-                    query_optimizer=NoQueryOptimizer(
-                        selection_criteria=QueryTestNoSelectionCritera(),
-                        num_queries=4,
-                        query_sampler=UniformQuerySampler(),
-                    ),
-                    experiment_modules=
-                    DependencyExperiment(
-                        dependency_test=test,
-                    ),
-                    oracle = Oracle(
-                        data_source=dataSource,
-                        augmentation=NoiseAugmentation(noise_ratio=0.2)
-                    ),
-                    evaluators=evaluators,
-                    exp_name=type(test).__name__,
+                        queried_data_pool=FlatQueriedDataPool(),
+                        initial_query_sampler=RandomChoiceQuerySampler(num_queries=10),
+                        query_optimizer=NoQueryOptimizer(
+                            selection_criteria=QueryTestNoSelectionCritera(),
+                            num_queries=4,
+                            query_sampler=RandomChoiceQuerySampler(),
+                        ),
+                        experiment_modules=
+                        DependencyExperiment(
+                            dependency_test=test,
+                        ),
+                        oracle = Oracle(
+                            data_source=dataSource,
+                            augmentation=NoiseAugmentation(noise_ratio=0.2)
+                        ),
+                        evaluators=evaluators,
+                        exp_name=type(test).__name__,
                     )
                 )
-
-    def getBlueprints(self):
-        return self.blueprints        
+            return blueprints

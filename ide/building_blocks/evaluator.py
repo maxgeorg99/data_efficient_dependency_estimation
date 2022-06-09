@@ -247,7 +247,7 @@ class DataEfficiencyEvaluator(Evaluator):
 
         self.vs.append(v)
         tvalue = 0
-        if (type(p) is list):
+        if (type(p) is list or isinstance(p, np.ndarray)):
             tvalue = t[0]
             self.ps.append(p[0])
             self.ts.append(tvalue)
@@ -292,7 +292,7 @@ class LogBluePrint(Evaluator):
             self.printed =  True
             experiment = self.experiment
             blueprint = Blueprint(
-                repeat=experiment.repeat,
+                        repeat=experiment.repeat,
                         stopping_criteria= experiment.stopping_criteria,
                         oracle = experiment.oracle,
                         queried_data_pool=experiment.queried_data_pool,

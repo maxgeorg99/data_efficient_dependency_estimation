@@ -5,6 +5,7 @@ from typing import TYPE_CHECKING
 from dataclasses import dataclass, field
 
 import numpy as np
+from ide.core.query.query_pool import QueryPool
 
 from ide.core.query.selection_criteria import SelectionCriteria, NoSelectionCriteria
 from ide.building_blocks.experiment_modules import DependencyExperiment, InterventionDependencyExperiment
@@ -18,17 +19,17 @@ if TYPE_CHECKING:
 
 @dataclass
 class QueryTestNoSelectionCritera(NoSelectionCriteria):
-    dependency_test: Optional[DependencyTest] = field(init=False, default=None, repr=False)
+    exp_modules: Optional[DependencyExperiment] = field(init=False, default=None, repr=False)
     
     @property
     def query_pool(self):
-        return self.dependency_test.data_sampler.query_pool
+        return self.exp_modules.queried_data_pool.query_pool
     
     def __call__(self, exp_modules = None, **kwargs) -> Self:
         obj = super().__call__(exp_modules, **kwargs)
 
         if isinstance(exp_modules, DependencyExperiment):
-            obj.dependency_test = exp_modules.dependency_test
+            obj.exp_modules = exp_modules
         else:
             raise ValueError
 

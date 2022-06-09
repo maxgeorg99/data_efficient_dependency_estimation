@@ -22,5 +22,6 @@ synthetic_data_sources = [
 test = DependencyTestAdapter(
                 dependency_measure=dCor(),
                 datasource=LineDataSource((1,),(2,))
-            )
-blueprints = BlueprintFactory(dataSources=synthetic_data_sources,algorithms=[test]).getBlueprints()
+        )
+
+blueprints = BlueprintFactory.getBlueprintsForSyntheticData(algorithms=[test], dataSources=synthetic_data_sources)

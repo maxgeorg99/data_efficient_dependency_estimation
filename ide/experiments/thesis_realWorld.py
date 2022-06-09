@@ -29,4 +29,4 @@ test = NaivDependencyTest(
             multi_sample_test=KWHMultiSampleTest()
         )
 
-blueprints = BlueprintFactory(dataSources=[real_world_data_sources],algorithms=[test]).getBlueprints()
+blueprints = BlueprintFactory().getBlueprintsForRealWorldData(algorithms=[test],dataSources=[real_world_data_sources])

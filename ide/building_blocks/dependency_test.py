@@ -19,6 +19,7 @@ import pandas as pd
 from ide.building_blocks.multi_sample_test import MultiSampleTest
 
 from ide.core.experiment_module import ExperimentModule
+from ide.core.query.query_pool import QueryPool
 
 if TYPE_CHECKING:
     from typing_extensions import Self #type: ignore
@@ -28,7 +29,6 @@ if TYPE_CHECKING:
 
 @dataclass
 class DependencyTest(ExperimentModule):
-    
     @abstractmethod 
     def test(self):
         raise NotImplementedError

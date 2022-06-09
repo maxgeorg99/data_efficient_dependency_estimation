@@ -49,4 +49,3 @@ class Configurable(metaclass = ConfigurableMeta):
         obj.__initialized = True
         self.__cls.__init__(obj, *self.__args, **self.__kwargs)
         return obj
-
