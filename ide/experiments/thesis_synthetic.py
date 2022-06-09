@@ -26,16 +26,15 @@ from ide.modules.oracle.data_source_adapter import DataSourceAdapter
 from ide.modules.evaluator import LogNewDataPointsEvaluator, PlotNewDataPointsEvaluator, PrintNewDataPointsEvaluator, PlotQueryDistEvaluator
 from ide.building_blocks.evaluator import PlotScoresEvaluator, PlotQueriesEvaluator, PlotTestPEvaluator, BoxPlotTestPEvaluator
 from ide.building_blocks.dependency_test import DependencyTest
-from ide.building_blocks.multi_sample_test import FIT, Hoeffdings, KWHMultiSampleTest, Kendalltau, Pearson, Spearmanr, XiCor, dHSIC
 
 from ide.core.blueprint_factory import BlueprintFactory
 
 synthetic_data_sources = [
-    LineDataSource((1,),(1,)),
-    SquareDataSource((1,),(1,)),
-    HyperSphereDataSource(),
+    LineDataSource((1,),(2,)),
+    SquareDataSource((1,),(2,)),
+    #HyperSphereDataSource(),
 ]
-for i in range(1,3):
+for i in range(2,3):
         synthetic_data_sources.append(DataSourceAdapter(CrossDataSource(1,i))),
         synthetic_data_sources.append(DataSourceAdapter(DoubleLinearDataSource(1,i))),
         synthetic_data_sources.append(DataSourceAdapter(HourglassDataSource(1,i))),

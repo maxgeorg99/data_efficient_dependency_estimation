@@ -18,7 +18,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class QueryTestNoSelectionCritera(NoSelectionCriteria):
-    dependency_test: Optional[DependencyTest] = field(init=False, default=None)
+    dependency_test: Optional[DependencyTest] = field(init=False, default=None, repr=False)
     
     @property
     def query_pool(self):
@@ -36,7 +36,7 @@ class QueryTestNoSelectionCritera(NoSelectionCriteria):
 
 @dataclass
 class TestSelectionCriteria(SelectionCriteria):
-    test_interpolator: Optional[TestInterpolator] = field(init=False, default=None)
+    test_interpolator: Optional[TestInterpolator] = field(init=False, default=None, repr=False)
 
     def query(self, queries) -> float:
         raise NotImplementedError

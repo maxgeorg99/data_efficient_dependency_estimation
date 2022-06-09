@@ -12,17 +12,17 @@ from ide.modules.stopping_criteria import LearningStepStoppingCriteria
 from ide.core.blueprint import Blueprint
 from ide.modules.oracle.data_source import LineDataSource, SquareDataSource
 from ide.modules.evaluator import LogNewDataPointsEvaluator, PlotNewDataPointsEvaluator, PrintNewDataPointsEvaluator, PlotQueryDistEvaluator
-from ide.building_blocks.evaluator import LogBluePrint, PlotScoresEvaluator, PlotQueriesEvaluator, PlotTestPEvaluator, BoxPlotTestPEvaluator
-from ide.building_blocks.dependency_test import DependencyTest, NaivDependencyTest
-from ide.building_blocks.multi_sample_test import KWHMultiSampleTest
+from ide.building_blocks.evaluator import DataEfficiencyEvaluator, LogBluePrint, PlotScoresEvaluator, PlotQueriesEvaluator, PlotTestPEvaluator, BoxPlotTestPEvaluator
+from ide.building_blocks.dependency_test import DependencyTest
+from ide.building_blocks.multi_sample_test import MCDE, A_dep_test, HiCS, KWHMultiSampleTest
 
 
 blueprint = Blueprint(
-    repeat=1,
-    stopping_criteria= LearningStepStoppingCriteria(290),
+    repeat=10,
+    stopping_criteria= LearningStepStoppingCriteria(200),
     oracle = Oracle(
         data_source=LineDataSource((1,),(1,)),
-        augmentation= NoiseAugmentation(noise_ratio=2.0)
+        augmentation= NoiseAugmentation(noise_ratio=0.5)
     ),
     queried_data_pool=FlatQueriedDataPool(),
     initial_query_sampler=LatinHypercubeQuerySampler(num_queries=10),
@@ -32,14 +32,11 @@ blueprint = Blueprint(
         query_sampler=UniformQuerySampler(),
     ),
     experiment_modules=DependencyExperiment(
-        dependency_test=NaivDependencyTest(
+        dependency_test=DependencyTest(
             query_sampler = LatinHypercubeQuerySampler(num_queries=20),
             data_sampler = KDTreeRegionDataSampler(0.05),
-            multi_sample_test=KWHMultiSampleTest()
+            multi_sample_test = A_dep_test()
             ),
         ),
-    #evaluators=[PlotQueryDistEvaluator(), PlotNewDataPointsEvaluator(), PlotQueriesEvaluator(), PlotTestPEvaluator(), BoxPlotTestPEvaluator()],
-    evaluators=[LogBluePrint()],
-    #evaluators=[PlotNewDataPointsEvaluator(), PlotScoresEvaluator(), PlotQueriesEvaluator(), PlotTestPEvaluator(), BoxPlotTestPEvaluator()],
-    exp_name='de_lin'
+    evaluators=[DataEfficiencyEvaluator(),LogBluePrint()],
 )

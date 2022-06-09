@@ -1,7 +1,8 @@
 from __future__ import annotations
 from dataclasses import dataclass
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Iterable
 from ide.core.data.queried_data_pool import QueriedDataPool
+from ide.core.evaluator import Evaluator
 from ide.core.experiment_modules import ExperimentModules
 from ide.core.oracle.oracle import Oracle
 from ide.core.query.query_optimizer import QueryOptimizer
@@ -22,6 +23,7 @@ class Experiment():
     oracle: Oracle
     initial_query_sampler: QuerySampler
     experiment_modules: ExperimentModules
+    evaluators: Iterable[Evaluator]
 
     def __init__(self, bp: Blueprint, exp_nr: int) -> None:
         self.repeat = bp.repeat
@@ -36,6 +38,7 @@ class Experiment():
         self.initial_query_sampler = bp.initial_query_sampler()
         self.query_optimizer = bp.query_optimizer(self.experiment_modules)
         self.stopping_criteria = bp.stopping_criteria()
+        self.evaluators = bp.evaluators
 
 
 

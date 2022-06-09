@@ -15,8 +15,6 @@ from ide.core.query.query_pool import QueryPool
 
 if TYPE_CHECKING:
     from typing import Tuple, List, Any
-    from ide.core.oracle.interpolation_strategy import InterpolationStrategy
-    from ide.core.data_sampler import DataSampler
 
 class DataSourceAdapter(DataSource):
     distribution_data_source: oldDataSource

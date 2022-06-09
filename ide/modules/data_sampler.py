@@ -164,32 +164,3 @@ class KDTreeRegionDataSampler(DataSampler):
     @property
     def data_pool(self):
         return DataPool(self.query_pool, self.exp_modules.oracle_data_pool.result_shape)
-
-class DefaultDataSampler(DataSampler):
-
-    def __init__(self, region_size = 0.1):
-        super().__init__()
-
-    def sample(self, queries):
-        results = self.exp_modules.oracle_data_pool.queries_from_norm_pos(queries)
-        return (np.asarray([queries]),np.asarray([results]))
-
-    def update(self, data_points: Tuple[np.ndarray, np.ndarray]):
-        pass
-
-    @property
-    def query_pool(self):
-        query_shape = self.exp_modules.oracle_data_pool.query_shape
-        query_ranges = self.exp_modules.oracle_data_pool.query_ranges
-        query_count = self.exp_modules.queried_data_pool.query_pool.query_count
-        query_pool = QueryPool(query_count=query_count,query_shape=query_shape,query_ranges=query_ranges)
-        
-        queries = self.exp_modules.queried_data_pool.query_pool.all_queries()
-        query_pool._queries = queries
-        query_pool._last_queries = self.exp_modules.queried_data_pool.query_pool.last_queries()
-
-        return query_pool
-
-    @property
-    def data_pool(self):
-        return DataPool(self.query_pool, self.exp_modules.oracle_data_pool.result_shape)

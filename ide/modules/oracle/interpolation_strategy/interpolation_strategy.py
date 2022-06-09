@@ -10,24 +10,41 @@ if TYPE_CHECKING:
 
 from ide.core.query.query_pool import QueryPool
 
-class MinimumDistanceInterpolation(InterpolationStrategy):
+class AverageInterpolationStrategy(InterpolationStrategy):
     def interpolate(self, data_points: Tuple[NDArray[Number, Shape["query_nr, sample_nr, ... query_dim"]], NDArray[Number, Shape["query_nr, sample_nr, ... result_dim"]]]) -> Tuple[NDArray[Number, Shape["query_nr, ... query_dim"]], NDArray[Number, Shape["query_nr, ... result_dim"]]]:
-        real_quries = self.query_pool().all_queries()
-        q = []
-        r = []
-        for i in data_points[0]:
-            minIndex = real_quries.argmin(real_quries, key=lambda x:abs(x-i))
-            q.append(real_quries[minIndex])
-            r.append(self.query_pool().queries_from_index(minIndex))
-        return (q,r)
+        avg_quries = []
+        avg_results = []
+        for queries in data_points[0]:
+            avg_quries.append(np.asarray([np.average(queries)]))
+        for results in data_points[1]:
+            avg_results.append(np.asarray([np.average(results)]))
+        return (np.asarray(avg_quries),np.asarray(avg_results))
 
-class AverageInterpolation(InterpolationStrategy):
+class WeightedAverageInterpolationStrategy(InterpolationStrategy):
     def interpolate(self, data_points: Tuple[NDArray[Number, Shape["query_nr, sample_nr, ... query_dim"]], NDArray[Number, Shape["query_nr, sample_nr, ... result_dim"]]]) -> Tuple[NDArray[Number, Shape["query_nr, ... query_dim"]], NDArray[Number, Shape["query_nr, ... result_dim"]]]:
-        real_quries = self.query_pool().all_queries()
-        results =  [self.query_pool().queries_from_index(x) for x in self.query_pool().all_queries()]
-        q = []
-        r = []
-        for i in data_points[0]:
-            q.append(i)
-            r.append(np.interp(i, real_quries, results))
-        return (q,r)
+        quries = data_points[0]
+        results = []
+        for qurie, result  in data_points:
+            #calc distance from querie
+            distances = np.abs(qurie - result)
+            results.append(np.average(result, weights=distances))
+        return (quries,results)
+
+class RandomInterpolationStrategy(InterpolationStrategy):
+    def interpolate(self, data_points: Tuple[NDArray[Number, Shape["query_nr, sample_nr, ... query_dim"]], NDArray[Number, Shape["query_nr, sample_nr, ... result_dim"]]]) -> Tuple[NDArray[Number, Shape["query_nr, ... query_dim"]], NDArray[Number, Shape["query_nr, ... result_dim"]]]:
+        quries = data_points[0]
+        results = []
+        for qurie, result  in data_points:
+            results.append(np.random.choice(result,1))
+        return (quries,results)
+
+class WeightedRandomInterpolationStrategy(InterpolationStrategy):
+    def interpolate(self, data_points: Tuple[NDArray[Number, Shape["query_nr, sample_nr, ... query_dim"]], NDArray[Number, Shape["query_nr, sample_nr, ... result_dim"]]]) -> Tuple[NDArray[Number, Shape["query_nr, ... query_dim"]], NDArray[Number, Shape["query_nr, ... result_dim"]]]:
+        quries = data_points[0]
+        results = []
+        for qurie, result  in data_points:
+            #calc distance from querie
+            distances = np.abs(qurie - result)
+            results.append(np.random.choice(result,1, p=distances))
+        return (quries,results)
+

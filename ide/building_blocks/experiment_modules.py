@@ -19,7 +19,7 @@ class DependencyExperiment(ExperimentModules):
     dependency_test: DependencyTest
 
     def run(self):
-        t,p = self.dependency_test.test()
+        t,p,v = self.dependency_test.test()
 
     def __call__(self, queried_data_pool: QueriedDataPool = None, oracle_data_pool: DataPool = None, **kwargs) -> Self:
         obj = super().__call__(queried_data_pool, oracle_data_pool, **kwargs)

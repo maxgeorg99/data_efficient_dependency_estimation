@@ -10,8 +10,10 @@ result_folder = "./experiment_results/concistency"
 fig_name = 'concistency'
 log_folder = "./log"
 log_prefix = "DataEfficiency_Ps_"
-algorithms = ["Pearson","Kendalltau","Spearmanr"]
-datasources = ["LineDataSource","SquareDataSource","HypersphereDataSource","CrossDataSource","DoubleLinearDataSource","HourglassDataSource","HypercubeDataSource","SineDataSource","StarDataSource","ZDataSource","InvZDataSource"]
+algorithms = ["Pearson","Kendalltau","Spearmanr","MCDE","HiCS","CMI"]
+#algorithms = ["MCDE","HiCS","CMI"]
+#datasources = ["LineDataSource","SquareDataSource","CrossDataSource","DoubleLinearDataSource","HourglassDataSource","HypercubeDataSource"]
+datasources = ["LineDataSource","SquareDataSource","CrossDataSource","DoubleLinearDataSource","HourglassDataSource","HypercubeDataSource","SineDataSource","StarDataSource","ZDataSource","InvZDataSource"]
 num_experiments = 5
 
 def walk_algorithms():
@@ -35,8 +37,9 @@ def plot_concistency_scores():
     for source in datasources:
         scores = []
         for algo in algorithms:
-            ms = load_p_values(algorithm=algo,datasource=source)
-            scores.append(calculate_concistency_score(ms))
+            ps = load_p_values(algorithm=algo,datasource=source)
+            variances = load_var_values()
+            scores.append(calculate_concistency_score(ps,variances))
 
         #plot?!
         height = scores
@@ -48,23 +51,24 @@ def plot_concistency_scores():
 
         # Create names on the x-axis
         plt.xticks(y_pos, bars)
-        plt.yscale("log")
         plt.ylabel("concistency score")
-        plt.ylim(top=5*(10**(-15)))
+        plt.ylim(top=5)
+        plt.title(source)
         plt.savefig(f'{result_folder}/{source}_{fig_name}.png')
         plt.clf()
 
-def calculate_concistency_score(ms):
+def calculate_concistency_score(ps,vs):
     z = []
+    var_ps = np.var(ps)
+    for v in vs:
+        z.append(v - var_ps)
+    return np.mean(z)
 
-    for a, b in itertools.combinations(ms, 2):
-        diff = np.array(a) - np.array(b)
-        z.append(np.linalg.norm(diff))
-    return(stat.mean(z))
-
-#loads p values from all experiment runs
 def load_p_values(algorithm, datasource):
-    return [algorithm_data[(algorithm, datasource)][i]['score'] for i in range(num_experiments)]
+    return [algorithm_data[(algorithm, datasource)][i]['pValues'] for i in range(num_experiments)]
+
+def load_var_values(algorithm, datasource):
+    return [algorithm_data[(algorithm, datasource)][i]['var'] for i in range(num_experiments)]
 
 walk_algorithms()
 

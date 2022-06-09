@@ -2,10 +2,11 @@ from __future__ import annotations
 import logging
 import os
 from typing import TYPE_CHECKING, Dict
-
+from os.path import exists as file_exists
 
 from ide.building_blocks.experiment_modules import DependencyExperiment
 from dataclasses import dataclass, field
+from ide.core.blueprint import Blueprint
 from ide.core.evaluator import Evaluator, Evaluate
 from statsmodels.stats.power import TTestIndPower
 from sklearn.metrics import f1_score, roc_auc_score
@@ -172,7 +173,7 @@ class BoxPlotTestPEvaluator(Evaluator):
         self.ps = []
     
     def save_test_result(self, result):
-        t,p = result
+        t,p,v = result
 
         self.ps.append(p)
 
@@ -200,13 +201,9 @@ class DataEfficiencyEvaluator(Evaluator):
     folder: str = "log"
     evaluator:str = "DataEfficiency"
 
-    evaluation_metrics: None
-    effect: None
-    power: None
-    alpha: None
-    y_true: None
     ts: List[float] = field(init=False, default_factory=list)
     ps: List[float] = field(init=False, default_factory=list)
+    vs: List[float] = field(init=False, default_factory=list)
     pt: List[float] = field(init=False, default_factory=list)
     pss: List[float] = field(init=False, default_factory=list)
     predictions: List[int] = field(init=False, default_factory=list)
@@ -227,6 +224,7 @@ class DataEfficiencyEvaluator(Evaluator):
 
         self.ps = []
         self.ts = []
+        self.vs = []
         self.predictions = []
 
         self.iteration = 0
@@ -242,48 +240,36 @@ class DataEfficiencyEvaluator(Evaluator):
             self.name = type(self.experiment.oracle.data_source).__name__
 
         self.experiment.run = Evaluate(self.experiment.run)
-        #self.experiment.run.post(self.log_test_results)
         self.experiment.run.post(self.numpy_save_results)
     
     def save_test_result(self, result):
-        t,p = result
+        t,p,v = result
 
-        v = 0
+        self.vs.append(v)
+        tvalue = 0
         if (type(p) is list):
-            v = t[0]
+            tvalue = t[0]
             self.ps.append(p[0])
-            self.ts.append(v)
+            self.ts.append(tvalue)
         else: 
-            v = t
+            tvalue = t
             self.ps.append(p)
-            self.ts.append(v)
-        if( v > 0.99 ):
+            self.ts.append(tvalue)
+        #prediction
+        if( tvalue > 0.99 ):
             self.predictions.append(1)
         else:
             self.predictions.append(0)
-
-    def log_test_results(self, _):
-        if isinstance(self.experiment.oracle.data_source, DataSourceAdapter) :
-            self.name = type(self.experiment.oracle.data_source.distribution_data_source).__name__
-        else:
-            self.name = type(self.experiment.oracle.data_source).__name__
-        l_name = f'{self.experiment.exp_name}_{self.name}_p'
-        f_name = f'{self.folder}/{self.evaluator}_Ps_{self.experiment.exp_name}_{self.name}_{self.experiment.exp_nr}.txt'
-        p_logger = self.setup_logger(l_name, f_name)
-        p_logger.info(self.ps)
-        l_name = f'{self.experiment.exp_name}_{self.name}_t'
-        f_name = f'{self.folder}/{self.evaluator}_Ts_{self.experiment.exp_name}_{self.name}_{self.experiment.exp_nr}.txt'
-        t_logger = self.setup_logger(l_name, f_name)
-        t_logger.info(self.ts)
-        self.iteration += 1
-    
+   
     def numpy_save_results(self, _):
         file_name = f'{self.folder}/{self.experiment.exp_name}_{self.name}_{self.experiment.exp_nr}.npz'
-        np.savez(file_name, pValues=self.ps, score=self.ts, predictions=self.predictions)
+        np.savez(file_name, pValues=self.ps, score=self.ts, predictions=self.predictions, var=self.vs)
 
+@dataclass
 class LogBluePrint(Evaluator):
-    folder: str = "log"
-    evaluator:str = "Experiment"
+    folder:str = field(default="log", repr=False)
+    evaluator:str = field(default="Experiment", repr=False)
+    printed:bool = False
 
     def setup_logger(self, l_name, log_file_name):
 
@@ -302,7 +288,21 @@ class LogBluePrint(Evaluator):
         self.experiment.run.post(self.log_blueprint)
 
     def log_blueprint(self, _):
-        l_name = f'{self.experiment.exp_name}'
-        f_name = f'{self.folder}/{self.evaluator}_{self.experiment.exp_name}.txt'
-        logger = self.setup_logger(l_name, f_name)
-        logger.info(self.experiment)
+        if(not self.printed):
+            self.printed =  True
+            experiment = self.experiment
+            blueprint = Blueprint(
+                repeat=experiment.repeat,
+                        stopping_criteria= experiment.stopping_criteria,
+                        oracle = experiment.oracle,
+                        queried_data_pool=experiment.queried_data_pool,
+                        initial_query_sampler=experiment.initial_query_sampler,
+                        query_optimizer=experiment.query_optimizer,
+                        experiment_modules=experiment.experiment_modules,
+                        evaluators=experiment.evaluators,
+                        exp_name=experiment.exp_name,
+            )
+            l_name = f'{self.experiment.exp_name}'
+            f_name = f'{self.folder}/{self.evaluator}_{self.experiment.exp_name}.txt'
+            logger = self.setup_logger(l_name, f_name)
+            logger.info(blueprint)

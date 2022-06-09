@@ -7,6 +7,7 @@ from ide.core.oracle.data_source import DataSource
 from ide.core.oracle.augmentation import Augmentation
 from ide.core.query.query_pool import QueryPool
 from ide.core.queryable import Queryable
+from ide.modules.oracle.data_source import InterpolatingDataSource
 
 
 if TYPE_CHECKING:

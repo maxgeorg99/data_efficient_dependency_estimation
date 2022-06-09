@@ -9,13 +9,17 @@ import numpy as np
 result_folder = "./experiment_results/convergence"
 fig_name = 'convergence'
 log_folder = "./log"
-algorithms = ["Pearson","Kendalltau","Spearmanr"]
-datasources = ["LineDataSource","SquareDataSource","HypersphereDataSource","CrossDataSource","DoubleLinearDataSource","HourglassDataSource","HypercubeDataSource","SineDataSource","StarDataSource","ZDataSource","InvZDataSource"]
+algorithms = ["Pearson","Kendalltau","Spearmanr","MCDE","HiCS","CMI"]
+#datasources = ["LineDataSource","SquareDataSource","CrossDataSource","DoubleLinearDataSource","HourglassDataSource","HypercubeDataSource"]
+datasources = ["LineDataSource","SquareDataSource","CrossDataSource","DoubleLinearDataSource","HourglassDataSource","HypercubeDataSource","SineDataSource","StarDataSource","ZDataSource","InvZDataSource"]
+
 algorithms_color_dict = {
     'Pearson':"green",
     'Kendalltau': "purple",
     'Spearmanr': "orange",
-    'XiCor': 'blue',
+    'CMI': 'blue',
+    'MCDE': 'red',
+    'HiCS': 'pink',
 }
 num_experiments = 5
 
@@ -54,7 +58,7 @@ def plot_convergence():
     #for each datasource plot variance of every algorithm
     #legend with all algorithms colors
     start = 20
-    end = 200
+    end = 100
     step = 1
     num_experiments = 5
     it = np.arange(start, end, step)
@@ -66,12 +70,12 @@ def plot_convergence():
                 #extend to numer of runs
                 subvariances = []
                 for i in range(num_experiments):
-                    subvariances.append(np.var(algorithm_data[(algorithm, datasource)][i]['score'][0:curr]))
+                    subvariances.append(np.var(algorithm_data[(algorithm, datasource)][i]['pValues'][0:curr]))
                 variances.append(stat.mean(subvariances))
             plt.plot(it, variances,'-', color = algorithms_color_dict[algorithm],linewidth=1,label = algorithm)
         plt.ylabel("Var")
         plt.grid()
-
+        plt.title(datasource)
         plt.xlim(start, end)
         plt.legend(loc = "upper right")
         plt.savefig(f'{result_folder}/{datasource}_{fig_name}.png',dpi=500)

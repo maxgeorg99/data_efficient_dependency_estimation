@@ -33,8 +33,8 @@ def hoeffding(*arg):
           xin=xin[:len(yin)]
 
         # dropna
-        x = xin[~(np.isnan(xin) | np.isnan(yin))]
-        y = yin[~(np.isnan(xin) | np.isnan(yin))]
+        x = xin
+        y = yin
 
         # undersampling if length too long
         lenx=len(x)

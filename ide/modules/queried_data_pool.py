@@ -1,4 +1,5 @@
 from __future__ import annotations
+from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 from random import choice
@@ -12,6 +13,7 @@ from ide.core.query.query_pool import QueryPool
 if TYPE_CHECKING:
     from typing import Dict
 
+@dataclass
 class FlatQueriedDataPool(QueriedDataPool):
     """
     implements a pool of already labeled data

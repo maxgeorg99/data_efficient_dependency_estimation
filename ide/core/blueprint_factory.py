@@ -2,7 +2,7 @@ from typing import List
 from ide.building_blocks.dependency_test import DependencyTest
 from ide.building_blocks.evaluator import DataEfficiencyEvaluator, LogBluePrint
 from ide.building_blocks.experiment_modules import DependencyExperiment
-from ide.building_blocks.multi_sample_test import FIT, Hoeffdings, Kendalltau, MultiSampleTest, PeakSim, Pearson, Spearmanr, XiCor, dHSIC, CMI, GMI, DIMID, IMIE, HiCS, MCDE, A_dep_test,dCor,chi_square,IndepTest,CondIndTest,LISTest
+from ide.building_blocks.dependency_test import FIT, Hoeffdings, PeakSim, Pearson, Spearmanr, GMI, DIMID, IMIE, HiCS, MCDE, A_dep_test,dCor,chi_square,IndepTest,CondIndTest,LISTest
 from ide.building_blocks.selection_criteria import QueryTestNoSelectionCritera
 from ide.core.blueprint import Blueprint
 from ide.core.data_sampler import DataSampler
@@ -10,7 +10,7 @@ from ide.core.evaluator import Evaluator
 from ide.core.oracle.data_source import DataSource
 from ide.core.oracle.oracle import Oracle
 from ide.core.query.query_optimizer import NoQueryOptimizer
-from ide.modules.data_sampler import KDTreeRegionDataSampler, DefaultDataSampler
+from ide.modules.data_sampler import KDTreeRegionDataSampler
 from ide.modules.evaluator import PlotNewDataPointsEvaluator
 from ide.modules.oracle.augmentation import NoiseAugmentation
 from ide.modules.oracle.data_source import LineDataSource
@@ -48,8 +48,8 @@ class BlueprintFactory():
         #DIMID(),
         #IMIE(),
         #PeakSim(),
-        Kendalltau(),
-        Spearmanr(),
+        #Kendalltau(),
+        #Spearmanr(),
         Pearson(),
         #HiCS(),
         #MCDE(),
@@ -70,7 +70,7 @@ class BlueprintFactory():
     
     def __init__(
     self, 
-    algorithms: List[MultiSampleTest] = tests , 
+    algorithms: List[DependencyTest] = tests , 
     dataSources: List[DataSource] = [LineDataSource], 
     evaluators: List[Evaluator] = evaluators
     ):
@@ -78,26 +78,24 @@ class BlueprintFactory():
             for test in algorithms:
                 self.blueprints.append(Blueprint(
                     #define fitting repeat and querie nums
-                    repeat=5,
-                    stopping_criteria= LearningStepStoppingCriteria(200),
-                    oracle = Oracle(
-                        data_source=dataSource,
-                        augmentation=NoiseAugmentation(noise_ratio=0.2)
-                    ),
+                    repeat=1,
+                    stopping_criteria= LearningStepStoppingCriteria(100),
+                    
                     queried_data_pool=FlatQueriedDataPool(),
-                    initial_query_sampler=LatinHypercubeQuerySampler(num_queries=10),
+                    initial_query_sampler=UniformQuerySampler(num_queries=10),
                     query_optimizer=NoQueryOptimizer(
                         selection_criteria=QueryTestNoSelectionCritera(),
                         num_queries=4,
                         query_sampler=UniformQuerySampler(),
                     ),
-                    experiment_modules=DependencyExperiment(
-                        dependency_test=DependencyTest(
-                            query_sampler = LatinHypercubeQuerySampler(num_queries=20),
-                            data_sampler = KDTreeRegionDataSampler(0.05),
-                            multi_sample_test = test 
-                            ),
-                        ),
+                    experiment_modules=
+                    DependencyExperiment(
+                        dependency_test=test,
+                    ),
+                    oracle = Oracle(
+                        data_source=dataSource,
+                        augmentation=NoiseAugmentation(noise_ratio=0.2)
+                    ),
                     evaluators=evaluators,
                     exp_name=type(test).__name__,
                     )

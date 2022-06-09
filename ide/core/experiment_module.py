@@ -10,7 +10,8 @@ if TYPE_CHECKING:
 
 @dataclass
 class ExperimentModule(Configurable):
-    exp_modules: ExperimentModules = field(init=False)
+
+    exp_modules: ExperimentModules = field(init=False, repr=False)
 
     def __call__(self, exp_modules: ExperimentModules = None, **kwargs) -> Self:
         obj = super().__call__( **kwargs)
