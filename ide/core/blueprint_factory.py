@@ -1,8 +1,9 @@
 from typing import List
 from ide.building_blocks.dependency_test import DependencyTest
+from ide.building_blocks.dependency_test_adapter import DependencyTestAdapter
 from ide.building_blocks.evaluator import DataEfficiencyEvaluator, LogBluePrint
 from ide.building_blocks.experiment_modules import DependencyExperiment
-from ide.building_blocks.dependency_test import FIT, Hoeffdings, PeakSim, Pearson, Spearmanr, GMI, DIMID, IMIE, HiCS, MCDE, A_dep_test,dCor,chi_square,IndepTest,CondIndTest,LISTest
+from ide.building_blocks.dependency_test import FIT, Hoeffdings, PeakSim, Pearson, Spearmanr, GMI, DIMID, IMIE, A_dep_test,dCor,chi_square,IndepTest,CondIndTest,LISTest
 from ide.building_blocks.selection_criteria import QueryTestNoSelectionCritera
 from ide.core.blueprint import Blueprint
 from ide.core.data_sampler import DataSampler
@@ -64,6 +65,7 @@ class BlueprintFactory():
     ]
     evaluators = [
         DataEfficiencyEvaluator(),
+        LogBluePrint(),
     ]
 
     def getBlueprintsForSyntheticData(    
@@ -76,7 +78,7 @@ class BlueprintFactory():
                 for test in algorithms:
                     blueprints.append(Blueprint(
                         repeat=1,
-                        stopping_criteria= LearningStepStoppingCriteria(100),
+                        stopping_criteria= LearningStepStoppingCriteria(50),
                         
                         queried_data_pool=FlatQueriedDataPool(),
                         initial_query_sampler=UniformQuerySampler(num_queries=10),
@@ -91,10 +93,11 @@ class BlueprintFactory():
                         ),
                         oracle = Oracle(
                             data_source=dataSource,
-                            augmentation=NoiseAugmentation(noise_ratio=0.2)
+                            augmentation=NoiseAugmentation(noise_ratio=0.5)
                         ),
                         evaluators=evaluators,
-                        exp_name=type(test).__name__,
+                        #exp_name = type(test).__name__,
+                        exp_name = str(test._Configurable__args[0]).replace('(','').replace(')','') if isinstance(test,DependencyTestAdapter) else type(test).__name__,
                         )
                     )
             return blueprints
@@ -127,7 +130,7 @@ class BlueprintFactory():
                             augmentation=NoiseAugmentation(noise_ratio=0.2)
                         ),
                         evaluators=evaluators,
-                        exp_name=type(test).__name__,
+                        exp_name = test._Configurable__args[0].replace('(','').replace(')','') if isinstance(test,DependencyTestAdapter) else type(test).__name__,
                     )
                 )
             return blueprints

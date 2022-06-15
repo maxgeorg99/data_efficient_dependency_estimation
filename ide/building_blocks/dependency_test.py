@@ -2,6 +2,7 @@ from __future__ import annotations
 from abc import abstractmethod
 import subprocess
 from typing import TYPE_CHECKING
+from unittest import result
 import dcor
 
 from xicor.xicor import Xi
@@ -36,91 +37,69 @@ class DependencyTest(ExperimentModule):
 @dataclass
 class GMI(DependencyTest):
 
-    def test(self, samples: NDArray):
+    def test(self):
         pass
 
 @dataclass
 class DIMID(DependencyTest):
 
-    def test(self, samples: NDArray):
+    def test(self):
         pass
 
 @dataclass
 class IMIE(DependencyTest):
 
-    def test(self, samples: NDArray):
+    def test(self):
         pass
 
 @dataclass
 class PeakSim(DependencyTest):
 
-    def test(self, samples: NDArray):
+    def test(self):
         pass
 @dataclass
 class Pearson(DependencyTest):
 
     def test(self):
         results = self.exp_modules.queried_data_pool.results
-        t, p = pearsonr(results, results)
-        return [t],[p],[0]
+        x = [item for sublist in results for item in sublist]
+        t, p = pearsonr(x, x)
+        return t,p,0
 @dataclass
 class Spearmanr(DependencyTest):
 
-    def test(self, samples: NDArray):
-        x = [item for sublist in samples for item in sublist]
-        y = [item for sublist in x for item in sublist]
-        t, p = spearmanr(y, y)
-        return [t],[p],[0]
+    def test(self):
+        results = self.exp_modules.queried_data_pool.results
+        x = [item for sublist in results for item in sublist]
+        t, p = spearmanr(x, x)
+        return t,p,0
 @dataclass
 class Kendalltau(DependencyTest):
 
-    def test(self, samples: NDArray):
-        x = [item for sublist in samples for item in sublist]
-        y = [item for sublist in x for item in sublist]
-        t, p = kendalltau(y, y)
-        return [t],[p],[0]
-
-@dataclass
-class HiCS(DependencyTest):
-
-    def test(self, samples: NDArray):
-        x = np.asarray([item.tolist() for sublist in samples for item in sublist])
-        dataFile = 'run_data_store/hicsData.csv'
-        df = pd.DataFrame(x)
-        df.to_csv(dataFile, sep=",", header='true', index=False)
-
-        #output = subprocess.check_output('java -jar target/scala-2.12/MCDE-experiments-1.0.jar -t EstimateDependency -f src/test/resources/data/Independent-5-0.0.csv -a HiCS -m 1 -p 1')
-        output = subprocess.check_output('java -jar target/scala-2.12/MCDE-experiments-1.0.jar -t EstimateDependency -f run_data_store/hicsData.csv -a HiCS -m 1 -p 1')
-        score = float(output.splitlines()[5])
-        return score,0
-
-@dataclass
-class MCDE(DependencyTest):
-
-    def test(self, samples: NDArray):
-        x = np.asarray([item.tolist() for sublist in samples for item in sublist])
-        dataFile = 'run_data_store/mcdeData.csv'
-        df = pd.DataFrame(x)
-        df.to_csv(dataFile, sep=",", header='true', index=False)
-
-        #output = subprocess.check_output('java -jar target/scala-2.12/MCDE-experiments-1.0.jar -t EstimateDependency -f src/test/resources/data/Independent-5-0.0.csv -a MWP -m 1 -p 1')
-        output = subprocess.check_output('java -jar target/scala-2.12/MCDE-experiments-1.0.jar -t EstimateDependency -f run_data_store/mcdeData.csv -a MWP -m 1 -p 1')
-        score = float(output.splitlines()[4])
-        return score,0
+    def test(self):
+        results = self.exp_modules.queried_data_pool.results
+        x = [item for sublist in results for item in sublist]
+        t, p = kendalltau(x, x)
+        return t,p,0
 @dataclass
 class FIT(DependencyTest):
 
-    def test(self, samples: NDArray):
+    def test(self):
+        queries = self.exp_modules.queried_data_pool.queries
+
+        samples = self.exp_modules.queried_data_pool.results
         samples = np.array(samples)
         p = fcit.test(samples, samples)
         return 0,p,0
 @dataclass
 class XiCor(DependencyTest):
 
-    def test(self, samples: NDArray):
+    def test(self):
+        queries = self.exp_modules.queried_data_pool.queries
+
+        samples = self.exp_modules.queried_data_pool.results
         x = [item for sublist in samples for item in sublist]
-        y = [item for sublist in x for item in sublist]
-        xi_obj = Xi(y,y)
+        xi_obj = Xi(x,x)
         #t = 0 if and only if X and Y are independent
         t = xi_obj.correlation
         p = xi_obj.pval_asymptotic(ties=False, nperm=1000)      
@@ -128,17 +107,23 @@ class XiCor(DependencyTest):
 @dataclass
 class Hoeffdings(DependencyTest):
 
-    def test(self, samples: NDArray):
+    def test(self):
+        queries = self.exp_modules.queried_data_pool.queries
+
+        samples = self.exp_modules.queried_data_pool.results
         x = [item for sublist in samples for item in sublist]
-        y = [item for sublist in x for item in sublist]
-        samples = np.array([y])
+        y = [item for item in x]
+        samples = np.array(y)
         p = hoeffding(samples,samples)    
         return 0, p,0
 
 @dataclass
 class dCor(DependencyTest):
 
-    def test(self, samples: NDArray):
+    def test(self):
+        queries = self.exp_modules.queried_data_pool.queries
+
+        samples = self.exp_modules.queried_data_pool.results
         x = [item for sublist in samples for item in sublist]
         y = [item for sublist in x for item in sublist]
         samples = np.array([y])
@@ -149,35 +134,79 @@ class dCor(DependencyTest):
 @dataclass
 class chi_square(DependencyTest):
 
-    def test(self, samples: NDArray):
+    def test(self):
+        queries = self.exp_modules.queried_data_pool.queries
+
+        samples = self.exp_modules.queried_data_pool.results
         r, p, dof, expected = chi2_contingency(samples, samples)
-        return r,p
+        return r,p,0
 
 @dataclass
 class A_dep_test(DependencyTest):
 
-    def test(self, samples: NDArray):
-        packageName = 'IndependenceTests'
-        #IndependenceTests = rpackages.importr('IndependenceTests')
-        #IndependenceTests.A.dep.tests(samples)
+    def test(self):
+        queries = self.exp_modules.queried_data_pool.queries
+
+        samples = self.exp_modules.queried_data_pool.results
+        return 0, 0, 0
 
 @dataclass
 class IndepTest(DependencyTest):
 
-    def test(self, samples: NDArray):
-        pass
+    def test(self):
+        queries = self.exp_modules.queried_data_pool.queries
+
+        samples = self.exp_modules.queried_data_pool.results
+        x = np.asarray([item.tolist() for sublist in samples for item in sublist])
+        dataFile = 'run_data_store/indepTestData.csv'
+        df = pd.DataFrame(x)
+        df.to_csv(dataFile, sep=",", header='true', index=False)
+ 
+        command = 'Rscript'
+        path = 'C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/r_scripts/IndepTest.r'
+        cmd = [command, path, '--vanilla'] 
+        output = subprocess.check_output(cmd)
+
+        t = 0
+        p = output.split()[1]
+        v = 0
+        return t, p,v
 
 @dataclass
 class CondIndTest(DependencyTest):
 
-    def test(self, samples: NDArray):
-        pass
+    def test(self):
+        queries = self.exp_modules.queried_data_pool.queries
 
+        samples = self.exp_modules.queried_data_pool.results
+        x = np.asarray([item.tolist() for sublist in samples for item in sublist])
+        dataFile = 'run_data_store/condIndTestData.csv'
+        df = pd.DataFrame(x)
+        df.to_csv(dataFile, sep=",", header='true', index=False)
+
+        output = subprocess.check_output(["Rscript",  "--vanilla", "C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/r_scripts/CondIndTest.r"])
+        
+        t = float(output.splitlines()[5])
+        p = float(output.splitlines()[2])
+        v = 0
+        return t, p,v
 @dataclass
 class LISTest(DependencyTest):
 
-    def test(self, samples: NDArray):
-        pass
+    def test(self):
+        queries = self.exp_modules.queried_data_pool.queries
+
+        samples = self.exp_modules.queried_data_pool.results
+        x = np.asarray([item.tolist() for sublist in samples for item in sublist])
+        dataFile = 'run_data_store/LISTestData.csv'
+        df = pd.DataFrame(x)
+        df.to_csv(dataFile, sep=",", header='true', index=False)
+
+        output = subprocess.check_output(["Rscript",  "--vanilla", "C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/r_scripts/LISTest.r"])
+        t = 0
+        p = float(output)
+        v = 0
+        return t, p,v
 
 @dataclass
 class NaivDependencyTest(DependencyTest):

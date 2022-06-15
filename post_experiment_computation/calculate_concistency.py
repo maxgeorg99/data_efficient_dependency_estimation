@@ -10,12 +10,9 @@ result_folder = "./experiment_results/concistency"
 fig_name = 'concistency'
 log_folder = "./log"
 log_prefix = "DataEfficiency_Ps_"
-algorithms = ["NaivDependencyTest"]
-#algorithms = ["Pearson","Kendalltau","Spearmanr","MCDE","HiCS","CMI"]
-#algorithms = ["MCDE","HiCS","CMI"]
-#datasources = ["LineDataSource","SquareDataSource","CrossDataSource","DoubleLinearDataSource","HourglassDataSource","HypercubeDataSource"]
-datasources = ["LineDataSource","SquareDataSource","CrossDataSource","DoubleLinearDataSource","HourglassDataSource","HypercubeDataSource","SineDataSource","StarDataSource","ZDataSource","InvZDataSource"]
-num_experiments = 5
+algorithms = ["Pearson","Kendalltau","Spearmanr","dCor","dHSIC","FIT","Hoeffdings","XiCor"]
+datasources = ["LineDataSource1x1","SquareDataSource1x1","LineDataSource1x2","SquareDataSource1x2"]
+num_experiments = 1
 
 def walk_algorithms():
     for algorithm in algorithms:
@@ -39,7 +36,7 @@ def plot_concistency_scores():
         scores = []
         for algo in algorithms:
             ps = load_p_values(algorithm=algo,datasource=source)
-            variances = load_var_values()
+            variances = load_var_values(algo,source)
             scores.append(calculate_concistency_score(ps,variances))
 
         #plot?!
@@ -53,7 +50,7 @@ def plot_concistency_scores():
         # Create names on the x-axis
         plt.xticks(y_pos, bars)
         plt.ylabel("concistency score")
-        plt.ylim(top=5)
+        plt.xticks(fontsize=7)
         plt.title(source)
         plt.savefig(f'{result_folder}/{source}_{fig_name}.png')
         plt.clf()

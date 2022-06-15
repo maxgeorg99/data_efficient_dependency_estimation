@@ -7,7 +7,7 @@ from distribution_data_generation.data_sources.star_data_source import StarDataS
 from distribution_data_generation.data_sources.z_data_source import ZDataSource
 from distribution_data_generation.data_sources.inv_z_data_source import InvZDataSource
 from distribution_data_generation.data_sources.cross_data_source import CrossDataSource
-from ide.building_blocks.dependency_measure import CMI, MCDE, HiCS, dCor, dHSIC
+from ide.building_blocks.dependency_measure import CMI, MCDE, HiCS, dCor
 from ide.building_blocks.dependency_test_adapter import DependencyTestAdapter
 from ide.building_blocks.multi_sample_test import KWHMultiSampleTest
 
@@ -27,7 +27,7 @@ from ide.modules.oracle.data_source import LineDataSource, SquareDataSource, Hyp
 from ide.modules.oracle.data_source_adapter import DataSourceAdapter
 from ide.modules.evaluator import LogNewDataPointsEvaluator, PlotNewDataPointsEvaluator, PrintNewDataPointsEvaluator, PlotQueryDistEvaluator
 from ide.building_blocks.evaluator import PlotScoresEvaluator, PlotQueriesEvaluator, PlotTestPEvaluator, BoxPlotTestPEvaluator
-from ide.building_blocks.dependency_test import FIT, DependencyTest, Hoeffdings, Kendalltau, NaivDependencyTest, Pearson, Spearmanr, XiCor, chi_square
+from ide.building_blocks.dependency_test import DependencyTest, NaivDependencyTest
 
 from ide.core.blueprint_factory import BlueprintFactory
 
@@ -49,10 +49,9 @@ for i in range(2,5):
         synthetic_data_sources.append(DataSourceAdapter(InvZDataSource(1,i)))
 
 algorithms = [
-        FIT(),
-        #XiCor(),
-        #Hoeffdings(),
-        #chi_square()
+        DependencyTestAdapter(MCDE(),20),
+        DependencyTestAdapter(CMI(),20),
+        DependencyTestAdapter(HiCS(),20)
 ]
 
 blueprints = BlueprintFactory.getBlueprintsForSyntheticData(algorithms=algorithms ,dataSources=synthetic_data_sources)

@@ -2,6 +2,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from dataclasses import dataclass
+from attr import field
 
 import tensorflow as tf
 import numpy as np
@@ -15,11 +16,11 @@ from ide.core.query.query_pool import QueryPool
 
 if TYPE_CHECKING:
     from typing import Tuple, List, Any
-
+@dataclass
 class DataSourceAdapter(DataSource):
-    distribution_data_source: oldDataSource
-    query_shape: Tuple[int,...] = (1,)
-    result_shape: Tuple[int,...] = (1,)
+    distribution_data_source: oldDataSource = field(init=False,default=None)
+    query_shape: Tuple[int,...] = field(default=(1,),repr=False)
+    result_shape: Tuple[int,...] = field(default=(1,),repr=False)
 
     def __init__(self, distribution_data_source: oldDataSource):
         self.distribution_data_source  = distribution_data_source

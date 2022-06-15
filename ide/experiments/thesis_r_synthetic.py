@@ -27,7 +27,7 @@ from ide.modules.oracle.data_source import LineDataSource, SquareDataSource, Hyp
 from ide.modules.oracle.data_source_adapter import DataSourceAdapter
 from ide.modules.evaluator import LogNewDataPointsEvaluator, PlotNewDataPointsEvaluator, PrintNewDataPointsEvaluator, PlotQueryDistEvaluator
 from ide.building_blocks.evaluator import PlotScoresEvaluator, PlotQueriesEvaluator, PlotTestPEvaluator, BoxPlotTestPEvaluator
-from ide.building_blocks.dependency_test import FIT, DependencyTest, Hoeffdings, Kendalltau, NaivDependencyTest, Pearson, Spearmanr, XiCor, chi_square
+from ide.building_blocks.dependency_test import CondIndTest, DependencyTest, IndepTest, LISTest, NaivDependencyTest
 
 from ide.core.blueprint_factory import BlueprintFactory
 
@@ -49,10 +49,9 @@ for i in range(2,5):
         synthetic_data_sources.append(DataSourceAdapter(InvZDataSource(1,i)))
 
 algorithms = [
-        FIT(),
-        #XiCor(),
-        #Hoeffdings(),
-        #chi_square()
+        IndepTest(),
+        CondIndTest(),
+        LISTest() 
 ]
 
 blueprints = BlueprintFactory.getBlueprintsForSyntheticData(algorithms=algorithms ,dataSources=synthetic_data_sources)

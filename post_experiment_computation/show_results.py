@@ -5,11 +5,11 @@ from matplotlib import pyplot as plot # type: ignore
 result_folder = "./experiment_results/data_efficiency"
 log_folder = "./log"
 log_prefix = "DataEfficiency_"
-algorithms = ["DependencyTestAdapter"]
-#algorithms = ["Pearson","Kendalltau","Spearmanr","MCDE","HiCS","CMI"]
-#algorithms = ["MCDE","HiCS","CMI"]
-#datasources = ["LineDataSource","SquareDataSource","CrossDataSource","DoubleLinearDataSource","HourglassDataSource","HypercubeDataSource"]
-datasources = ["LineDataSource","SquareDataSource"]
+algorithms = ["Pearson","Kendalltau","Spearmanr","dCor","dHSIC","FIT","Hoeffdings","XiCor"]
+datasources = ["LineDataSource1x1","SquareDataSource1x1","LineDataSource1x2","SquareDataSource1x2"]
+#datasources.extend(["DoubleLinearDataSource1x2","HourglassDataSource1x2","StarDataSource1x2","ZDataSource1x2"])
+#datasources.extend(["DoubleLinearDataSource1x3","HourglassDataSource1x3","StarDataSource1x3","ZDataSource1x3"])
+#datasources.extend(["DoubleLinearDataSource1x4","HourglassDataSource1x4","StarDataSource1x4","ZDataSource1x4"])
 num_experiments = 1
 
 def walk_algorithms():
@@ -41,9 +41,10 @@ def show_results():
 
 def plot_results(dict:dict,prefix):
     for key in dict.keys():
-        x = range(101)
+        x = range(len(dict.get(key).tolist()))
         plot.plot(x, dict.get(key).tolist())
-        plot.savefig(f'{result_folder}/{key[1]}_{prefix}_results.png',dpi=500)
+        plot.savefig(f'{result_folder}/{key[0]}_{key[1]}_{prefix}_results.png',dpi=500)
+        plot.clf()
 
 walk_algorithms()
 

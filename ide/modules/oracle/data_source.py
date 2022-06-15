@@ -115,13 +115,36 @@ class IndependentDataSetDataSource(DataSource):
     width = 1
     number_of_distributions = 10
     distribution_function = None
+    dim = 1
+    all_distributions = [np.random.normal,np.random.uniform]
 
-    def __init__(self,number_of_distributions):
+    def __init__(self,number_of_distributions, dims):
+        self.dim = dims
         self.distribution_function = GaussianMixture(n_components=number_of_distributions)
 
     def query(self, queries):
-        data_points = self.distribution_function.sample(len(queries))
-        return data_points
+        data_points = []
+        distributions = []
+        for i in range(self.number_of_distributions):
+            loc = np.random.randint(100,size=1)
+            scale = np.random.randint(100,size=1)
+            distribution = np.random.choice(self.all_distributions)
+            if distribution is np.random.normal:
+                distributions.append({"type": distribution, "kwargs": {"loc": loc, "scale": scale}})
+            elif distribution is np.random.uniform:
+                distributions.append({"type": distribution, "kwargs": {"low": loc, "high": scale}})
+        coefficients = np.array([random() for i in range(len(distributions))])
+        coefficients /= coefficients.sum()      # in case these did not add up to 1
+        sample_size = len(queries)
+
+        num_distr = len(distributions)
+        data = np.zeros((sample_size, num_distr))
+        for idx, distr in enumerate(distributions):
+            data[:, idx] = np.asarray( distr["type"](size=(sample_size,), **distr["kwargs"]))
+        random_idx = np.random.choice(np.arange(num_distr), size=(sample_size,), p=coefficients)
+        sample = [np.arange(sample_size), random_idx]
+        data_points.append(sample)
+        return queries, data_points
 
     @property
     def query_pool(self) -> QueryPool:
@@ -145,8 +168,6 @@ class InterpolatingDataSource(DataSource):
         values = list(self.data.values())
         all_queries = np.asarray(keys).reshape(-1, 1)
         all_results = np.asarray(values).reshape(-1, 1)
-        #all_queries = [np.asarray([key]).reshape(-1, 1) for key in keys]
-        #all_results = [np.asarray([value]).reshape(-1, 1) for value in values]
 
         knn = NearestNeighbors(n_neighbors=5)
         knn.fit(all_queries, all_results)

@@ -18,9 +18,9 @@ class DependencyMeasure():
 class dHSIC(DependencyMeasure):
     
     def apply(self, samples):
-        samples = np.asarray([ele for ele in samples.tolist() if ele.size != 0])
+        samples = np.asarray([ele for ele in samples if len(ele) != 0])
         t = self.dHSIC(samples,samples)
-        return t, 0
+        return t
 
     """
     Hilbert Schmidt Information Criterion with a Gaussian kernel, based on the
@@ -116,7 +116,9 @@ class dHSIC(DependencyMeasure):
 class dCor(DependencyMeasure):
 
     def apply(self, samples: NDArray):
-        r = dcor.distance_correlation(samples[0],samples[1])
+        samples = np.squeeze(samples)
+        x, y = samples[0], samples[1:] 
+        r = dcor.distance_correlation(samples,samples)
         return r
 @dataclass
 class CMI(DependencyMeasure):
@@ -129,7 +131,7 @@ class CMI(DependencyMeasure):
         df.to_csv(dataFile, sep=",", header='true', index=False)
 
         #output = subprocess.check_output('java -jar target/scala-2.12/MCDE-experiments-1.0.jar -t EstimateDependency -f src/test/resources/data/Independent-5-0.0.csv -a CMI -m 1 -p 1')
-        output = subprocess.check_output('java -jar target/scala-2.12/MCDE-experiments-1.0.jar -t EstimateDependency -f run_data_store/cmiData.csv -a CMI -m 1 -p 1')
+        output = subprocess.check_output('java -jar target/scala-2.12/MCDE-experiments-1.0.jar -t EstimateDependency -f run_data_store/cmiData.csv -a CMI')
         score = float(output.splitlines()[5])
         
         return score
@@ -144,7 +146,7 @@ class HiCS(DependencyMeasure):
         df.to_csv(dataFile, sep=",", header='true', index=False)
 
         #output = subprocess.check_output('java -jar target/scala-2.12/MCDE-experiments-1.0.jar -t EstimateDependency -f src/test/resources/data/Independent-5-0.0.csv -a HiCS -m 1 -p 1')
-        output = subprocess.check_output('java -jar target/scala-2.12/MCDE-experiments-1.0.jar -t EstimateDependency -f run_data_store/hicsData.csv -a HiCS -m 1 -p 1')
+        output = subprocess.check_output('java -jar target/scala-2.12/MCDE-experiments-1.0.jar -t EstimateDependency -f run_data_store/hicsData.csv -a HiCS')
         score = float(output.splitlines()[5])
         return score
 
@@ -159,5 +161,5 @@ class MCDE(DependencyMeasure):
 
         #output = subprocess.check_output('java -jar target/scala-2.12/MCDE-experiments-1.0.jar -t EstimateDependency -f src/test/resources/data/Independent-5-0.0.csv -a MWP -m 1 -p 1')
         output = subprocess.check_output('java -jar target/scala-2.12/MCDE-experiments-1.0.jar -t EstimateDependency -f run_data_store/mcdeData.csv -a MWP -m 1 -p 1')
-        score = float(output.splitlines()[4])
+        score = float(output.splitlines()[5])
         return score

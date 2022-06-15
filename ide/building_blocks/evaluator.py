@@ -197,17 +197,18 @@ class BoxPlotTestPEvaluator(Evaluator):
             plot.clf()
 
         self.iteration += 1
+@dataclass
 class DataEfficiencyEvaluator(Evaluator):
-    folder: str = "log"
-    evaluator:str = "DataEfficiency"
+    folder: str = field(default = "log",repr=False)
+    evaluator:str = field(default = "DataEfficiency",repr=False)
 
-    ts: List[float] = field(init=False, default_factory=list)
-    ps: List[float] = field(init=False, default_factory=list)
-    vs: List[float] = field(init=False, default_factory=list)
-    pt: List[float] = field(init=False, default_factory=list)
-    pss: List[float] = field(init=False, default_factory=list)
-    predictions: List[int] = field(init=False, default_factory=list)
-    iteration: int = field(init = False, default = 0)
+    ts: List[float] = field(init=False, default_factory=list,repr=False)
+    ps: List[float] = field(init=False, default_factory=list,repr=False)
+    vs: List[float] = field(init=False, default_factory=list,repr=False)
+    pt: List[float] = field(init=False, default_factory=list,repr=False)
+    pss: List[float] = field(init=False, default_factory=list,repr=False)
+    predictions: List[int] = field(init=False, default_factory=list,repr=False)
+    iteration: int = field(init = False, default = 0,repr=False)
 
     def setup_logger(self, l_name, log_file_name):
 
@@ -235,9 +236,9 @@ class DataEfficiencyEvaluator(Evaluator):
         else:
             raise ValueError
         if isinstance(self.experiment.oracle.data_source, DataSourceAdapter) :
-            self.name = type(self.experiment.oracle.data_source.distribution_data_source).__name__
+            self.name = type(self.experiment.oracle.data_source.distribution_data_source).__name__ + str(self.experiment.oracle.data_source.query_shape[0]) + 'x' + str(self.experiment.oracle.data_source.result_shape[0])
         else:
-            self.name = type(self.experiment.oracle.data_source).__name__
+            self.name = type(self.experiment.oracle.data_source).__name__ + str(self.experiment.oracle.data_source.query_shape[0]) + 'x' + str(self.experiment.oracle.data_source.result_shape[0])
 
         self.experiment.run = Evaluate(self.experiment.run)
         self.experiment.run.post(self.numpy_save_results)
@@ -269,7 +270,7 @@ class DataEfficiencyEvaluator(Evaluator):
 class LogBluePrint(Evaluator):
     folder:str = field(default="log", repr=False)
     evaluator:str = field(default="Experiment", repr=False)
-    printed:bool = False
+    printed:bool = field(default=False, repr=False)
 
     def setup_logger(self, l_name, log_file_name):
 
