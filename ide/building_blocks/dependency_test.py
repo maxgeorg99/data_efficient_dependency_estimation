@@ -165,10 +165,17 @@ class IndepTest(DependencyTest):
         command = 'Rscript'
         path = 'C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/r_scripts/IndepTest.r'
         cmd = [command, path, '--vanilla'] 
-        output = subprocess.check_output(cmd)
-
-        t = 0
-        p = output.split()[1]
+        if(len(x)>50):
+            output = subprocess.check_output(cmd)
+            if(output.splitlines()[8].split()[0].startswith(b'[1]')):
+                p = float(output.splitlines()[8].split()[1])
+                t = float(output.splitlines()[8].split()[2])
+            elif(output.splitlines()[12].split()[0].startswith(b'[1]')):
+                p = float(output.splitlines()[12].split()[1])
+                t = float(output.splitlines()[12].split()[2])
+        else:
+            p = 0
+            t = 0
         v = 0
         return t, p,v
 
@@ -186,8 +193,8 @@ class CondIndTest(DependencyTest):
 
         output = subprocess.check_output(["Rscript",  "--vanilla", "C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/r_scripts/CondIndTest.r"])
         
-        t = float(output.splitlines()[5])
-        p = float(output.splitlines()[2])
+        t = 0
+        p = float(output.splitlines()[4].split()[1])
         v = 0
         return t, p,v
 @dataclass
@@ -202,9 +209,13 @@ class LISTest(DependencyTest):
         df = pd.DataFrame(x)
         df.to_csv(dataFile, sep=",", header='true', index=False)
 
-        output = subprocess.check_output(["Rscript",  "--vanilla", "C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/r_scripts/LISTest.r"])
-        t = 0
-        p = float(output)
+        if(len(x)>20 and len(x)<200):
+            output = subprocess.check_output(["Rscript",  "--vanilla", "C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/r_scripts/LISTest.r"])
+            p = float(output.splitlines()[5].split()[1])
+            t = float(output.splitlines()[8].split()[1])
+        else:
+            p = 0
+            t = 0
         v = 0
         return t, p,v
 

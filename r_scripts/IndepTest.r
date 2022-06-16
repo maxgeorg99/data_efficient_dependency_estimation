@@ -1,3 +1,7 @@
+install.packages("FNN",repos = "http://cran.us.r-project.org",lib = "C:/Users/maxig/OneDrive/Dokumente/R/win-library/4.1")
+library("FNN",lib.loc = "C:/Users/maxig/OneDrive/Dokumente/R/win-library/4.1")
+install.packages("mvtnorm",repos = "http://cran.us.r-project.org",lib = "C:/Users/maxig/OneDrive/Dokumente/R/win-library/4.1")
+library("mvtnorm",lib.loc = "C:/Users/maxig/OneDrive/Dokumente/R/win-library/4.1")
 install.packages("IndepTest",repos = "http://cran.us.r-project.org",lib = "C:/Users/maxig/OneDrive/Dokumente/R/win-library/4.1")
 library("IndepTest",lib.loc = "C:/Users/maxig/OneDrive/Dokumente/R/win-library/4.1")
 data <- read.csv(file = "C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/run_data_store/indepTestData.csv")
