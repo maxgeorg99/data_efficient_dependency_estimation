@@ -204,9 +204,9 @@ class NaivDependencyTest(DependencyTest):
 
     def test(self):
 
-        queries = self.query_sampler.sample(self.data_sampler.query_pool)
+        queries = self.query_sampler.sample()
 
-        sample_queries, samples = self.data_sampler.sample(queries)
+        sample_queries, samples = self.data_sampler.query(queries)
 
         t, p = self.multi_sample_test.test(samples)
 
@@ -216,5 +216,5 @@ class NaivDependencyTest(DependencyTest):
         obj = super().__call__(exp_modules, **kwargs)
         obj.data_sampler = obj.data_sampler(exp_modules)
         obj.multi_sample_test = obj.multi_sample_test()
-        obj.query_sampler = obj.query_sampler()
+        obj.query_sampler = obj.query_sampler(obj.data_sampler)
         return obj

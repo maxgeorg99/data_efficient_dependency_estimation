@@ -6,6 +6,7 @@ from dataclasses import dataclass, field
 
 import numpy as np
 from ide.core.query.query_pool import QueryPool
+from ide.core.data.data_pool import DataPool
 
 from ide.core.query.selection_criteria import SelectionCriteria, NoSelectionCriteria
 from ide.building_blocks.experiment_modules import DependencyExperiment, InterventionDependencyExperiment
@@ -16,6 +17,7 @@ if TYPE_CHECKING:
     from typing_extensions import Self #type: ignore
     from ide.building_blocks.test_interpolation import TestInterpolator
     from ide.building_blocks.dependency_test import DependencyTest
+    from ide.core.oracle.data_source import DataSource
 
 @dataclass
 class QueryTestNoSelectionCritera(NoSelectionCriteria):
@@ -68,7 +70,7 @@ class PValueSelectionCriteria(TestSelectionCriteria):
 
         score = 1 - mean_p
 
-        scores = np.concatenate((score,score))
+        scores = np.repeat(score,2)
 
         return scores
     
@@ -87,7 +89,25 @@ class PValueUncertaintySelectionCriteria(TestSelectionCriteria):
 
         score = u * self.explore_exploit_trade_of + (1 - mean_p) * (1 - self.explore_exploit_trade_of)
 
-        scores = np.concatenate((score,score))
+        scores = np.repeat(score,2)
+
+        return scores
+
+@dataclass
+class PValueDensitySelectionCriteria(TestSelectionCriteria):
+
+    def query(self, queries):
+
+        size = queries.shape[0] // 2
+        test_queries = np.reshape(queries, (size,2,-1))
+
+        t, p, u = self.test_interpolator.query(test_queries)
+
+        mean_p = np.mean(p, axis=1)
+
+        score = (1 - mean_p) * u
+
+        scores = np.repeat(score,2)
 
         return scores
 
@@ -107,10 +127,11 @@ class TestScoreUncertaintySelectionCriteria(TestSelectionCriteria):
 
         score = mean_t*self.explore_exploit_trade_of + u * (1 - self.explore_exploit_trade_of)
 
-        scores = np.concatenate((score,score))
+        scores = np.repeat(score,2)
 
         return scores
 
+@dataclass
 class TestScoreSelectionCriteria(TestSelectionCriteria):
 
     def query(self, queries):
@@ -124,6 +145,30 @@ class TestScoreSelectionCriteria(TestSelectionCriteria):
 
         score = mean_t
 
-        scores = np.concatenate((score,score))
+        scores = np.repeat(score,2)
 
         return scores
+
+@dataclass
+class OptimalSelectionCriteria(TestSelectionCriteria):
+    data_source: DataSource
+
+    def query(self, queries):
+
+        queries, results = self.data_source.query(queries)
+
+        size = results.shape[0] // 2
+        test_results = np.reshape(results, (size,2,-1))
+
+        score = np.abs(test_results[:,0,:] - test_results[:,1,:])
+
+        mean_score = np.mean(score, axis=1)
+
+        scores = np.repeat(mean_score,2)
+
+        return scores
+
+    def __call__(self, exp_modules=None, **kwargs) -> Self:
+        obj = super().__call__(exp_modules, **kwargs)
+        obj.data_source = obj.data_source()
+        return obj

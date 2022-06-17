@@ -16,17 +16,22 @@ from matplotlib import pyplot as plot
 from ide.modules.oracle.data_source import IndependentDataSetDataSource
 
 from ide.modules.oracle.data_source_adapter import DataSourceAdapter # type: ignore
+from ide.core.evaluator import LogingEvaluator, Evaluate
+
+import numpy as np
+from matplotlib import pyplot as plot # type: ignore
+import os
 
 
 if TYPE_CHECKING:
-    from typing import List
+    from typing import List, Tuple
     from ide.core.experiment import Experiment
     from nptyping import  NDArray, Number, Shape
     from ide.building_blocks.dependency_test import DependencyTest
 
 
 @dataclass
-class PlotQueriesEvaluator(Evaluator):
+class PlotQueriesEvaluator(LogingEvaluator):
     interactive: bool = False
     folder: str = "fig"
     fig_name:str = "QueryDistribution2d"
@@ -49,15 +54,15 @@ class PlotQueriesEvaluator(Evaluator):
     def plot_queries(self, queries):
 
         size = queries.shape[0] // 2
-        queries = np.reshape(queries, (2, size,-1))
+        queries = np.reshape(queries, (size, 2,-1))
 
         if self.queries is None:
             self.queries = queries
         else:
-            self.queries = np.concatenate((self.queries, queries), axis=1)
+            self.queries = np.concatenate((self.queries, queries), axis=0)
 
 
-        heatmap, xedges, yedges = np.histogram2d(self.queries[0,:,0], self.queries[1,:,0], bins=10)
+        heatmap, xedges, yedges = np.histogram2d(self.queries[:,0,0], self.queries[:,1,0], bins=10)
         extent = [xedges[0], xedges[-1], yedges[0], yedges[-1]]
 
         
@@ -67,13 +72,13 @@ class PlotQueriesEvaluator(Evaluator):
         plot.colorbar()
         if self.interactive: plot.show()
         else:
-            plot.savefig(f'{self.folder}/{self.fig_name}_{self.iteration:05d}.png')
+            plot.savefig(f'{self.path}/{self.fig_name}_{self.iteration:05d}.png')
             plot.clf()
 
         self.iteration += 1
 
 @dataclass
-class PlotScoresEvaluator(Evaluator):
+class PlotScoresEvaluator(LogingEvaluator):
     interactive: bool = False
     folder: str = "fig"
     fig_name:str = "Scores 2d"
@@ -95,15 +100,15 @@ class PlotScoresEvaluator(Evaluator):
 
         size = queries.shape[0] // 2
         test_queries = np.reshape(queries, (size,2,-1))
-        test_scores = scores[:size]
+        test_scores = np.reshape(scores, (size,2,-1))
 
         fig = plot.figure(self.fig_name)
-        plot.scatter(test_queries[:,0,0], test_queries[:,1,0], c=test_scores)
+        plot.scatter(test_queries[:,0,0], test_queries[:,1,0], c=test_scores[:,0,0])
         plot.title(self.fig_name)
         plot.colorbar()
         if self.interactive: plot.show()
         else:
-            plot.savefig(f'{self.folder}/{self.fig_name}_{self.iteration:05d}.png')
+            plot.savefig(f'{self.path}/{self.fig_name}_{self.iteration:05d}.png')
             plot.clf()
 
         self.iteration += 1
@@ -113,7 +118,7 @@ class PlotScoresEvaluator(Evaluator):
 
 
 @dataclass
-class PlotTestPEvaluator(Evaluator):
+class PlotTestPEvaluator(LogingEvaluator):
     interactive: bool = False
     folder: str = "fig"
     fig_name:str = "P-value"
@@ -150,7 +155,7 @@ class PlotTestPEvaluator(Evaluator):
 
 
 @dataclass
-class BoxPlotTestPEvaluator(Evaluator):
+class BoxPlotTestPEvaluator(LogingEvaluator):
     interactive: bool = False
     folder: str = "fig"
     fig_name:str = "Boxplot p-value"
@@ -194,7 +199,7 @@ class BoxPlotTestPEvaluator(Evaluator):
         plot.title(self.fig_name)
         if self.interactive: plot.show()
         else:
-            plot.savefig(f'{self.folder}/{self.fig_name}_{self.iteration:05d}.png',dpi=500)
+            plot.savefig(f'{self.path}/{self.fig_name}_{self.iteration:05d}.png',dpi=500)
             plot.clf()
 
         self.iteration += 1

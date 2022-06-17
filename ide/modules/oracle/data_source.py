@@ -66,7 +66,6 @@ class SquareDataSource(DataSource):
     y0: float = 0
     s: float = 5
 
-
     def query(self, queries):
         results = np.dot((queries - self.x0)**2, np.ones((*self.query_shape,*self.result_shape))*self.s) + np.ones(self.result_shape)*self.y0
         return queries, results

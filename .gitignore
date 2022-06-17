@@ -143,3 +143,7 @@ real_world_data_sets/
 *src*
 /run_data_store
 thesis.patch
+*fig*
+experiment_results
+log*
+eval

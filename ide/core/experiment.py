@@ -28,6 +28,7 @@ class Experiment():
     def __init__(self, bp: Blueprint, exp_nr: int) -> None:
         self.repeat = bp.repeat
         self.exp_nr = exp_nr
+        self.exp_path = bp.exp_path
         self.exp_name = bp.exp_name
 
         self.oracle = bp.oracle()
@@ -35,7 +36,7 @@ class Experiment():
         self.queried_data_pool = bp.queried_data_pool(self.oracle.query_pool, self.oracle.data_pool)
         self.experiment_modules = bp.experiment_modules(self.queried_data_pool, self.oracle.data_pool)
 
-        self.initial_query_sampler = bp.initial_query_sampler()
+        self.initial_query_sampler = bp.initial_query_sampler(self.oracle)
         self.query_optimizer = bp.query_optimizer(self.experiment_modules)
         self.stopping_criteria = bp.stopping_criteria()
         self.evaluators = bp.evaluators
@@ -44,15 +45,16 @@ class Experiment():
 
     def run(self):
         iteration = 0
-        queries = self.initial_query_sampler.sample(self.oracle.query_pool)
+        queries = self.initial_query_sampler.sample()
         while self.stopping_criteria.next(iteration):
             queries = self.loop(iteration, queries)
             self.experiment_modules.run()
             iteration += 1
+        return self.exp_nr
 
     def loop(self, iteration: int, queries: NDArray[Number, Shape["query_nr, ... query_dims"]]) -> NDArray[Number, Shape["query_nr, ... query_dims"]]:
         data_points = self.oracle.query(queries)
         self.queried_data_pool.add(data_points)
-        queries = self.query_optimizer.select()
+        queries, scores = self.query_optimizer.select()
         return queries
             
