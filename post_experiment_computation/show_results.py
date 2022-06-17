@@ -5,7 +5,7 @@ from matplotlib import pyplot as plot # type: ignore
 result_folder = "./experiment_results/data_efficiency"
 log_folder = "./log"
 log_prefix = "DataEfficiency_"
-algorithms = ["Pearson","Kendalltau","Spearmanr","dCor","dHSIC","FIT","Hoeffdings","XiCor"]
+algorithms = ["CondIndTest","LISTest","IndepTest"]
 datasources = ["LineDataSource1x1","SquareDataSource1x1","LineDataSource1x2","SquareDataSource1x2"]
 #datasources.extend(["DoubleLinearDataSource1x2","HourglassDataSource1x2","StarDataSource1x2","ZDataSource1x2"])
 #datasources.extend(["DoubleLinearDataSource1x3","HourglassDataSource1x3","StarDataSource1x3","ZDataSource1x3"])

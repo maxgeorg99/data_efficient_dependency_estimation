@@ -5,17 +5,20 @@ import numpy as np
 import os
 from requests import get
 from statsmodels.stats.power import TTestIndPower
-from sklearn.metrics import f1_score, roc_auc_score
+from sklearn.metrics import average_precision_score, f1_score, roc_auc_score
 
 result_folder = "./experiment_results/data_efficiency"
 log_folder = "./log"
 log_prefix = "DataEfficiency_"
-algorithms = ["DependencyTestAdapter"]
+algorithms = ["NaivDependencyTest"]
 #algorithms = ["Pearson","Kendalltau","Spearmanr","XiCor"]
-datasources = ["LineDataSource","SquareDataSource"]
+my_file = open("C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/log/DataSources.txt", 'r')
+datasources = my_file.read().splitlines()
+datasources = list(set(datasources))
 #datasources = ["LineDataSource","SquareDataSource","HyperSphereDataSource"]
-
+num_experiments = 1
 ignore_nans_count = -1
+num_iterations = 50
 
 
 
@@ -25,7 +28,8 @@ def walk_algorithms():
             walk_files(algorithm, datasource)
 
 def walk_files( algorithm, datasource):
-        f = f"{log_folder}/{algorithm}_{datasource}.npz"
+    for i in range(num_experiments):
+        f = f"{log_folder}/{algorithm}_{datasource}_{i}.npz"
         data = np.load(f)
         compute_data_efficiency(data, algorithm, datasource)
 
@@ -45,6 +49,7 @@ algorithm_power95: Dict = {}
 algorithm_power99: Dict = {}
 def calculate_power():
     for item in algorithm_data.items():
+        TTestIndPower
         results = item[1]['score']
         t90 = percentile_scala_breeze(results, 0.90)
         t95 = percentile_scala_breeze(results, 0.95)
@@ -56,40 +61,58 @@ def calculate_power():
 
 algorithm_F1: Dict = {}
 def calculate_F1():
-    for item in algorithm_data.items():
-        y = item[1][0]['predictions']
-        real_y = get_ground_truth(y)
-        f1 = f1_score(real_y, y)
-        algorithm_F1[item[0]] = f1
+    for algorithm in algorithms:
+        f1_iterations = []
+        for i in range(num_iterations):
+            predictions = []
+            for datasource in datasources:
+                prediction = algorithm_data.get((algorithm,datasource))['predictions'][i]
+                predictions.append(prediction)
+            f1_iterations.append(f1_score(get_ground_truth(datasources), predictions))
+        algorithm_F1[algorithm] = f1_iterations
 
-algorithm_AUC: Dict = {}
-def calculate_AUC():
-    for item in algorithm_data.items():
-        y = item[1][0]['score']
-        #handle the every class is the same case?!
-        #auc = roc_auc_score(get_ground_truth(y), y)
-        auc = random()
-        algorithm_AUC[item[0]] = auc
+algorithm_ROC_AUC: Dict = {}
+def calculate_ROC_AUC():
+    for algorithm in algorithms:
+        predictions = []
+        for datasource in datasources:
+            prediction = np.median(algorithm_data.get((algorithm,datasource))['predictions'])
+            predictions.append(prediction)
+        auc = roc_auc_score(get_ground_truth(datasources), predictions)
+        algorithm_ROC_AUC[algorithm] = auc
+
+algorithm_prediction_recall_AUC: Dict = {}
+def calculate_prediction_recall_AUC():
+    for algorithm in algorithms:
+        predictions = []
+        for datasource in datasources:
+            prediction = np.median(algorithm_data.get((algorithm,datasource))['predictions'])
+            predictions.append(prediction)        
+        auc = average_precision_score(get_ground_truth(datasources), predictions)
+        algorithm_prediction_recall_AUC[algorithm] = auc
 
 def get_ground_truth(y):
-    return  np.ones(len(y), dtype = int)
+    return np.asarray( [1 if x.startswith('Independent') else calc_ground_truth() if x.startswith('Real') else 0 for x in y]
+ )
+
+def calc_ground_truth():
+    return [algorithm_data.get(('MCDE',datasource))['predictions'][-1:] for datasource in datasources]
 
 def plot_data_efficiency(fig_name = "data_efficiency"):
     y_pos = list(algorithms)
 
-    for datasource in datasources:
-        ys = []
-        for algorithm in algorithms:
-            ys.append(algorithm_F1[(algorithm, datasource)])
-        plot.bar(y_pos, ys)
+    for algorithm in algorithms:
+        plot.bar(np.asarray([i for i in range(num_iterations)]), algorithm_F1[algorithm])
         plot.ylabel("F1")
-        plot.savefig(f'{result_folder}/F1/{datasource}_{fig_name}_F1.png',dpi=500)
+        plot.savefig(f'{result_folder}/F1/{algorithm}_{fig_name}_F1.png',dpi=500)
         plot.clf()
+
+    for datasource in datasources:
 
         negative_data = []
         positive_data = []
         for algorithm in algorithms:
-            value = algorithm_AUC[(algorithm,datasource)]-0.5
+            value = algorithm_ROC_AUC[algorithm]-0.5
             if (value > 0):
                 positive_data.append(value)
                 negative_data.append(0)
@@ -128,6 +151,7 @@ walk_algorithms()
 
 calculate_power()
 calculate_F1()
-calculate_AUC()
+calculate_ROC_AUC()
+calculate_prediction_recall_AUC()
 
 plot_data_efficiency()

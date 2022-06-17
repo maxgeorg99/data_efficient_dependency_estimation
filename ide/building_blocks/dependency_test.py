@@ -118,20 +118,6 @@ class Hoeffdings(DependencyTest):
         return 0, p,0
 
 @dataclass
-class dCor(DependencyTest):
-
-    def test(self):
-        queries = self.exp_modules.queried_data_pool.queries
-
-        samples = self.exp_modules.queried_data_pool.results
-        x = [item for sublist in samples for item in sublist]
-        y = [item for sublist in x for item in sublist]
-        samples = np.array([y])
-        r = dcor.distance_correlation(samples, samples)
-        #calculate p value
-        return r,0,0
-
-@dataclass
 class chi_square(DependencyTest):
 
     def test(self):
@@ -167,17 +153,11 @@ class IndepTest(DependencyTest):
         cmd = [command, path, '--vanilla'] 
         if(len(x)>50):
             output = subprocess.check_output(cmd)
-            if(output.splitlines()[8].split()[0].startswith(b'[1]')):
-                p = float(output.splitlines()[8].split()[1])
-                t = float(output.splitlines()[8].split()[2])
-            elif(output.splitlines()[12].split()[0].startswith(b'[1]')):
-                p = float(output.splitlines()[12].split()[1])
-                t = float(output.splitlines()[12].split()[2])
+            line = next(x for x in output.splitlines() if x.startswith(b'[1]'))
+            p = float(line.split()[1])
         else:
             p = 0
-            t = 0
-        v = 0
-        return t, p,v
+        return 0, p,0
 
 @dataclass
 class CondIndTest(DependencyTest):
@@ -192,11 +172,9 @@ class CondIndTest(DependencyTest):
         df.to_csv(dataFile, sep=",", header='true', index=False)
 
         output = subprocess.check_output(["Rscript",  "--vanilla", "C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/r_scripts/CondIndTest.r"])
-        
-        t = 0
-        p = float(output.splitlines()[4].split()[1])
-        v = 0
-        return t, p,v
+        line = next(x for x in output.splitlines() if x.startswith(b'[1]'))
+        p = float(line.split()[1])
+        return 0, p, 0
 @dataclass
 class LISTest(DependencyTest):
 
@@ -216,8 +194,7 @@ class LISTest(DependencyTest):
         else:
             p = 0
             t = 0
-        v = 0
-        return t, p,v
+        return t, p,0
 
 @dataclass
 class NaivDependencyTest(DependencyTest):

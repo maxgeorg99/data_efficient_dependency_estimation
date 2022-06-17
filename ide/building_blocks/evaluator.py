@@ -13,6 +13,7 @@ from sklearn.metrics import f1_score, roc_auc_score
 
 import numpy as np
 from matplotlib import pyplot as plot
+from ide.modules.oracle.data_source import IndependentDataSetDataSource
 
 from ide.modules.oracle.data_source_adapter import DataSourceAdapter # type: ignore
 
@@ -237,6 +238,8 @@ class DataEfficiencyEvaluator(Evaluator):
             raise ValueError
         if isinstance(self.experiment.oracle.data_source, DataSourceAdapter) :
             self.name = type(self.experiment.oracle.data_source.distribution_data_source).__name__ + str(self.experiment.oracle.data_source.query_shape[0]) + 'x' + str(self.experiment.oracle.data_source.result_shape[0])
+        elif isinstance(self.experiment.oracle.data_source, IndependentDataSetDataSource) :
+            self.name = type(self.experiment.oracle.data_source).__name__ + str(self.experiment.oracle.data_source.id)
         else:
             self.name = type(self.experiment.oracle.data_source).__name__ + str(self.experiment.oracle.data_source.query_shape[0]) + 'x' + str(self.experiment.oracle.data_source.result_shape[0])
 

@@ -110,20 +110,22 @@ class HyperSphereDataSource(DataSource):
 
 @dataclass
 class IndependentDataSetDataSource(DataSource):
+    id: int = field(default = 1, repr=False)
     query_shape: Tuple[int,...] = (1,)
     result_shape: Tuple[int,...] = (1,)
-    width = 1
-    number_of_distributions = 10
+    width: int = field(default = 1, repr=False)
+    number_of_distributions: int = field(default = 10, repr=False)
     distribution_function = None
-    dim = 1
-    all_distributions = [np.random.normal,np.random.uniform]
+    dim: int = field(default = 1, repr=False)
+    all_distributions = [np.random.normal,np.random.uniform,np.random.gamma,np.random.beta]
 
-    def __init__(self,number_of_distributions, dims):
+    def __init__(self,number_of_distributions = 10, dims = 1, id = 1):
+        self.id = id
         self.dim = dims
-        self.distribution_function = GaussianMixture(n_components=number_of_distributions)
+        self.number_of_distributions = number_of_distributions
+        self.distribution_function = GaussianMixture(n_components=self.number_of_distributions)
 
     def query(self, queries):
-        data_points = []
         distributions = []
         for i in range(self.number_of_distributions):
             loc = np.random.randint(100,size=1)
@@ -133,18 +135,19 @@ class IndependentDataSetDataSource(DataSource):
                 distributions.append({"type": distribution, "kwargs": {"loc": loc, "scale": scale}})
             elif distribution is np.random.uniform:
                 distributions.append({"type": distribution, "kwargs": {"low": loc, "high": scale}})
-        coefficients = np.array([random() for i in range(len(distributions))])
-        coefficients /= coefficients.sum()      # in case these did not add up to 1
+            elif distribution is np.random.gamma:
+                distributions.append({"type": distribution, "kwargs": {"shape":self.dim, "scale": scale}})
+            elif distribution is np.random.beta:
+                distributions.append({"type": distribution, "kwargs": {"a": 1+ loc, "b": 1 + scale}})
         sample_size = len(queries)
-
-        num_distr = len(distributions)
-        data = np.zeros((sample_size, num_distr))
+        coefficients = np.array([random() for i in range(sample_size)])
+        coefficients /= coefficients.sum()      # in case these did not add up to 1
+        data = np.zeros((sample_size, self.number_of_distributions))
         for idx, distr in enumerate(distributions):
             data[:, idx] = np.asarray( distr["type"](size=(sample_size,), **distr["kwargs"]))
-        random_idx = np.random.choice(np.arange(num_distr), size=(sample_size,), p=coefficients)
-        sample = [np.arange(sample_size), random_idx]
-        data_points.append(sample)
-        return queries, data_points
+        random_idx = np.random.choice(np.arange(sample_size), size=(sample_size,), p=coefficients)
+        results = [np.asarray(np.random.choice(data[x])) for x in random_idx]
+        return queries, results
 
     @property
     def query_pool(self) -> QueryPool:
@@ -161,6 +164,7 @@ class InterpolatingDataSource(DataSource):
     data: Dict = dataclasses.field(default_factory=dict, repr=False)
     query_shape: Tuple[int,...] = (1,)
     result_shape: Tuple[int,...] = (1,)
+    data_set: str = dataclasses.field(default="", repr=False)
 
     def query(self, queries):
 

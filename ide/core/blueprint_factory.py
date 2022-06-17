@@ -1,9 +1,10 @@
 from typing import List
-from ide.building_blocks.dependency_test import DependencyTest
+from ide.building_blocks.dependency_measure import CMI, MCDE, HiCS, dCor, dHSIC
+from ide.building_blocks.dependency_test import DependencyTest, Kendalltau, XiCor
 from ide.building_blocks.dependency_test_adapter import DependencyTestAdapter
 from ide.building_blocks.evaluator import DataEfficiencyEvaluator, LogBluePrint
 from ide.building_blocks.experiment_modules import DependencyExperiment
-from ide.building_blocks.dependency_test import FIT, Hoeffdings, PeakSim, Pearson, Spearmanr, GMI, DIMID, IMIE, A_dep_test,dCor,chi_square,IndepTest,CondIndTest,LISTest
+from ide.building_blocks.dependency_test import FIT, Hoeffdings, PeakSim, Pearson, Spearmanr, GMI, DIMID, IMIE, A_dep_test,chi_square,IndepTest,CondIndTest,LISTest
 from ide.building_blocks.selection_criteria import QueryTestNoSelectionCritera
 from ide.core.blueprint import Blueprint
 from ide.core.data_sampler import DataSampler
@@ -42,26 +43,26 @@ from ide.modules.stopping_criteria import LearningStepStoppingCriteria
 
 class BlueprintFactory():
     tests = [
-        #dHSIC(),
-        #CMI(),
+        DependencyTestAdapter(dHSIC()),
+        DependencyTestAdapter(CMI()),
         #GMI(),
         #DIMID(),
         #IMIE(),
         #PeakSim(),
-        #Kendalltau(),
-        #Spearmanr(),
-        #Pearson(),
-        #HiCS(),
-        #MCDE(),
-        #XiCor(),
-        #FIT(),
+        Kendalltau(),
+        Spearmanr(),
+        Pearson(),
+        DependencyTestAdapter(HiCS()),
+        DependencyTestAdapter(MCDE()),
+        XiCor(),
+        FIT(),
         #A_dep_test(),
-        #Hoeffdings(),
-        #dCor(),
+        Hoeffdings(),
+        DependencyTestAdapter(dCor()),
         #chi_square(),
-        #IndepTest(),
-        #CondIndTest(),
-        #LISTest(),
+        IndepTest(),
+        CondIndTest(),
+        LISTest(),
     ]
     evaluators = [
         DataEfficiencyEvaluator(),
@@ -77,7 +78,7 @@ class BlueprintFactory():
             for dataSource in dataSources:
                 for test in algorithms:
                     blueprints.append(Blueprint(
-                        repeat=1,
+                        repeat=10,
                         stopping_criteria= LearningStepStoppingCriteria(50),
                         
                         queried_data_pool=FlatQueriedDataPool(),

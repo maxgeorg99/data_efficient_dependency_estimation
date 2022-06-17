@@ -10,7 +10,7 @@ result_folder = "./experiment_results/concistency"
 fig_name = 'concistency'
 log_folder = "./log"
 log_prefix = "DataEfficiency_Ps_"
-algorithms = ["Pearson","Kendalltau","Spearmanr","dCor","dHSIC","FIT","Hoeffdings","XiCor"]
+algorithms = ["Pearson","Kendalltau","Spearmanr","dCor","dHSIC","FIT","Hoeffdings","XiCor","CondIndTest","LISTest","IndepTest"]
 datasources = ["LineDataSource1x1","SquareDataSource1x1","LineDataSource1x2","SquareDataSource1x2"]
 num_experiments = 1
 
@@ -50,9 +50,9 @@ def plot_concistency_scores():
         # Create names on the x-axis
         plt.xticks(y_pos, bars)
         plt.ylabel("concistency score")
-        plt.xticks(fontsize=7)
+        plt.xticks(fontsize=5)
         plt.title(source)
-        plt.savefig(f'{result_folder}/{source}_{fig_name}.png')
+        plt.savefig(f'{result_folder}/{source}_{fig_name}.png',dpi=1000)
         plt.clf()
 
 def calculate_concistency_score(ps,vs):

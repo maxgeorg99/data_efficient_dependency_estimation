@@ -23,7 +23,7 @@ from ide.building_blocks.experiment_modules import DependencyExperiment
 from ide.modules.oracle.augmentation import NoiseAugmentation
 from ide.modules.stopping_criteria import LearningStepStoppingCriteria
 from ide.core.blueprint import Blueprint
-from ide.modules.oracle.data_source import LineDataSource, SquareDataSource, HyperSphereDataSource
+from ide.modules.oracle.data_source import IndependentDataSetDataSource, LineDataSource, SquareDataSource, HyperSphereDataSource
 from ide.modules.oracle.data_source_adapter import DataSourceAdapter
 from ide.modules.evaluator import LogNewDataPointsEvaluator, PlotNewDataPointsEvaluator, PrintNewDataPointsEvaluator, PlotQueryDistEvaluator
 from ide.building_blocks.evaluator import PlotScoresEvaluator, PlotQueriesEvaluator, PlotTestPEvaluator, BoxPlotTestPEvaluator
@@ -48,11 +48,8 @@ for i in range(2,5):
         synthetic_data_sources.append(DataSourceAdapter(ZDataSource(1,i))),
         synthetic_data_sources.append(DataSourceAdapter(InvZDataSource(1,i)))
 
-algorithms = [
-        FIT(),
-        #XiCor(),
-        #Hoeffdings(),
-        #chi_square()
-]
+for i in range(4):
+    for j in range(10):
+        synthetic_data_sources.append(IndependentDataSetDataSource(dims=i,id=i*j))
 
-blueprints = BlueprintFactory.getBlueprintsForSyntheticData(algorithms=algorithms ,dataSources=synthetic_data_sources)
+blueprints = BlueprintFactory.getBlueprintsForSyntheticData(dataSources=synthetic_data_sources)
