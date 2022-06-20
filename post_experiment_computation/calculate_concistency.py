@@ -10,9 +10,11 @@ result_folder = "./experiment_results/concistency"
 fig_name = 'concistency'
 log_folder = "./log"
 log_prefix = "DataEfficiency_Ps_"
-algorithms = ["Pearson","Kendalltau","Spearmanr","dCor","dHSIC","FIT","Hoeffdings","XiCor","CondIndTest","LISTest","IndepTest"]
+#algorithms = ["Pearson","Kendalltau","Spearmanr","dCor","dHSIC","FIT","Hoeffdings","XiCor","CondIndTest","LISTest","IndepTest"]
+algorithms = ["NaivDependencyTest"]
 datasources = ["LineDataSource1x1","SquareDataSource1x1","LineDataSource1x2","SquareDataSource1x2"]
-num_experiments = 1
+num_experiments = 5
+num_iterations = 50
 
 def walk_algorithms():
     for algorithm in algorithms:
@@ -32,35 +34,27 @@ def compute_data_efficiency(data, algorithm, datasource):
     algorithm_data[(algorithm, datasource)] = runs_data
 
 def plot_concistency_scores():
+    scores: dict
+    scores = {}
     for source in datasources:
-        scores = []
         for algo in algorithms:
             ps = load_p_values(algorithm=algo,datasource=source)
             variances = load_var_values(algo,source)
-            scores.append(calculate_concistency_score(ps,variances))
-
-        #plot?!
-        height = scores
-        bars = algorithms
-        y_pos = np.arange(len(bars))
-
-        # Create bars
-        plt.bar(y_pos, height)
-
-        # Create names on the x-axis
-        plt.xticks(y_pos, bars)
+            scores_iteration = []
+            for i in range(num_iterations):
+                var = np.var([ps[j][i] for j in range(num_experiments)])
+                predticted_var = np.mean([variances[j][i] for j in range(num_experiments)])
+                scores_iteration.append(predticted_var - var) 
+            scores[(algo,source)]= scores_iteration  
+        for k, v in scores.items():
+            plt.plot(range(0, len(v)), v, '.-', label=k)
         plt.ylabel("concistency score")
+        plt.xlabel("iteration")
         plt.xticks(fontsize=5)
         plt.title(source)
+        plt.figlegend()
         plt.savefig(f'{result_folder}/{source}_{fig_name}.png',dpi=1000)
         plt.clf()
-
-def calculate_concistency_score(ps,vs):
-    z = []
-    var_ps = np.var(ps)
-    for v in vs:
-        z.append(v - var_ps)
-    return np.mean(z)
 
 def load_p_values(algorithm, datasource):
     return [algorithm_data[(algorithm, datasource)][i]['pValues'] for i in range(num_experiments)]

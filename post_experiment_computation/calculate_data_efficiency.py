@@ -5,18 +5,18 @@ import numpy as np
 import os
 from requests import get
 from statsmodels.stats.power import TTestIndPower
-from sklearn.metrics import average_precision_score, f1_score, roc_auc_score
+from sklearn.metrics import auc, average_precision_score, f1_score, roc_auc_score
 
 result_folder = "./experiment_results/data_efficiency"
 log_folder = "./log"
 log_prefix = "DataEfficiency_"
-algorithms = ["NaivDependencyTest"]
-#algorithms = ["Pearson","Kendalltau","Spearmanr","XiCor"]
-my_file = open("C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/log/DataSources.txt", 'r')
+#algorithms = ["NaivDependencyTest"]
+algorithms = ["Pearson","Kendalltau","Spearmanr"]
+my_file = open("C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/log/DataSources2.txt", 'r')
 datasources = my_file.read().splitlines()
 datasources = list(set(datasources))
 #datasources = ["LineDataSource","SquareDataSource","HyperSphereDataSource"]
-num_experiments = 1
+num_experiments = 10
 ignore_nans_count = -1
 num_iterations = 50
 
@@ -49,7 +49,7 @@ algorithm_power95: Dict = {}
 algorithm_power99: Dict = {}
 def calculate_power():
     for item in algorithm_data.items():
-        TTestIndPower
+        TTestIndPower.power()
         results = item[1]['score']
         t90 = percentile_scala_breeze(results, 0.90)
         t95 = percentile_scala_breeze(results, 0.95)
@@ -61,39 +61,42 @@ def calculate_power():
 
 algorithm_F1: Dict = {}
 def calculate_F1():
+    p_thresholds = [x / 100.0 for x in range(0, 100, 1)]
     for algorithm in algorithms:
-        f1_iterations = []
         for i in range(num_iterations):
-            predictions = []
-            for datasource in datasources:
-                prediction = algorithm_data.get((algorithm,datasource))['predictions'][i]
-                predictions.append(prediction)
-            f1_iterations.append(f1_score(get_ground_truth(datasources), predictions))
-        algorithm_F1[algorithm] = f1_iterations
+            f1_for_p = []
+            for p in p_thresholds:
+                predictions = [1 if algorithm_data[(algorithm, ds)]['pValues'][i] >= p else 0 for ds in datasources]
+                f1 = f1_score(get_ground_truth(datasources), predictions)
+                f1_for_p.append(f1)
+            algorithm_F1[(algorithm,i)] = f1_for_p
 
 algorithm_ROC_AUC: Dict = {}
 def calculate_ROC_AUC():
+    p_thresholds = range(0, 1, 0.01)
     for algorithm in algorithms:
-        predictions = []
-        for datasource in datasources:
-            prediction = np.median(algorithm_data.get((algorithm,datasource))['predictions'])
-            predictions.append(prediction)
-        auc = roc_auc_score(get_ground_truth(datasources), predictions)
-        algorithm_ROC_AUC[algorithm] = auc
+        for i in range(num_iterations):
+            auc_score_for_p = []
+            for p in p_thresholds:
+                predictions = [1 if algorithm_data[(algorithm, ds)]['pValues'][i] >= p else 0 for ds in datasources]
+                roc_auc = roc_auc_score(get_ground_truth(datasources),predictions)
+                auc_score_for_p.append(roc_auc)
+    algorithm_ROC_AUC[algorithm] = auc_score_for_p
 
 algorithm_prediction_recall_AUC: Dict = {}
-def calculate_prediction_recall_AUC():
+def calculate_prediction_recall_AUC():    
+    p_thresholds = range(0, 1, 0.01)
     for algorithm in algorithms:
-        predictions = []
-        for datasource in datasources:
-            prediction = np.median(algorithm_data.get((algorithm,datasource))['predictions'])
-            predictions.append(prediction)        
-        auc = average_precision_score(get_ground_truth(datasources), predictions)
-        algorithm_prediction_recall_AUC[algorithm] = auc
+        for i in range(num_iterations):
+            auc_score_for_p = []
+            for p in p_thresholds:
+                predictions = [1 if algorithm_data[(algorithm, ds)]['pValues'][i] >= p else 0 for ds in datasources]
+                p_r_auc = auc(get_ground_truth(datasources),predictions)
+                auc_score_for_p.append(p_r_auc)
+    algorithm_prediction_recall_AUC[algorithm] = auc_score_for_p
 
 def get_ground_truth(y):
-    return np.asarray( [1 if x.startswith('Independent') else calc_ground_truth() if x.startswith('Real') else 0 for x in y]
- )
+    return np.asarray([1 if x.startswith('Independent') else calc_ground_truth() if x.startswith('Real') else 0 for x in y])
 
 def calc_ground_truth():
     return [algorithm_data.get(('MCDE',datasource))['predictions'][-1:] for datasource in datasources]
@@ -102,10 +105,13 @@ def plot_data_efficiency(fig_name = "data_efficiency"):
     y_pos = list(algorithms)
 
     for algorithm in algorithms:
-        plot.bar(np.asarray([i for i in range(num_iterations)]), algorithm_F1[algorithm])
-        plot.ylabel("F1")
-        plot.savefig(f'{result_folder}/F1/{algorithm}_{fig_name}_F1.png',dpi=500)
-        plot.clf()
+        x = np.arange(0, 1, step=0.1)
+        for i in num_iterations:
+            plot.plot(x,algorithm_F1[algorithm,i])
+            plot.xticks(x)
+            plot.ylabel("F1 score")
+            plot.savefig(f'{result_folder}/F1/{algorithm}_{fig_name}_F1_{i}.png',dpi=500)
+            plot.clf()
 
     for datasource in datasources:
 

@@ -31,25 +31,9 @@ from ide.building_blocks.dependency_test import FIT, DependencyTest, Hoeffdings,
 
 from ide.core.blueprint_factory import BlueprintFactory
 
-synthetic_data_sources = [
-    LineDataSource((1,),(1,)),
-    SquareDataSource((1,),(1,)),
-    LineDataSource((1,),(2,)),
-    SquareDataSource((1,),(2,)),
-    #HyperSphereDataSource(),
-]
-for i in range(2,5):
-        synthetic_data_sources.append(DataSourceAdapter(CrossDataSource(1,i))),
-        synthetic_data_sources.append(DataSourceAdapter(DoubleLinearDataSource(1,i))),
-        synthetic_data_sources.append(DataSourceAdapter(HourglassDataSource(1,i))),
-        synthetic_data_sources.append(DataSourceAdapter(HypercubeDataSource(1,i))),
-        synthetic_data_sources.append(DataSourceAdapter(SineDataSource(1,i))),
-        synthetic_data_sources.append(DataSourceAdapter(StarDataSource(1,i))),
-        synthetic_data_sources.append(DataSourceAdapter(ZDataSource(1,i))),
-        synthetic_data_sources.append(DataSourceAdapter(InvZDataSource(1,i)))
+synthetic_data_sources = []
+for i in range(1,5):
+    for j in range(1,11):
+        synthetic_data_sources.append(IndependentDataSetDataSource(dims=i,id= i*j ))
 
-for i in range(4):
-    for j in range(10):
-        synthetic_data_sources.append(IndependentDataSetDataSource(dims=i,id=i*j))
-
-blueprints = BlueprintFactory.getBlueprintsForSyntheticData(dataSources=synthetic_data_sources)
+blueprints = BlueprintFactory.getBlueprintsForSyntheticData(algorithms=[Kendalltau(),Spearmanr(),Pearson()],dataSources=synthetic_data_sources)

@@ -232,15 +232,12 @@ class DataEfficiencyEvaluator(Evaluator):
         self.ps = []
         self.ts = []
         self.vs = []
-        self.predictions = []
 
         self.iteration = 0
 
         if isinstance(self.experiment.experiment_modules, DependencyExperiment):
             self.experiment.experiment_modules.dependency_test.test = Evaluate(self.experiment.experiment_modules.dependency_test.test)
             self.experiment.experiment_modules.dependency_test.test.post(self.save_test_result)
-        else:
-            raise ValueError
         if isinstance(self.experiment.oracle.data_source, DataSourceAdapter) :
             self.name = type(self.experiment.oracle.data_source.distribution_data_source).__name__ + str(self.experiment.oracle.data_source.query_shape[0]) + 'x' + str(self.experiment.oracle.data_source.result_shape[0])
         elif isinstance(self.experiment.oracle.data_source, IndependentDataSetDataSource) :
@@ -264,15 +261,11 @@ class DataEfficiencyEvaluator(Evaluator):
             tvalue = t
             self.ps.append(p)
             self.ts.append(tvalue)
-        #prediction
-        if( tvalue > 0.99 ):
-            self.predictions.append(1)
-        else:
-            self.predictions.append(0)
+
    
     def numpy_save_results(self, _):
         file_name = f'{self.folder}/{self.experiment.exp_name}_{self.name}_{self.experiment.exp_nr}.npz'
-        np.savez(file_name, pValues=self.ps, score=self.ts, predictions=self.predictions, var=self.vs)
+        np.savez(file_name, pValues=self.ps, score=self.ts, var=self.vs)
 
 @dataclass
 class LogBluePrint(Evaluator):

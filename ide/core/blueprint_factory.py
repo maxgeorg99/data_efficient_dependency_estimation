@@ -43,19 +43,19 @@ from ide.modules.stopping_criteria import LearningStepStoppingCriteria
 
 class BlueprintFactory():
     tests = [
-        DependencyTestAdapter(dHSIC()),
-        DependencyTestAdapter(CMI()),
+        #DependencyTestAdapter(dHSIC()),
+        #DependencyTestAdapter(CMI()),
         #GMI(),
         #DIMID(),
         #IMIE(),
         #PeakSim(),
-        Kendalltau(),
-        Spearmanr(),
-        Pearson(),
-        DependencyTestAdapter(HiCS()),
-        DependencyTestAdapter(MCDE()),
-        XiCor(),
-        FIT(),
+        #Kendalltau(),
+        #Spearmanr(),
+        #Pearson(),
+        #DependencyTestAdapter(HiCS()),
+        #DependencyTestAdapter(MCDE()),
+        #XiCor(),
+        #FIT(),
         #A_dep_test(),
         Hoeffdings(),
         DependencyTestAdapter(dCor()),
@@ -78,8 +78,8 @@ class BlueprintFactory():
             for dataSource in dataSources:
                 for test in algorithms:
                     blueprints.append(Blueprint(
-                        repeat=10,
-                        stopping_criteria= LearningStepStoppingCriteria(50),
+                        repeat=20,
+                        stopping_criteria= LearningStepStoppingCriteria(100),
                         
                         queried_data_pool=FlatQueriedDataPool(),
                         initial_query_sampler=UniformQuerySampler(num_queries=10),

@@ -35,7 +35,7 @@ class DependencyTestAdapter(DependencyTest):
         return variance
 
     def test(self):
-        scores = []
+        self.scores = []
 
         queries = self.exp_modules.queried_data_pool.queries
 

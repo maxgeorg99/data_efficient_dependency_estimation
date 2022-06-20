@@ -145,7 +145,6 @@ class HiCS(DependencyMeasure):
         df = pd.DataFrame(x)
         df.to_csv(dataFile, sep=",", header='true', index=False)
 
-        #output = subprocess.check_output('java -jar target/scala-2.12/MCDE-experiments-1.0.jar -t EstimateDependency -f src/test/resources/data/Independent-5-0.0.csv -a HiCS -m 1 -p 1')
         output = subprocess.check_output('java -jar target/scala-2.12/MCDE-experiments-1.0.jar -t EstimateDependency -f run_data_store/hicsData.csv -a HiCS')
         score = float(output.splitlines()[5])
         return score

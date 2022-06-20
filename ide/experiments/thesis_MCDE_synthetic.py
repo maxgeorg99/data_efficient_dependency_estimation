@@ -32,8 +32,6 @@ from ide.building_blocks.dependency_test import DependencyTest, NaivDependencyTe
 from ide.core.blueprint_factory import BlueprintFactory
 
 synthetic_data_sources = [
-    LineDataSource((1,),(1,)),
-    SquareDataSource((1,),(1,)),
     LineDataSource((1,),(2,)),
     SquareDataSource((1,),(2,)),
     #HyperSphereDataSource(),
@@ -48,10 +46,4 @@ for i in range(2,5):
         synthetic_data_sources.append(DataSourceAdapter(ZDataSource(1,i))),
         synthetic_data_sources.append(DataSourceAdapter(InvZDataSource(1,i)))
 
-algorithms = [
-        DependencyTestAdapter(MCDE(),20),
-        DependencyTestAdapter(CMI(),20),
-        DependencyTestAdapter(HiCS(),20)
-]
-
-blueprints = BlueprintFactory.getBlueprintsForSyntheticData(algorithms=algorithms ,dataSources=synthetic_data_sources)
+blueprints = BlueprintFactory.getBlueprintsForSyntheticData(dataSources=synthetic_data_sources)

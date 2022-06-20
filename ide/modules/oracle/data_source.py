@@ -146,6 +146,7 @@ class IndependentDataSetDataSource(DataSource):
             data[:, idx] = np.asarray( distr["type"](size=(sample_size,), **distr["kwargs"]))
         random_idx = np.random.choice(np.arange(sample_size), size=(sample_size,), p=coefficients)
         results = [np.asarray(np.random.choice(data[x])) for x in random_idx]
+        results = np.expand_dims(results, axis=1)
         return queries, results
 
     @property
