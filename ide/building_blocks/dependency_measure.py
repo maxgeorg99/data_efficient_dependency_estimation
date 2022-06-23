@@ -3,6 +3,7 @@ from dataclasses import dataclass
 import subprocess
 from nptyping import NDArray
 import dcor
+from data_efficient_dependency_estimation.dependency_tests_thesis.XtendedCorrel import hoeffding
 
 import numpy as np
 import pandas as pd
@@ -112,6 +113,15 @@ class dHSIC(DependencyMeasure):
         K_list = [self.gaussian_grammat(_arg) for _arg in argv]
 
         return self.dHSIC_calc(K_list)
+@dataclass
+class Hoeffdings(DependencyMeasure):
+
+    def apply(self, samples: NDArray):
+        samples = np.squeeze(samples)
+        x, y = samples[:,0], samples[:,1] 
+        r = hoeffding(x,y)
+        return r
+
 @dataclass
 class dCor(DependencyMeasure):
 

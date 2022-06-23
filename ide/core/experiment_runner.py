@@ -39,10 +39,10 @@ class ExperimentRunner():
         for blueprint in blueprints:
             self.run_experiment(blueprint)
 
-    def run_experiments_parallel(self, blueprints: Union[List[Blueprint], None] = None, number_of_cores:int = 16):
+    def run_experiments_parallel(self, blueprints: Union[List[Blueprint], None] = None):
         if blueprints is None: blueprints = self.blueprints
 
-        with Pool(number_of_cores) as p:
+        with Pool(16) as p:
             p.map(self.run_experiment, blueprints)
 
 

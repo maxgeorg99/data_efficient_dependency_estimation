@@ -32,7 +32,7 @@ from ide.building_blocks.dependency_test import DependencyTest, NaivDependencyTe
 from ide.core.blueprint_factory import BlueprintFactory
 
 synthetic_data_sources = [
-    LineDataSource((1,),(2,)),
+    #LineDataSource((1,),(2,)),
     SquareDataSource((1,),(2,)),
     #HyperSphereDataSource(),
 ]

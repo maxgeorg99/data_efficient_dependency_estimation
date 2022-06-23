@@ -17,16 +17,16 @@ from ide.core.blueprint import Blueprint
 from ide.modules.oracle.data_source_adapter import DataSourceAdapter
 from ide.modules.evaluator import LogNewDataPointsEvaluator, PlotNewDataPointsEvaluator, PrintNewDataPointsEvaluator, PlotQueryDistEvaluator
 from ide.building_blocks.evaluator import PlotScoresEvaluator, PlotQueriesEvaluator, PlotTestPEvaluator, BoxPlotTestPEvaluator
-from ide.building_blocks.dependency_test import DependencyTest, NaivDependencyTest
+from ide.building_blocks.dependency_test import DependencyTest, NaivDependencyTest, chi_square
 from ide.building_blocks.multi_sample_test import KWHMultiSampleTest
 
 from ide.core.blueprint_factory import BlueprintFactory
 
-real_world_data_sources = RealWorldDataSourceFactory().get_data_source('chf')
-test = NaivDependencyTest(
-            query_sampler = RandomChoiceQuerySampler(num_queries=20),
-            data_sampler = KDTreeRegionDataSampler(0.05),
-            multi_sample_test=KWHMultiSampleTest()
-        )
+#real_world_data_sources = RealWorldDataSourceFactory().get_all_data_sources()
+real_world_data_sources = [
+    RealWorldDataSourceFactory().chf(),
+    RealWorldDataSourceFactory().office(),
+    RealWorldDataSourceFactory().sunspot(),
+]
 
-blueprints = BlueprintFactory().getBlueprintsForRealWorldData(algorithms=[test],dataSources=[real_world_data_sources])
+blueprints = BlueprintFactory.getBlueprintsForRealWorldData(algorithms=[chi_square()], dataSources=real_world_data_sources)

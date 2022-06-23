@@ -7,10 +7,6 @@ from nptyping import Float
 import numpy as np
 from ide.building_blocks.dependency_measure import DependencyMeasure
 from ide.building_blocks.dependency_test import DependencyTest
-from ide.core.data_sampler import DataSampler
-from ide.core.oracle.data_source import DataSource
-from ide.core.query.query_sampler import QuerySampler
-from ide.modules.oracle.data_source import IndependentDataSetDataSource
 from sklearn.utils import resample, shuffle
 
 from ide.modules.query.query_sampler import RandomChoiceQuerySampler, UniformQuerySampler

@@ -1,14 +1,15 @@
 from typing import List
-from ide.building_blocks.dependency_measure import CMI, MCDE, HiCS, dCor, dHSIC
+from ide.building_blocks.dependency_measure import CMI, MCDE, HiCS, Hoeffdings, dCor, dHSIC
 from ide.building_blocks.dependency_test import DependencyTest, Kendalltau, XiCor
 from ide.building_blocks.dependency_test_adapter import DependencyTestAdapter
 from ide.building_blocks.evaluator import DataEfficiencyEvaluator, LogBluePrint
 from ide.building_blocks.experiment_modules import DependencyExperiment
-from ide.building_blocks.dependency_test import FIT, Hoeffdings, PeakSim, Pearson, Spearmanr, GMI, DIMID, IMIE, A_dep_test,chi_square,IndepTest,CondIndTest,LISTest
+from ide.building_blocks.dependency_test import FIT, PeakSim, Pearson, Spearmanr, GMI, DIMID, IMIE, A_dep_test,chi_square,IndepTest,CondIndTest,LISTest
 from ide.building_blocks.selection_criteria import QueryTestNoSelectionCritera
 from ide.core.blueprint import Blueprint
 from ide.core.data_sampler import DataSampler
 from ide.core.evaluator import Evaluator
+from ide.core.oracle.augmentation import NoAugmentation
 from ide.core.oracle.data_source import DataSource
 from ide.core.oracle.oracle import Oracle
 from ide.core.query.query_optimizer import NoQueryOptimizer
@@ -57,12 +58,12 @@ class BlueprintFactory():
         #XiCor(),
         #FIT(),
         #A_dep_test(),
-        Hoeffdings(),
-        DependencyTestAdapter(dCor()),
+        DependencyTestAdapter(Hoeffdings()),
+        #DependencyTestAdapter(dCor()),
         #chi_square(),
-        IndepTest(),
-        CondIndTest(),
-        LISTest(),
+        #IndepTest(),
+        #CondIndTest(),
+        #LISTest(),
     ]
     evaluators = [
         DataEfficiencyEvaluator(),
@@ -112,7 +113,7 @@ class BlueprintFactory():
             for dataSource in dataSources:
                 for test in algorithms:
                     blueprints.append(Blueprint(
-                        repeat=1,
+                        repeat=10,
                         stopping_criteria= LearningStepStoppingCriteria(100),
                     
                         queried_data_pool=FlatQueriedDataPool(),
@@ -128,7 +129,7 @@ class BlueprintFactory():
                         ),
                         oracle = Oracle(
                             data_source=dataSource,
-                            augmentation=NoiseAugmentation(noise_ratio=0.2)
+                            augmentation=NoAugmentation()
                         ),
                         evaluators=evaluators,
                         exp_name = test._Configurable__args[0].replace('(','').replace(')','') if isinstance(test,DependencyTestAdapter) else type(test).__name__,

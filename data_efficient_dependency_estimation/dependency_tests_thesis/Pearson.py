@@ -1,6 +1,7 @@
 import numpy
 import tensorflow as tf
 from scipy.stats import pearsonr
+from scipy.stats import chi2_contingency
 
 from active_learning_ts.knowledge_discovery.knowledge_discovery_task import KnowledgeDiscoveryTask
 from active_learning_ts.query_selection.query_sampler import QuerySampler
@@ -18,6 +19,7 @@ class Pearson(DependencyTest):
         self.sampler.update_pool(self.surrogate_model.get_query_pool())
         query = self.sampler.sample(num_queries)
         xs, ys = self.surrogate_model.query(query)
+
 
         r, p = pearsonr(xs[:,0], ys[:,0])
         self.global_uncertainty = p

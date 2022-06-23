@@ -123,6 +123,7 @@ class IndependentDataSetDataSource(DataSource):
         self.dim = dims
         self.number_of_distributions = number_of_distributions
         self.distribution_function = GaussianMixture(n_components=self.number_of_distributions)
+        self.result_shape = (dims,)
 
     def query(self, queries):
         distributions = []
@@ -145,8 +146,7 @@ class IndependentDataSetDataSource(DataSource):
         for idx, distr in enumerate(distributions):
             data[:, idx] = np.asarray( distr["type"](size=(sample_size,), **distr["kwargs"]))
         random_idx = np.random.choice(np.arange(sample_size), size=(sample_size,), p=coefficients)
-        results = [np.asarray(np.random.choice(data[x])) for x in random_idx]
-        results = np.expand_dims(results, axis=1)
+        results = [np.random.choice(data[x],size=self.dim) for x in random_idx]
         return queries, results
 
     @property

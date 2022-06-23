@@ -1,5 +1,6 @@
 from __future__ import annotations
 from abc import abstractmethod
+import itertools
 import subprocess
 from typing import TYPE_CHECKING
 from unittest import result
@@ -62,61 +63,97 @@ class Pearson(DependencyTest):
 
     def test(self):
         results = self.exp_modules.queried_data_pool.results
-        x = [item for sublist in results for item in sublist]
-        t, p = pearsonr(x, x)
+        if results.shape[1] == 2:
+            x = results[:,:1]
+            y = results[:,1:2]
+            x = [item for sublist in x for item in sublist]
+            y = [item for sublist in y for item in sublist]
+            t, p = pearsonr(x, y)
+        else:
+            pair_wise = []
+            for a, b in itertools.combinations(results.transpose(),2):
+                pair_wise.append(pearsonr(a, b))
+            ts = [i[0] for i in pair_wise]
+            max_val = max(ts, key=abs)
+            max_index = ts.index(max_val)
+            t,p = pair_wise[max_index]
         return t,p,0
+
 @dataclass
 class Spearmanr(DependencyTest):
 
     def test(self):
         results = self.exp_modules.queried_data_pool.results
-        x = [item for sublist in results for item in sublist]
-        t, p = spearmanr(x, x)
+        if results.shape[1] == 2:
+            x = results[:,:1]
+            y = results[:,1:2]
+            t, p = spearmanr(x, y)
+        else:
+            pair_wise = []
+            for a, b in itertools.combinations(results.transpose(),2):
+                pair_wise.append(spearmanr(a, b))
+            ts = [i[0] for i in pair_wise]
+            max_val = max(ts, key=abs)
+            max_index = ts.index(max_val)
+            t,p = pair_wise[max_index]
         return t,p,0
 @dataclass
 class Kendalltau(DependencyTest):
 
     def test(self):
         results = self.exp_modules.queried_data_pool.results
-        x = [item for sublist in results for item in sublist]
-        t, p = kendalltau(x, x)
+        if results.shape[1] == 2:
+            x = results[:,:1]
+            y = results[:,1:2]
+            t, p = kendalltau(x, y)
+        else:    
+            pair_wise = []
+            for a, b in itertools.combinations(results.transpose(),2):
+                pair_wise.append(kendalltau(a, b))
+            ts = [i[0] for i in pair_wise]
+            max_val = max(ts, key=abs)
+            max_index = ts.index(max_val)
+            t,p = pair_wise[max_index]
         return t,p,0
 @dataclass
 class FIT(DependencyTest):
 
     def test(self):
-        queries = self.exp_modules.queried_data_pool.queries
-
-        samples = self.exp_modules.queried_data_pool.results
-        samples = np.array(samples)
-        p = fcit.test(samples, samples)
+        results = self.exp_modules.queried_data_pool.results
+        if results.shape[1] == 2:
+            x = results[:,:1]
+            y = results[:,1:2]
+            p = fcit.test(x, y)
+        else:    
+            ps = []
+            for a, b in itertools.combinations(results.transpose(),2):
+                ps.append(fcit.test(a, b))
+            p = max(ps)
         return 0,p,0
 @dataclass
 class XiCor(DependencyTest):
 
     def test(self):
-        queries = self.exp_modules.queried_data_pool.queries
-
-        samples = self.exp_modules.queried_data_pool.results
-        x = [item for sublist in samples for item in sublist]
-        xi_obj = Xi(x,x)
-        #t = 0 if and only if X and Y are independent
-        t = xi_obj.correlation
-        p = xi_obj.pval_asymptotic(ties=False, nperm=1000)      
+        results = self.exp_modules.queried_data_pool.results
+        if results.shape[1] == 2:
+            x = results[:,:1]
+            y = results[:,1:2]
+            t, p = self.xi(x, y)
+        else:    
+            pair_wise = []
+            for a, b in itertools.combinations(results.transpose(),2):
+                pair_wise.append(self.xi(a, b))
+            ts = [i[0] for i in pair_wise]
+            max_val = max(ts, key=abs)
+            max_index = ts.index(max_val)
+            t,p = pair_wise[max_index]      
         return t, p, 0
-@dataclass
-class Hoeffdings(DependencyTest):
 
-    def test(self):
-        queries = self.exp_modules.queried_data_pool.queries
-
-        samples = self.exp_modules.queried_data_pool.results
-        x = [item for sublist in samples for item in sublist]
-        y = [item for item in x]
-        samples = np.array(y)
-        p = hoeffding(samples,samples)    
-        return 0, p,0
-
+    def xi(self,a,b):
+        xi_obj = Xi(a,b)
+        t = xi_obj.correlation
+        p = xi_obj.pval_asymptotic(ties=False, nperm=100)
+        return t,p
 @dataclass
 class chi_square(DependencyTest):
 
@@ -124,7 +161,7 @@ class chi_square(DependencyTest):
         queries = self.exp_modules.queried_data_pool.queries
 
         samples = self.exp_modules.queried_data_pool.results
-        r, p, dof, expected = chi2_contingency(samples, samples)
+        r, p, dof, expected = chi2_contingency(samples)
         return r,p,0
 
 @dataclass

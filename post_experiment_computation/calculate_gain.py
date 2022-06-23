@@ -4,25 +4,24 @@ import numpy as np
 import os
 
 folder = "./experiment_results"
-log_folder = "./log"
+log_folder = "./log_hoeffding"
 log_prefix = "log"
-algorithms = ["Pearson","Kendalltau","Spearmanr","dCor","dHSIC","FIT","Hoeffdings","XiCor","CondIndTest","LISTest","IndepTest"]
-datasources = ["LineDataSource1x1","SquareDataSource1x1","LineDataSource1x2","SquareDataSource1x2"]
+
 baseline = "Pearson"
-num_iterations = 51
+num_iterations = 100
 ignore_nans_count = -1
-num_experiments = 1
+num_experiments = 20
 
-def walk_algorithms():
-    for algorithm in algorithms:
-        for datasource in datasources:
-            walk_files(algorithm, datasource)
-
-def walk_files( algorithm, datasource):
-    for i in range(num_experiments):
-        f = f"{log_folder}/{algorithm}_{datasource}_{i}.npz"
-        data = np.load(f)
-        compute_data(data, algorithm, datasource)
+def walk_files(path):
+    for dirpath, dnames, fnames in os.walk(path):
+        f: str
+        for f in fnames:
+            if f.endswith(".npz"):
+                data = np.load(os.path.join(dirpath, f))
+                c = f.split("_")
+                algorithm = c[0]
+                datasource = c[1]
+                compute_data(data,algorithm,datasource)
 
 algorithm_data: Dict = {}
 def compute_data(data, algorithm, datasource):
@@ -36,53 +35,51 @@ def calculate_means():
     for item in algorithm_data.items():
         mean = []
         for i in range(num_iterations):
-            for j in range(num_experiments):
-                mean.append(item[1][j]['pValues'][i])
+            mean.append(np.nanmean([item[1][j]['pValues'][i] for j in range(num_experiments)], axis=0))
         algorithm_means[item[0]] = np.asarray(mean)
 algorithm_medians: Dict = {}
 def calculate_median():
     for item in algorithm_data.items():
         median = []
         for i in range(num_iterations):
-            for j in range(num_experiments):
-                median.append(np.nanmedian(item[1][j]['pValues'][i]))
+            median.append(np.nanmedian([item[1][j]['pValues'][i] for j in range(num_experiments)], axis=0))
         algorithm_medians[item[0]] = np.asarray(median)
 algorithm_vars: Dict = {}
 def calculate_vars():
     for item in algorithm_data.items():
         vars = []
         for i in range(num_iterations):
-            for j in range(num_experiments):
-                vars.append(np.nanvar([item[1][j]['pValues'][i] for i in range(num_experiments)], axis=0))
+            vars.append(np.nanvar([item[1][j]['pValues'][i] for j in range(num_experiments)], axis=0))
         algorithm_vars[item[0]] = np.asarray(vars)
 def plot_p_value(fig_name = "p-value"):
 
-    for key in algorithm_data.keys():
-        y = algorithm_means[key]
-        x = np.asarray([i for i in range(len(y))])
-        y_err = algorithm_vars[key]
-        plot.ylim(0,1)
-        plot.errorbar(x, y, y_err, alpha=0.5, fmt=' ', label=f'{key[0]}_{key[1]}_var')
-    
-    for key in algorithm_data.keys():
-        y = algorithm_means[key]
-        x = np.asarray([i for i in range(len(y))])
-        plot.ylim(0,1)
-        plot.plot(x, y, alpha=1, label=f'{key[0]}_{key[1]}_mean')
+    for datasource in datasources:
+        for algorithm in algorithms:
+            key = (algorithm,datasource)
 
-    for key in algorithm_data.keys():
-        y = algorithm_medians[key]
-        x = np.asarray([i for i in range(len(y))])
-        plot.ylim(0,1)
-        plot.plot(x, y, alpha=1, label=f'{key[0]}_{key[1]}_median')
+            y = algorithm_means[key]
+            x = np.asarray([i for i in range(len(y))])
+            y_err = algorithm_vars[key]
+            plot.ylim(0,1)
+            plot.errorbar(x, y, y_err, alpha=0.5, fmt=' ', label=f'{key[0]}_{key[1]}_var')
+        
+            y = algorithm_means[key]
+            x = np.asarray([i for i in range(len(y))])
+            plot.ylim(0,1)
+            plot.plot(x, y, alpha=1, label=f'{key[0]}_{key[1]}_mean')
 
-    plot.title(fig_name)
-    plot.xlabel("learning iteration")
-    plot.ylabel("p-value")
-    plot.figlegend()
-    
-    plot.savefig(f'{folder}/{fig_name}.png',dpi=500)
-    plot.clf()
+            y = algorithm_medians[key]
+            x = np.asarray([i for i in range(len(y))])
+            plot.ylim(0,1)
+            plot.plot(x, y, alpha=1, label=f'{key[0]}_{key[1]}_median')
+
+            plot.title(fig_name)
+            plot.xlabel("learning iteration")
+            plot.ylabel("p-value")
+            plot.figlegend()
+            
+            plot.savefig(f'{folder}/{fig_name}_{datasource}_{algorithm}.png',dpi=500)
+            plot.clf()
 
 gain_mean_p: Dict = {}
 def calculate_p_mean_gain():
@@ -102,19 +99,21 @@ def calculate_p_median_gain():
 
 
 def plot_p_gain(p_gain, fig_name = "p-gain"):
-    for key in algorithm_data.keys():
-        y = p_gain[key]
-        x = np.asarray([i for i in range(len(y))])
-        plot.ylim(-1,1)
-        plot.plot(x, y, label=f'{key}')
+    for datasource in datasources:
+        for algorithm in algorithms:
+            key = (algorithm,datasource)
+            y = p_gain[key]
+            x = np.asarray([i for i in range(len(y))])
+            plot.ylim(-1,1)
+            plot.plot(x, y, label=f'{key}')
 
-    plot.title(fig_name)
-    plot.xlabel("learning iteration")
-    plot.ylabel("p-value gain against baseline")
-    plot.figlegend()
-    
-    plot.savefig(f'{folder}/{fig_name}.png',dpi=500)
-    plot.clf()
+        plot.title(fig_name)
+        plot.xlabel("learning iteration")
+        plot.ylabel("p-value gain against baseline")
+        plot.figlegend()
+        
+        plot.savefig(f'{folder}/{fig_name}_{datasource}.png',dpi=500)
+        plot.clf()
 
 max_p = 0.25
 mean_data_gain: Dict = {}
@@ -166,24 +165,31 @@ def calculate_data_gain(mean, base_mean):
 
 
 def plot_data_gain(data_gain, fig_name = "data-gain"):
-    for key in algorithm_data.keys():
-        x, y = data_gain[key]
-        plot.xlim(max_p,0)
-        plot.ylim(-1,1)
-        plot.plot(x, y, label=f'{key}')
+    for datasource in datasources:
+        for algorithm in algorithms:
+            key = (algorithm,datasource)
+            x, y = data_gain[key]
+            plot.xlim(max_p,0)
+            plot.ylim(-1,1)
+            plot.plot(x, y, label=f'{key}')
 
-    plot.title(fig_name)
-    plot.xlabel("p-value")
-    plot.ylabel("data gain against baseline")
-    plot.figlegend()
+        plot.title(fig_name)
+        plot.xlabel("p-value")
+        plot.ylabel("data gain against baseline")
+        plot.figlegend()
     
-    plot.savefig(f'{folder}/{fig_name}.png',dpi=500)
-    plot.clf()
+        plot.savefig(f'{folder}/{fig_name}_{datasource}.png',dpi=500)
+        plot.clf()
 
 
 
 
-walk_algorithms()
+walk_files(log_folder)
+
+keys = list(algorithm_data.keys())
+datasources = set([x[1] for x in keys])
+algorithms = set([x[0] for x in keys])
+
 calculate_means()
 calculate_median()
 calculate_vars()
