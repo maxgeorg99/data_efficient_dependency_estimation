@@ -1,15 +1,17 @@
 from __future__ import annotations
 from abc import abstractmethod
 import itertools
+from random import random, randrange
 import subprocess
 from typing import TYPE_CHECKING
 from unittest import result
 import dcor
+from sklearn.neighbors import NearestNeighbors
 
 from xicor.xicor import Xi
 from data_efficient_dependency_estimation.dependency_tests_thesis.XtendedCorrel import hoeffding
 from fcit import fcit
-
+from tensorflow.math import digamma 
 from dataclasses import dataclass
 from nptyping import NDArray
 from scipy.stats import pearsonr
@@ -49,9 +51,77 @@ class DIMID(DependencyTest):
 
 @dataclass
 class IMIE(DependencyTest):
+    OrderR = []
+    OrderX = []
+    OrderY = []
+    xP = []
+    yP = []
+    k: int = 5
+    offset: float = 0
+    mean: float = 0 
+    var: float = 0 
+    iterations: int = 0
 
     def test(self):
-        pass
+        results = self.exp_modules.queried_data_pool.results
+        self.xP = results[:,:1]
+        self.yP = results[:,1:2]
+        self.offset = digamma(self.xP.size()) + digamma(self.k) - (1.0 / float(self.k))
+        self.OrderR = list(range(len(results)))
+        self.OrderX = list(range(len(results)))
+        self.OrderY = list(range(len(results)))
+        for i in range(10):
+            score, v = self.incrementEstimate()
+        t=0
+        p=0
+        return t,p,v
+
+    def deltaX(self,index):
+        q = self.exp_modules.queried_data_pool.queries[index].reshape(-1, 1)       
+        #get k nearest for p
+        knn = NearestNeighbors(n_neighbors=self.k)
+        knn.fit(self.exp_modules.queried_data_pool.queries, self.exp_modules.queried_data_pool.results)
+        kneighbor_indexes = knn.kneighbors(q, n_neighbors=self.k, return_distance=False)
+        kneighbors = self.exp_modules.queried_data_pool.results[kneighbor_indexes]
+        xP = self.xP[index]
+
+        return max([abs(xP[0]-x[0]) for x in kneighbors[0]])
+
+    def deltaY(self,index):
+        q = self.exp_modules.queried_data_pool.queries[index].reshape(-1, 1)       
+        #get k nearest for p
+        knn = NearestNeighbors(n_neighbors=self.k)
+        knn.fit(self.exp_modules.queried_data_pool.queries, self.exp_modules.queried_data_pool.results)
+        kneighbor_indexes = knn.kneighbors(q, n_neighbors=self.k, return_distance=False)
+        kneighbors = self.exp_modules.queried_data_pool.results[kneighbor_indexes]
+        yP = self.yP[index]
+
+        return max([abs(yP[0]-y[0]) for y in kneighbors[0]])
+
+
+    def MC(self,index):
+        xP = self.xP[index]
+        yP = self.yP[index]
+        a = len([elem for elem in self.xP if abs(elem - xP) <= self.deltaX(index)])
+        b = len([elem for elem in self.yP if abs(elem - yP) <= self.deltaY(index)])
+        return (a,b)
+    
+    def incrementEstimate(self):
+        randomIdx = randrange(len(self.xP))
+        self.OrderR[self.iterations], self.OrderR[randomIdx] = self.OrderR[randomIdx], self.OrderR[self.iterations]
+        index = self.OrderR[self.iterations]
+        MCs = self.MC(index)
+        v = digamma(float(MCs[0])).numpy() + digamma(float(MCs[1])).numpy()
+        self.iterations+=1
+        delta = v - self.mean
+        self.mean += (delta / (self.iterations))
+        delta2 = v - self.mean
+        self.var += (delta * delta2)
+
+        score = self.offset - self.mean
+        var = self.var / self.iterations
+        return score, var
+        
 
 @dataclass
 class PeakSim(DependencyTest):

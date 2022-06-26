@@ -6,6 +6,9 @@
 #from ide.experiments.thesis_d_synthetic import blueprints
 #from ide.experiments.thesis_classic_synthetic import blueprints
 from ide.experiments.thesis_synthetic import blueprints
+#from ide.experiments.thesis_noise_level import blueprints
+#from ide.experiments.thesis_IMIE import blueprints
+#from ide.experiments.thesis_sine import blueprints
 from ide.core.experiment_runner import ExperimentRunner
 
 #er = ExperimentRunner([blueprint1,blueprint2,blueprint3])

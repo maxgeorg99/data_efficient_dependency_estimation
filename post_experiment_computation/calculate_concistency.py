@@ -9,9 +9,9 @@ import statistics as stat
 
 result_folder = "./experiment_results/concistency"
 fig_name = 'concistency'
-log_folder = "./log_hoeffding"
+log_folder = "./log_noise_Square"
 log_prefix = "DataEfficiency_Ps_"
-num_experiments = 20
+num_experiments = 100
 num_iterations = 100
 
 def walk_files(path):
@@ -21,8 +21,8 @@ def walk_files(path):
             if f.endswith(".npz"):
                 data = np.load(os.path.join(dirpath, f))
                 c = f.split("_")
-                algorithm = c[0]
-                datasource = c[1]
+                algorithm = c[0] + ' noise ' +c[2]
+                datasource = c[3]
                 compute_data_efficiency(data,algorithm,datasource)
 
 algorithm_data: Dict = {}
@@ -53,7 +53,7 @@ def plot_concistency_scores():
         plt.xticks(fontsize=5)
         plt.title(source)
         plt.figlegend()
-        plt.savefig(f'{result_folder}/{source}_{fig_name}_bivar.png',dpi=1000)
+        plt.savefig(f'{result_folder}/{source}_{fig_name}_square_noise_100.png',dpi=1000)
         plt.clf()
 
 def load_p_values(algorithm, datasource):

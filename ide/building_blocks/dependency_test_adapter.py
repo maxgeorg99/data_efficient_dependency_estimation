@@ -27,7 +27,11 @@ class DependencyTestAdapter(DependencyTest):
         return greater / len(self.scores)
 
     def calc_var(self):
-        variance = np.var(self.scores)
+        estVar = self.dependency_measure.variance()
+        if (estVar == 0):
+            variance = np.var(self.scores)
+        else:
+            variance = estVar
         return variance
 
     def test(self):

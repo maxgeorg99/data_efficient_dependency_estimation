@@ -108,6 +108,30 @@ class HyperSphereDataSource(DataSource):
         return DataPool(self.query_pool, self.result_shape)
 
 @dataclass
+class SineDataSource(DataSource):
+    query_shape: Tuple[int,...] = (1,)
+    result_shape: Tuple[int,...] = (1,)
+    amplitude: float = 1
+    period: float = 1
+
+
+    def query(self, queries):
+        results = np.sin(self.period*2*np.pi*np.dot(queries, np.ones((*self.query_shape,*self.result_shape))))*self.amplitude
+        return queries, results
+
+    @property
+    def query_pool(self) -> QueryPool:
+        x_min = 0
+        x_max = 1
+        query_ranges = np.asarray(tuple((x_min, x_max) for i in range(self.query_shape[0])))
+        return QueryPool(query_count=None, query_shape=self.query_shape, query_ranges=query_ranges)
+
+    @property
+    def data_pool(self) -> DataPool:
+        return DataPool(self.query_pool, self.result_shape)
+
+
+@dataclass
 class IndependentDataSetDataSource(DataSource):
     id: int = field(default = 1, repr=False)
     query_shape: Tuple[int,...] = (1,)

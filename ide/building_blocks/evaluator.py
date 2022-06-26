@@ -13,7 +13,7 @@ from sklearn.metrics import f1_score, roc_auc_score
 
 import numpy as np
 from matplotlib import pyplot as plot
-from ide.modules.oracle.data_source import IndependentDataSetDataSource, InterpolatingDataSource
+from ide.modules.oracle.data_source import IndependentDataSetDataSource, InterpolatingDataSource, LineDataSource, SineDataSource, SquareDataSource
 
 from ide.modules.oracle.data_source_adapter import DataSourceAdapter # type: ignore
 from ide.core.evaluator import LogingEvaluator, Evaluate
@@ -28,7 +28,6 @@ if TYPE_CHECKING:
     from ide.core.experiment import Experiment
     from nptyping import  NDArray, Number, Shape
     from ide.building_blocks.dependency_test import DependencyTest
-
 
 @dataclass
 class PlotQueriesEvaluator(LogingEvaluator):
@@ -238,14 +237,22 @@ class DataEfficiencyEvaluator(Evaluator):
         if isinstance(self.experiment.experiment_modules, DependencyExperiment):
             self.experiment.experiment_modules.dependency_test.test = Evaluate(self.experiment.experiment_modules.dependency_test.test)
             self.experiment.experiment_modules.dependency_test.test.post(self.save_test_result)
-        if isinstance(self.experiment.oracle.data_source, DataSourceAdapter) :
-            self.name = type(self.experiment.oracle.data_source.distribution_data_source).__name__ + str(self.experiment.oracle.data_source.query_shape[0]) + 'x' + str(self.experiment.oracle.data_source.result_shape[0])
-        elif isinstance(self.experiment.oracle.data_source, IndependentDataSetDataSource) :
-            self.name = type(self.experiment.oracle.data_source).__name__ + str(self.experiment.oracle.data_source.id)
-        elif isinstance(self.experiment.oracle.data_source, InterpolatingDataSource) :
-            self.name = type(self.experiment.oracle.data_source).__name__ + '_' +str(self.experiment.oracle.data_source.data_set)
+
+        datasource = self.experiment.oracle.data_source
+        if isinstance(datasource, DataSourceAdapter) :
+            self.name = type(datasource.distribution_data_source).__name__ + str(datasource.result_shape[0]) +'d'
+        elif isinstance(datasource, IndependentDataSetDataSource) :
+            self.name = type(datasource).__name__ + str(datasource.id)
+        elif isinstance(datasource, InterpolatingDataSource) :
+            self.name = type(datasource).__name__
+        elif isinstance(datasource, LineDataSource) :
+            self.name = type(datasource).__name__ + '_a_' + str(datasource.a) + '_b_' + str(datasource.b)
+        elif isinstance(datasource, SquareDataSource) :
+            self.name = type(datasource).__name__ + '_s_'+str(datasource.s) + '_x_' +str(datasource.x0) + '_y_' +str(datasource.y0)
+        elif isinstance(datasource, SineDataSource) :
+            self.name = type(datasource).__name__ + '_amp' + str(datasource.amplitude) + '_periods_' +str(datasource.period)
         else:
-            self.name = type(self.experiment.oracle.data_source).__name__ + str(self.experiment.oracle.data_source.query_shape[0]) + 'x' + str(self.experiment.oracle.data_source.result_shape[0])
+            self.name = type(datasource).__name__ + str(datasource.result_shape[0]) + 'd'
 
         self.experiment.run = Evaluate(self.experiment.run)
         self.experiment.run.post(self.numpy_save_results)

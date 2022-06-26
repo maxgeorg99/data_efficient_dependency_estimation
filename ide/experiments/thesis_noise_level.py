@@ -2,6 +2,7 @@ from distribution_data_generation.data_sources.double_linear_data_source import 
 from distribution_data_generation.data_sources.hourglass_data_source import HourglassDataSource
 from distribution_data_generation.data_sources.hypercube_data_source import HypercubeDataSource
 from distribution_data_generation.data_sources.graph_data_source import GraphDataSource
+from distribution_data_generation.data_sources.sine_data_source import SineDataSource
 from distribution_data_generation.data_sources.star_data_source import StarDataSource
 from distribution_data_generation.data_sources.z_data_source import ZDataSource
 from distribution_data_generation.data_sources.inv_z_data_source import InvZDataSource
@@ -22,7 +23,7 @@ from ide.building_blocks.experiment_modules import DependencyExperiment
 from ide.modules.oracle.augmentation import NoiseAugmentation
 from ide.modules.stopping_criteria import LearningStepStoppingCriteria
 from ide.core.blueprint import Blueprint
-from ide.modules.oracle.data_source import IndependentDataSetDataSource, LineDataSource, SineDataSource, SquareDataSource
+from ide.modules.oracle.data_source import HyperSphereDataSource, IndependentDataSetDataSource, LineDataSource, SquareDataSource
 from ide.modules.oracle.data_source_adapter import DataSourceAdapter
 from ide.modules.evaluator import LogNewDataPointsEvaluator, PlotNewDataPointsEvaluator, PrintNewDataPointsEvaluator, PlotQueryDistEvaluator
 from ide.building_blocks.evaluator import PlotScoresEvaluator, PlotQueriesEvaluator, PlotTestPEvaluator, BoxPlotTestPEvaluator
@@ -32,18 +33,23 @@ from ide.core.blueprint_factory import BlueprintFactory
 
 synthetic_data_sources = []
 
-for i in range(2,3):
-        for j in range(1,3):
-                synthetic_data_sources.append(LineDataSource((1,),(i,),a=10**(j-1))),
-                synthetic_data_sources.append(SquareDataSource((1,),(i,),s=j)),
-                synthetic_data_sources.append(SineDataSource((1,),(i,),amplitude=j**2,period=j))
+for i in range(2,4):
+        synthetic_data_sources.append(LineDataSource((1,),(i,))),
+        synthetic_data_sources.append(SquareDataSource((1,),(i,))),
+        synthetic_data_sources.append(HyperSphereDataSource((1,),(i,))),
         synthetic_data_sources.append(DataSourceAdapter(CrossDataSource(1,i))),
         synthetic_data_sources.append(DataSourceAdapter(DoubleLinearDataSource(1,i))),
         synthetic_data_sources.append(DataSourceAdapter(HourglassDataSource(1,i))),
+        #synthetic_data_sources.append(DataSourceAdapter(HypercubeDataSource(1,i))),
+        synthetic_data_sources.append(DataSourceAdapter(SineDataSource(1,i))),
         synthetic_data_sources.append(DataSourceAdapter(StarDataSource(1,i))),
         synthetic_data_sources.append(DataSourceAdapter(ZDataSource(1,i))),
         synthetic_data_sources.append(DataSourceAdapter(InvZDataSource(1,i)))
 
+#for i in range(2,5):
+#    for j in range(1,5):
+#        synthetic_data_sources.append(IndependentDataSetDataSource(dims=i,id= i*j ))
+
 blueprints = []
-for noise in [0.0,0.5,2.0]: 
+for noise in range(5): 
     blueprints+=BlueprintFactory.getBlueprintsForSyntheticData(dataSources=synthetic_data_sources, noiseRatio=noise)

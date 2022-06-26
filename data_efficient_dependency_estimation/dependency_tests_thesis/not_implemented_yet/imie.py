@@ -36,8 +36,8 @@ class IMIE(KnowledgeDiscoveryTask):
     def imie(self,x: tf.Tensor,y: tf.Tensor, OrderR):
         self.offset = self.digamma(x.shape) + self.digamma(self.k) - (1.0 / self.k)
         if (self.iterations < x.shape):
-            randrange(self.iterations, x.shape - 1)
-            OrderR[randrange()], OrderR[self.iterations] = OrderR[self.iterations], OrderR[randrange()]
+            randomIdx = randrange(self.iterations, x.shape - 1)
+            OrderR[randomIdx], OrderR[self.iterations] = OrderR[self.iterations], OrderR[randomIdx]
             index = OrderR[self.iterations]
             self.iterations = self.iterations + 1
             MCs = self.MC_SortedIndexVectors(x[index], y[index], self.k, self.OrderX, self.OrderY, x, y)

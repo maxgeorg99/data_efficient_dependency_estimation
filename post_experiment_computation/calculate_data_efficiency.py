@@ -9,9 +9,9 @@ from sklearn.metrics import auc, average_precision_score, f1_score, roc_auc_scor
 import statsmodels.stats.power as smp
 
 result_folder = "./experiment_results/data_efficiency"
-log_folder = "./log"
+log_folder = "./log_noise_Square"
 log_prefix = "DataEfficiency_"
-num_experiments = 20
+num_experiments = 100
 ignore_nans_count = -1
 num_iterations = 100
 
@@ -22,8 +22,8 @@ def walk_files(path):
             if f.endswith(".npz"):
                 data = np.load(os.path.join(dirpath, f))
                 c = f.split("_")
-                algorithm = c[0]
-                datasource = c[1]
+                algorithm = c[0] + ' noise ' +c[2]
+                datasource = c[3]
                 compute_data_efficiency(data,algorithm,datasource)
 
 algorithm_data: Dict = {}
@@ -54,7 +54,7 @@ def calculate_power():
 
 algorithm_F1: Dict = {}
 def calculate_F1():
-    p_thresholds = [x / 10.0 for x in range(8, 10, 1)]
+    p_thresholds = [x / 100.0 for x in range(0, 26, 5)]
     for algorithm in algorithms:
         for i in range(num_iterations):
             f1_for_p = []
@@ -66,7 +66,7 @@ def calculate_F1():
 
 algorithm_ROC_AUC: Dict = {}
 def calculate_ROC_AUC():
-    p_thresholds = [x / 10.0 for x in range(8, 10, 1)]
+    p_thresholds = [x / 100.0 for x in range(0, 26, 5)]
     for algorithm in algorithms:
         for i in range(num_iterations):
             auc_score_for_p = []
@@ -78,7 +78,7 @@ def calculate_ROC_AUC():
 
 algorithm_prediction_recall_AUC: Dict = {}
 def calculate_prediction_recall_AUC():    
-    p_thresholds = [x / 10.0 for x in range(8, 10, 1)]
+    p_thresholds = [x / 100.0 for x in range(0, 26, 5)]
     for algorithm in algorithms:
         for i in range(num_iterations):
             auc_score_for_p = []
@@ -94,12 +94,9 @@ def get_ground_truth(y):
 def calc_ground_truth():
     return [algorithm_data.get(('MCDE',datasource))['predictions'][-1:] for datasource in datasources]
 
-def plot_data_efficiency(fig_name = "data_efficiency"):
-    y_pos = list(algorithms)
-
-    #F1
+def plot_F1():
     x = np.arange(num_iterations)
-    p_thresholds = [x / 10.0 for x in range(0, 10, 1)]
+    p_thresholds = [x / 100.0 for x in range(0, 10, 1)]
     for p in range(len(p_thresholds)):
         for algorithm in algorithms:
             y = [algorithm_F1[algorithm,i][p] for i in range(num_iterations)]
@@ -110,6 +107,10 @@ def plot_data_efficiency(fig_name = "data_efficiency"):
         plot.savefig(f'{result_folder}/F1/F1_{p_thresholds[p]}_2.png',dpi=500)
         plot.clf()
 
+def plot_AUC():
+    x = np.arange(num_iterations)
+    p_thresholds = [x / 100.0 for x in range(0, 10, 1)]
+    for p in range(len(p_thresholds)):
         for algorithm in algorithms:
             y = [algorithm_ROC_AUC[algorithm,i][p] for i in range(num_iterations)]
             plot.plot(x,y, '.-', label=algorithm)
@@ -128,7 +129,8 @@ def plot_data_efficiency(fig_name = "data_efficiency"):
         plot.savefig(f'{result_folder}/Precision_Recall_AUC/AUC_{p_thresholds[p]}_2.png',dpi=500)
         plot.clf()
 
-        #plot power
+def plot_power():
+    x = np.arange(num_iterations)
     for datasource in datasources:
         for algorithm in algorithms:
             p = algorithm_power90[(algorithm,datasource)]
@@ -166,6 +168,49 @@ def plot_data_efficiency(fig_name = "data_efficiency"):
         plot.savefig(f'{result_folder}/Power/{algorithm}_{datasource}_Power99.png',dpi=500)
         plot.clf()
 
+def plot_power_noise():
+    x = np.arange(5)
+    for datasource in datasources:
+        y = []
+        for algorithm in algorithms:
+            p = algorithm_power90[(algorithm,datasource)][99]
+            y.append(p)
+        plot.plot(x,y)
+        plot.figlegend()
+        plot.ylabel("power")
+        plot.xlabel("noise")
+        plot.title(f'Power 90 {datasource}')
+        plot.savefig(f'{result_folder}/Power/{algorithm}_{datasource}_noise_Power90.png',dpi=500)
+        plot.clf()
+
+        y = []
+        for algorithm in algorithms:
+            p = algorithm_power95[(algorithm,datasource)][99]
+            y.append(p)
+        plot.plot(x,y, '.-', label=algorithm)
+        plot.figlegend()
+        plot.ylabel("power")
+        plot.xlabel("noise")
+        plot.title(f'Power 95 {datasource}')
+        plot.savefig(f'{result_folder}/Power/{algorithm}_{datasource}_noise_Power95.png',dpi=500)
+        plot.clf()
+
+        y = []
+        for algorithm in algorithms:
+            p = algorithm_power99[(algorithm,datasource)][99]
+            y.append(p)
+        plot.plot(x,y, '.-', label=algorithm)
+        plot.figlegend()
+        plot.ylabel("power")
+        plot.xlabel("noise")
+        plot.title(f'Power 99 {datasource}')
+        plot.savefig(f'{result_folder}/Power/{algorithm}_{datasource}_noise_Power99.png',dpi=500)
+        plot.clf()
+
+def plot_data_efficiency(fig_name = "data_efficiency"):
+    plot_F1()
+    plot_AUC()
+    plot_power()
 
 def percentile_scala_breeze(list_of_floats: List[float], p: float):
         arr = sorted(list_of_floats)
@@ -182,11 +227,12 @@ walk_files(log_folder)
 
 keys = list(algorithm_data.keys())
 datasources = set([x[1] for x in keys])
-algorithms = set([x[0] for x in keys])
+algorithms = sorted(set([x[0] for x in keys]))
 
 calculate_power()
-calculate_F1()
-calculate_ROC_AUC()
-calculate_prediction_recall_AUC()
+#calculate_F1()
+#calculate_ROC_AUC()
+#calculate_prediction_recall_AUC()
 
-plot_data_efficiency()
+plot_power_noise()
+#plot_data_efficiency()

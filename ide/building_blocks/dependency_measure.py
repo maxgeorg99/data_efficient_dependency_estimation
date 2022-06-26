@@ -1,10 +1,12 @@
 from abc import abstractmethod
 from dataclasses import dataclass
+from random import randrange
 import subprocess
 from nptyping import NDArray
 import dcor
+from sklearn.neighbors import NearestNeighbors
 from data_efficient_dependency_estimation.dependency_tests_thesis.XtendedCorrel import hoeffding
-
+from tensorflow.math import digamma
 import numpy as np
 import pandas as pd
 
@@ -14,6 +16,9 @@ class DependencyMeasure():
     @abstractmethod
     def apply(self,samples):
         return NotImplementedError
+
+    def variance(self):
+        return 0
 
 @dataclass
 class dHSIC(DependencyMeasure):
@@ -172,3 +177,76 @@ class MCDE(DependencyMeasure):
         output = subprocess.check_output('java -jar target/scala-2.12/MCDE-experiments-1.0.jar -t EstimateDependency -f run_data_store/mcdeData.csv -a MWP -m 1 -p 1')
         score = float(output.splitlines()[5])
         return score
+
+@dataclass
+class IMIE(DependencyMeasure):
+
+    OrderR = []
+    OrderX = []
+    OrderY = []
+    xP = []
+    yP = []
+    k: int = 5
+    offset: float = 0
+    mean: float = 0 
+    var: float = 0 
+    iterations: int = 0
+
+    def apply(self,samples):
+        self.xP = samples[:,:1]
+        self.yP = samples[:,1:2]
+        self.offset = digamma(self.xP.size()) + digamma(self.k) - (1.0 / float(self.k))
+        self.OrderR = list(range(len(samples)))
+        self.OrderX = list(range(len(samples)))
+        self.OrderY = list(range(len(samples)))
+        for i in range(10):
+            score, v = self.incrementEstimate()
+        return score
+
+    def deltaX(self,index):
+        q = self.exp_modules.queried_data_pool.queries[index].reshape(-1, 1)       
+        #get k nearest for p
+        knn = NearestNeighbors(n_neighbors=self.k)
+        knn.fit(self.exp_modules.queried_data_pool.queries, self.exp_modules.queried_data_pool.results)
+        kneighbor_indexes = knn.kneighbors(q, n_neighbors=self.k, return_distance=False)
+        kneighbors = self.exp_modules.queried_data_pool.results[kneighbor_indexes]
+        xP = self.xP[index]
+
+        return max([abs(xP[0]-x[0]) for x in kneighbors[0]])
+
+    def deltaY(self,index):
+        q = self.exp_modules.queried_data_pool.queries[index].reshape(-1, 1)       
+        #get k nearest for p
+        knn = NearestNeighbors(n_neighbors=self.k)
+        knn.fit(self.exp_modules.queried_data_pool.queries, self.exp_modules.queried_data_pool.results)
+        kneighbor_indexes = knn.kneighbors(q, n_neighbors=self.k, return_distance=False)
+        kneighbors = self.exp_modules.queried_data_pool.results[kneighbor_indexes]
+        yP = self.yP[index]
+
+        return max([abs(yP[0]-y[0]) for y in kneighbors[0]])
+
+
+    def MC(self,index):
+        xP = self.xP[index]
+        yP = self.yP[index]
+        a = len([elem for elem in self.xP if abs(elem - xP) <= self.deltaX(index)])
+        b = len([elem for elem in self.yP if abs(elem - yP) <= self.deltaY(index)])
+        return (a,b)
+    
+    def incrementEstimate(self):
+        randomIdx = randrange(len(self.xP))
+        self.OrderR[self.iterations], self.OrderR[randomIdx] = self.OrderR[randomIdx], self.OrderR[self.iterations]
+        index = self.OrderR[self.iterations]
+        MCs = self.MC(index)
+        v = digamma(float(MCs[0])).numpy() + digamma(float(MCs[1])).numpy()
+        self.iterations+=1
+        delta = v - self.mean
+        self.mean += (delta / (self.iterations))
+        delta2 = v - self.mean
+        self.var += (delta * delta2)
+
+        score = self.offset - self.mean
+        return score
+
+    def variance(self):
+        return self.var / self.iterations
