@@ -95,20 +95,15 @@ class PlotNewDataPointsEvaluator(Evaluator):
 
         fig = plot.figure(self.fig_name)
         name = ''
-        if np.squeeze(self.results).ndim + np.squeeze(self.queries).ndim == 3:
-            if np.squeeze(self.results).ndim == 2:
-                x = np.array([item for sublist in self.queries for item in sublist])
-                y = self.results[:,0]
-                z = self.results[:,1]
-            else:
-                x = self.queries[:,0]
-                y = self.queries[:,1] 
-                z = self.results
+        if self.results.shape[1] == 3:
+            x = self.results[:,0]
+            y = self.results[:,1]
+            z = self.results[:,2]
             ax = plot.axes(projection="3d")
-            ax.scatter3D(x, y, z, c=z, cmap='cividis')
+            ax.scatter3D(x, y, z)
             name = '3D_'
         else:    
-            plot.scatter(self.queries,self.results)
+            plot.scatter(self.results[:,0],self.results[:,1])
         plot.title(self.fig_name)
         if isinstance(self.experiment.oracle.data_source, DataSourceAdapter) :
             name += type(self.experiment.oracle.data_source.distribution_data_source).__name__

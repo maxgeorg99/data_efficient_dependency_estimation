@@ -3,14 +3,16 @@ from matplotlib import pyplot as plot # type: ignore
 import numpy as np
 import os
 
-folder = "./experiment_results"
-log_folder = "./log_hoeffding"
+folder = "./experiment_results/gain"
+log_folder = "./logs/class2/dim"
 log_prefix = "log"
 
-baseline = "Pearson"
+baseline = "MCDE"
 num_iterations = 100
 ignore_nans_count = -1
-num_experiments = 20
+num_experiments = 1
+
+class_string = os.path.dirname(log_folder).split('/')[-1]
 
 def walk_files(path):
     for dirpath, dnames, fnames in os.walk(path):
@@ -20,7 +22,7 @@ def walk_files(path):
                 data = np.load(os.path.join(dirpath, f))
                 c = f.split("_")
                 algorithm = c[0]
-                datasource = c[1]
+                datasource = c[3]
                 compute_data(data,algorithm,datasource)
 
 algorithm_data: Dict = {}
@@ -73,13 +75,14 @@ def plot_p_value(fig_name = "p-value"):
             plot.ylim(0,1)
             plot.plot(x, y, alpha=1, label=f'{key[0]}_{key[1]}_median')
 
-            plot.title(fig_name)
-            plot.xlabel("learning iteration")
-            plot.ylabel("p-value")
-            plot.figlegend()
+        plot.title(datasource,fontsize=20)
+        plot.xlabel("learning iteration")
+        plot.ylabel("p-value")
+        plot.legend(bbox_to_anchor=(1.02, 1), loc='upper left', borderaxespad=0)
+
             
-            plot.savefig(f'{folder}/{fig_name}_{datasource}_{algorithm}.png',dpi=500)
-            plot.clf()
+        plot.savefig(f'{folder}/{class_string}_{fig_name}_{datasource}.png',dpi=500, bbox_inches='tight')
+        plot.clf()
 
 gain_mean_p: Dict = {}
 def calculate_p_mean_gain():
@@ -103,16 +106,21 @@ def plot_p_gain(p_gain, fig_name = "p-gain"):
         for algorithm in algorithms:
             key = (algorithm,datasource)
             y = p_gain[key]
+            mask = np.isnan(y)
+            y[mask] = np.interp(np.flatnonzero(mask), np.flatnonzero(~mask), y[~mask])
+            y = np.repeat(y, 10)
             x = np.asarray([i for i in range(len(y))])
+            plot.xlim(0,len(y))
             plot.ylim(-1,1)
-            plot.plot(x, y, label=f'{key}')
+            plot.plot(x, y, label=f'{key[0]}')
 
-        plot.title(fig_name)
+        plot.title(datasource,fontsize=20)
         plot.xlabel("learning iteration")
         plot.ylabel("p-value gain against baseline")
-        plot.figlegend()
+        plot.legend(bbox_to_anchor=(1.02, 1), loc='upper left', borderaxespad=0)
+
         
-        plot.savefig(f'{folder}/{fig_name}_{datasource}.png',dpi=500)
+        plot.savefig(f'{folder}/{class_string}_{fig_name}_{datasource}.png',dpi=500, bbox_inches='tight')
         plot.clf()
 
 max_p = 0.25
@@ -171,14 +179,15 @@ def plot_data_gain(data_gain, fig_name = "data-gain"):
             x, y = data_gain[key]
             plot.xlim(max_p,0)
             plot.ylim(-1,1)
-            plot.plot(x, y, label=f'{key}')
+            plot.plot(x, y, label=f'{key[0]}')
 
-        plot.title(fig_name)
+        plot.title(datasource,fontsize=20)
         plot.xlabel("p-value")
         plot.ylabel("data gain against baseline")
-        plot.figlegend()
+        plot.legend(bbox_to_anchor=(1.02, 1), loc='upper left', borderaxespad=0)
+
     
-        plot.savefig(f'{folder}/{fig_name}_{datasource}.png',dpi=500)
+        plot.savefig(f'{folder}/{class_string}_{fig_name}_{datasource}.png',dpi=500, bbox_inches='tight')
         plot.clf()
 
 

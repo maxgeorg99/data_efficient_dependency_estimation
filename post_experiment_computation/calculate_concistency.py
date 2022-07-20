@@ -1,3 +1,4 @@
+from ast import If
 from cmath import exp
 import itertools
 from operator import le
@@ -9,9 +10,9 @@ import statistics as stat
 
 result_folder = "./experiment_results/concistency"
 fig_name = 'concistency'
-log_folder = "./log_noise_Square"
+log_folder = "./logs/class5/noise"
 log_prefix = "DataEfficiency_Ps_"
-num_experiments = 100
+num_experiments = 1
 num_iterations = 100
 
 def walk_files(path):
@@ -19,49 +20,61 @@ def walk_files(path):
         f: str
         for f in fnames:
             if f.endswith(".npz"):
-                data = np.load(os.path.join(dirpath, f))
                 c = f.split("_")
-                algorithm = c[0] + ' noise ' +c[2]
-                datasource = c[3]
-                compute_data_efficiency(data,algorithm,datasource)
+                algorithm = c[0]
+                #datasource = c[2].removesuffix('AverageInterpolationStrategy').upper()
+                datasource = ' '.join(c[1:4])
+                with np.load(os.path.join(dirpath, f)) as data:
+                    compute_data_efficiency(data,algorithm,datasource)
 
-algorithm_data: Dict = {}
+algorithm_p: Dict = {}
+algorithm_v: Dict = {}
 def compute_data_efficiency(data, algorithm, datasource):
-    runs_data = algorithm_data.get((algorithm,datasource), [])
-    runs_data.append(data)
-    algorithm_data[(algorithm, datasource)] = runs_data
+    runs_data_p = algorithm_p.get((algorithm,datasource), [])
+    runs_data_p.append(data['pValues'])
+    algorithm_p[(algorithm, datasource)] = runs_data_p
+
+    runs_data_v = algorithm_p.get((algorithm,datasource), [])
+    runs_data_v.append(data['var'])
+    algorithm_v[(algorithm, datasource)] = runs_data_v
 
 def plot_concistency_scores():
     scores: dict
     scores = {}
-    keys = list(algorithm_data.keys())
+    keys = list(algorithm_p.keys())
     for source in set([x[1] for x in keys]):
         for algo in set([x[0] for x in keys]):
-            ps = load_p_values(algorithm=algo,datasource=source)
-            variances = load_var_values(algo,source)
+            ps = algorithm_p[(algo,source)]
+            variances = algorithm_v[(algo,source)]
             scores_iteration = []
             for i in range(num_iterations):
                 var = np.var([ps[j][i] for j in range(num_experiments)])
                 predticted_var = np.mean([variances[j][i] for j in range(num_experiments)])
-                scores_iteration.append(predticted_var - var) 
+                score = predticted_var - var
+                if algo == 'Hoeffdings':
+                    score = min(1-score,score)
+                scores_iteration.append(score) 
             scores[(algo,source)]= scores_iteration  
         for k, v in scores.items():
             if k[1] == source:
-                plt.plot(range(0, len(v)), v, '.-', label=k[0])
-        plt.ylabel("concistency score")
+                plt.plot(range(0, len(v)), v, algo_marker_dict[k[0]] + '-', label=k[0])
+        plt.ylabel("consistency score")
+        plt.ylim(0,1)
         plt.xlabel("iteration")
-        plt.xticks(fontsize=5)
         plt.title(source)
-        plt.figlegend()
-        plt.savefig(f'{result_folder}/{source}_{fig_name}_square_noise_100.png',dpi=1000)
+        plt.figlegend(bbox_to_anchor=(1, 1))
+        class_string = os.path.dirname(log_folder).split('/')[-1]
+        plt.savefig(f'{result_folder}/{source}_{fig_name}_{class_string}.png',dpi=1000)
         plt.clf()
 
-def load_p_values(algorithm, datasource):
-    return [algorithm_data[(algorithm, datasource)][i]['pValues'] for i in range(num_experiments)]
-
-def load_var_values(algorithm, datasource):
-    return [algorithm_data[(algorithm, datasource)][i]['var'] for i in range(num_experiments)]
-
 walk_files(log_folder)
+
+keys = list(algorithm_p.keys())
+datasources = set([x[1] for x in keys])
+algorithms = sorted(set([x[0] for x in keys]))
+
+markers = ['.','v','^','<','>','s','P','*','+','x','D','d','|']
+#algorithms = ['Pearson','Kendall','Spearman','dHSIC','XiCor','Hoeffdings','CMI','HiCS','MCDE','IndepTest','LISTest','FIT','IMIE']
+algo_marker_dict = dict(zip(algorithms,markers))
 
 plot_concistency_scores()

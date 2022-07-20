@@ -41,20 +41,27 @@ class DependencyTestAdapter(DependencyTest):
 
         samples = self.exp_modules.queried_data_pool.results
 
-        self.scores.append(self.dependency_measure.apply(samples))
+        self.scores.append(self.dependency_measure.apply(queries, samples))
         
         for i in range(1,self.iterations):
-            samples = tuple(shuffle(x) for x in samples) #DevSkim: ignore DS148264 
-            self.scores.append(self.dependency_measure.apply(samples))
+            shuffled_samples = self.shuffle_samples(samples)
+            self.scores.append(self.dependency_measure.apply(queries, shuffled_samples))
 
         self.distribution = {item:self.scores.count(item) for item in self.scores}
 
-        t, p, v = self.executeTest(samples)
+        t, p, v = self.executeTest(queries, samples)
 
         return t, p, v
 
-    def executeTest(self, samples):
-        t = self.dependency_measure.apply(samples)
+    def shuffle_samples(self, samples):
+        shuffled_samples = np.copy(samples)
+        for i in range(shuffled_samples.shape[1]):
+            shuffled_samples[:,i] = shuffle(shuffled_samples[:,i]) #DevSkim: ignore DS148264 
+        return shuffled_samples
+
+
+    def executeTest(self, queries, samples):
+        t = self.dependency_measure.apply(queries, samples)
         p = self.calc_p_value(t)
         v = self.calc_var()
         return t,p,v 

@@ -1,8 +1,10 @@
-install.packages("CondIndTests",repos = "http://cran.us.r-project.org",lib = "C:/Users/maxig/OneDrive/Dokumente/R/win-library/4.1")
+list.of.packages <- c("CondIndTests")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages,repos = "http://cran.us.r-project.org",lib = "C:/Users/maxig/OneDrive/Dokumente/R/win-library/4.1")
 library("CondIndTests",lib.loc = "C:/Users/maxig/OneDrive/Dokumente/R/win-library/4.1")
 data <- read.csv("C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/run_data_store/condIndTestData.csv", header=TRUE, stringsAsFactors=FALSE,strip.white = TRUE)
-X <- unlist(data)
-Y <- unlist(data)
+X <- unlist(data[,2])
+Y <- unlist(data[,3])
 Z  <- rep(1, length(X))
 test <- CondIndTest(X, Y, Z, method = "KCI")
 print(test$pvalue)

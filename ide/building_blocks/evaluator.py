@@ -244,13 +244,13 @@ class DataEfficiencyEvaluator(Evaluator):
         elif isinstance(datasource, IndependentDataSetDataSource) :
             self.name = type(datasource).__name__ + str(datasource.id)
         elif isinstance(datasource, InterpolatingDataSource) :
-            self.name = type(datasource).__name__
+            self.name = type(datasource).__name__ + '_' + datasource.data_set
         elif isinstance(datasource, LineDataSource) :
-            self.name = type(datasource).__name__ + '_a_' + str(datasource.a) + '_b_' + str(datasource.b)
+            self.name = type(datasource).__name__ + '_a_' + str(datasource.a) + '_b_' + str(datasource.b) + str(datasource.result_shape[0]) + 'd'
         elif isinstance(datasource, SquareDataSource) :
-            self.name = type(datasource).__name__ + '_s_'+str(datasource.s) + '_x_' +str(datasource.x0) + '_y_' +str(datasource.y0)
+            self.name = type(datasource).__name__ + '_s_'+str(datasource.s) + '_x_' +str(datasource.x0) + '_y_' +str(datasource.y0) + str(datasource.result_shape[0]) + 'd'
         elif isinstance(datasource, SineDataSource) :
-            self.name = type(datasource).__name__ + '_amp' + str(datasource.amplitude) + '_periods_' +str(datasource.period)
+            self.name = type(datasource).__name__ + '_amp' + str(datasource.a) + '_periods_' + str(datasource.p) + str(datasource.result_shape[0]) + 'd'
         else:
             self.name = type(datasource).__name__ + str(datasource.result_shape[0]) + 'd'
 

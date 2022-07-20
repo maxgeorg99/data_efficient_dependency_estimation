@@ -796,6 +796,22 @@ docs = ["sphinx (==1.2.3)", "sphinxcontrib-napoleon", "sphinx-rtd-theme", "numpy
 tests = ["pytest", "pytest-cov", "pytest-pep8"]
 
 [[package]]
+name = "orange"
+version = "2.7.8"
+description = "Orange, a component-based data mining framework."
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+numpy = "*"
+scipy = "*"
+
+[package.extras]
+GUI = ["pyqt4", "pyqwt"]
+reST = ["numpydoc"]
+
+[[package]]
 name = "packaging"
 version = "21.3"
 description = "Core utilities for Python packages"
@@ -1512,7 +1528,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.8,<3.10"
-content-hash = "a3d9afd93cdfecbca66749c026c31443298aedad90ff9620bbd5e2361d2b6bea"
+content-hash = "74e6bc6836194438bc2cbc272a2164ed02f22c956ad88a717e4c385fdbee385f"
 
 [metadata.files]
 absl-py = [
@@ -2084,6 +2100,14 @@ oauthlib = [
 opt-einsum = [
     {file = "opt_einsum-3.3.0-py3-none-any.whl", hash = "sha256:2455e59e3947d3c275477df7f5205b30635e266fe6dc300e3d9f9646bfcea147"},
     {file = "opt_einsum-3.3.0.tar.gz", hash = "sha256:59f6475f77bbc37dcf7cd748519c0ec60722e91e63ca114e68821c0c54a46549"},
+]
+orange = [
+    {file = "Orange-2.7.8-cp27-none-macosx_10_6_intel.whl", hash = "sha256:cb33a1d31875295f6b5e28996492a720881d51403493d668bb1314dd204b6831"},
+    {file = "Orange-2.7.8-cp27-none-win32.whl", hash = "sha256:c6fd9e1b19d71d71fba597ab94a8114aecef6307cfe1d3bb22fd09e5b6a549b1"},
+    {file = "Orange-2.7.8-py2.7-macosx-10.6-intel.egg", hash = "sha256:35bdd1caf3d609328ba71564171bb9d717b804928e39753a4e049ac6bae69fea"},
+    {file = "Orange-2.7.8-py2.7-win32.egg", hash = "sha256:c3424a6f01b8f650cf7f6793e8bc69ebefb2ebfce0ef69489614af1a9d79683f"},
+    {file = "Orange-2.7.8.tar.gz", hash = "sha256:9602d621d8258c90a8122b2ae2eb7471139836f0a16b6941e83735739913af5c"},
+    {file = "Orange-2.7.8.win32-py2.7.exe", hash = "sha256:9c7add8e2bc5c3954884abefcd5f42987b5012dbff1331c4f8db1641487bf5ca"},
 ]
 packaging = [
     {file = "packaging-21.3-py3-none-any.whl", hash = "sha256:ef103e05f519cdc783ae24ea4e2e0f508a9c99b2d4969652eed6a2e1ea5bd522"},

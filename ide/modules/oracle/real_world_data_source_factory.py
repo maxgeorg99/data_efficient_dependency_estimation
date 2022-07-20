@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from ide.core.oracle.interpolation_strategy import InterpolationStrategy
 from ide.modules.data_sampler import KDTreeKNNDataSampler
 from ide.modules.oracle.data_source import InterpolatingDataSource, RealWorldDataSetDataSource
 from ide.modules.oracle.data_source_adapter import DataSourceAdapter
@@ -10,19 +11,20 @@ from ide.modules.oracle.interpolation_strategy.interpolation_strategy import Ave
 from ide.modules.queried_data_pool import FlatQueriedDataPool
 
 class RealWorldDataSourceFactory():
-    def chf(self):
+
+    def chf(self,interpolation_strategy:InterpolationStrategy = AverageInterpolationStrategy()):
         record = wfdb.rdrecord( wfdb.get_record_list(db_dir='chfdb')[0],pn_dir='chfdb')
         p_signal = record.p_signal
         q = p_signal[:,0]
         r = p_signal[:,1]
         data_source=InterpolatingDataSource(
             data= dict(zip(q, r)),
-            interpolation_strategy=AverageInterpolationStrategy(),
-            data_set='CHF',
+            interpolation_strategy=interpolation_strategy,
+            data_set='CHF_'+ type(interpolation_strategy).__name__,
         )
         return data_source
 
-    def office(self):
+    def office(self,interpolation_strategy:InterpolationStrategy = AverageInterpolationStrategy()):
         data_file = 'C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/real_world_data_sets/Office/data.txt'
 
         df = pd.read_csv(data_file, sep=" ", header=None)
@@ -30,30 +32,30 @@ class RealWorldDataSourceFactory():
         q = df.index.to_numpy()
         r = df.iloc[:,2:]
         r = r.to_numpy()
-
+        r = r[np.random.choice(r.shape[0], 10000, replace=False)]
         data_source=InterpolatingDataSource(
             data= dict(zip(q, r)),
-            interpolation_strategy=AverageInterpolationStrategy(),
-            data_set='office'
+            interpolation_strategy=interpolation_strategy,
+            data_set='office'+ type(interpolation_strategy).__name__,
         )
         return data_source
 
-    def sunspot(self):
+    def sunspot(self,interpolation_strategy:InterpolationStrategy = AverageInterpolationStrategy()):
         filename = 'C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/real_world_data_sets/Sunspot/SN_d_tot_V2.0.txt'
         df = pd.read_csv(filename, sep=" ", header=None)
         q = df.index.to_numpy()
         r = df.to_numpy()
         data_source=InterpolatingDataSource(
             data= dict(zip(q, r)),
-            interpolation_strategy=AverageInterpolationStrategy(),
-            data_set='sunspot'
+            interpolation_strategy=interpolation_strategy,
+            data_set='sunspot'+ type(interpolation_strategy).__name__,
         )
         return data_source
     
-    def personal_activity(self):
+    def personal_activity(self,interpolation_strategy:InterpolationStrategy = AverageInterpolationStrategy()):
         return NotImplemented
     
-    def NASDAQ(self):
+    def NASDAQ(self,interpolation_strategy:InterpolationStrategy = AverageInterpolationStrategy()):
         filename = 'C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/real_world_data_sets/NASDAQ/WIKI-PRICES.csv'
         df = pd.read_csv(filename)
         q = df.index.to_numpy()
@@ -62,12 +64,12 @@ class RealWorldDataSourceFactory():
 
         data_source=InterpolatingDataSource(
             data= dict(zip(q, r)),
-            interpolation_strategy=AverageInterpolationStrategy(),
-            data_set='NASDAQ'
+            interpolation_strategy=interpolation_strategy,
+            data_set='NASDAQ'+ type(interpolation_strategy).__name__,
         )
         return data_source
     
-    def smartphone(self):
+    def smartphone(self,interpolation_strategy:InterpolationStrategy = AverageInterpolationStrategy()):
         df = pd.read_csv('C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/real_world_data_sets/Smartphone/final_X_test.txt')
         df = df[~df.isnull().any(axis=1)]
         df2 = pd.read_csv('C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/real_world_data_sets/Smartphone/final_Y_test.txt', sep=",", header=None)
@@ -77,12 +79,12 @@ class RealWorldDataSourceFactory():
         r = r.astype(np.float32)
         data_source=InterpolatingDataSource(
             data= dict(zip(q, r)),
-            interpolation_strategy=AverageInterpolationStrategy(),
-            data_set='smartphone'
+            interpolation_strategy=interpolation_strategy,
+            data_set='smartphone'+ type(interpolation_strategy).__name__,
         )
         return data_source
 
-    def hipe(self):
+    def hipe(self,interpolation_strategy:InterpolationStrategy = AverageInterpolationStrategy()):
         filename1 = 'C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/real_world_data_sets/HIPE/PickAndPlaceUnit_PhaseCount_2_geq_2017-10-01_lt_2018-01-01.csv'
         filename2 = 'C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/real_world_data_sets/HIPE/ScreenPrinter_PhaseCount_2_geq_2017-10-01_lt_2018-01-01.csv'
         filename3 = 'C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/real_world_data_sets/HIPE/VacuumPump2_PhaseCount_2_geq_2017-10-01_lt_2018-01-01.csv'
@@ -94,14 +96,15 @@ class RealWorldDataSourceFactory():
         q = df.index.to_numpy()
         r = df.iloc[:,2:]
         r = r.to_numpy()
+        r = r[np.random.choice(r.shape[0], 10000, replace=False)]
         data_source=InterpolatingDataSource(
             data= dict(zip(q, r)),
-            interpolation_strategy=AverageInterpolationStrategy(),
-            data_set='hipe'
+            interpolation_strategy=interpolation_strategy,
+            data_set='hipe'+ type(interpolation_strategy).__name__,
         )
         return data_source
 
-    def hydraulic(self):
+    def hydraulic(self,interpolation_strategy:InterpolationStrategy = AverageInterpolationStrategy()):
         df = pd.read_csv('C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/real_world_data_sets/HydraulicSystemsDataSet/PS1.txt', sep=" ", header=None)
         df2 = pd.read_csv('C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/real_world_data_sets/HydraulicSystemsDataSet/PS2.txt', sep=" ", header=None)
         df3 = pd.read_csv('C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/real_world_data_sets/HydraulicSystemsDataSet/PS3.txt', sep=" ", header=None)
@@ -117,8 +120,8 @@ class RealWorldDataSourceFactory():
         r = df.to_numpy()
         data_source=InterpolatingDataSource(
             data= dict(zip(q, r)),
-            interpolation_strategy=AverageInterpolationStrategy(),
-            data_set='hydraulic'
+            interpolation_strategy=interpolation_strategy,
+            data_set='hydraulic'+ type(interpolation_strategy).__name__,
         )
         return data_source
 

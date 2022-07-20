@@ -4,7 +4,7 @@ import numpy as np
 from matplotlib import pyplot as plot # type: ignore
 
 result_folder = "./experiment_results/data_efficiency"
-log_folder = "./log"
+log_folder = "./log_class3"
 log_prefix = "DataEfficiency_"
 
 num_experiments = 1
@@ -17,7 +17,7 @@ def walk_files(path):
                 data = np.load(os.path.join(dirpath, f))
                 c = f.split("_")
                 algorithm = c[0]
-                datasource = c[1]
+                datasource = c[3]
                 compute_data_efficiency(data,algorithm,datasource)
 
 algorithm_pvalues: Dict = {}

@@ -1,32 +1,29 @@
-from data_efficient_dependency_estimation.dependency_tests_thesis.Kendall import Kendall
-from data_efficient_dependency_estimation.dependency_tests_thesis.Pearson import Pearson
-from ide.modules.oracle.data_source import RealWorldDataSetDataSource
+from ide.building_blocks.dependency_measure import CMI, IMIE, MCDE, HiCS, Hoeffdings
+from ide.building_blocks.dependency_test_adapter import DependencyTestAdapter
+from ide.core.oracle.interpolation_strategy import InterpolationStrategy
+from ide.modules.oracle.interpolation_strategy.interpolation_strategy import RandomInterpolationStrategy
 from ide.modules.oracle.real_world_data_source_factory import RealWorldDataSourceFactory
-from ide.modules.queried_data_pool import FlatQueriedDataPool
-from ide.modules.data_sampler import KDTreeKNNDataSampler, KDTreeRegionDataSampler
-from ide.core.oracle.oracle import Oracle
-from ide.core.query.query_optimizer import NoQueryOptimizer
-from ide.modules.query.query_sampler import RandomChoiceQuerySampler, UniformQuerySampler, LatinHypercubeQuerySampler
-from ide.building_blocks.selection_criteria import QueryTestNoSelectionCritera
-from ide.building_blocks.test_interpolation import KNNTestInterpolator
-from ide.building_blocks.two_sample_test import MWUTwoSampleTest
-from ide.building_blocks.experiment_modules import DependencyExperiment
-from ide.modules.oracle.augmentation import NoiseAugmentation
-from ide.modules.stopping_criteria import LearningStepStoppingCriteria
 from ide.core.blueprint import Blueprint
 from ide.modules.oracle.data_source_adapter import DataSourceAdapter
-from ide.modules.evaluator import LogNewDataPointsEvaluator, PlotNewDataPointsEvaluator, PrintNewDataPointsEvaluator, PlotQueryDistEvaluator
-from ide.building_blocks.evaluator import PlotScoresEvaluator, PlotQueriesEvaluator, PlotTestPEvaluator, BoxPlotTestPEvaluator
-from ide.building_blocks.dependency_test import DependencyTest, NaivDependencyTest, chi_square
-from ide.building_blocks.multi_sample_test import KWHMultiSampleTest
+from ide.building_blocks.dependency_test import FIT, CondIndTest, DependencyTest, IndepTest, Kendalltau, LISTest, NaivDependencyTest, Pearson, Spearmanr, XiCor, chi_square, hypoDcorr, hypoHHG, hypoHsic, hypoKMERF, hypoMGC
 
 from ide.core.blueprint_factory import BlueprintFactory
 
-#real_world_data_sources = RealWorldDataSourceFactory().get_all_data_sources()
-real_world_data_sources = [
-    RealWorldDataSourceFactory().chf(),
-    RealWorldDataSourceFactory().office(),
-    RealWorldDataSourceFactory().sunspot(),
-]
+#class 1
+#algorithms = [Pearson(),Spearmanr(),Kendalltau()]
+#class 2
+#algorithms = [hypoDcorr(),hypoHsic(),XiCor(),DependencyTestAdapter(Hoeffdings())]
+#class 3
+#algorithms = [DependencyTestAdapter(IMIE()),DependencyTestAdapter(CMI()),DependencyTestAdapter(HiCS()),DependencyTestAdapter(MCDE())]
+#class 4
+#algorithms = [hypoKMERF(),hypoMGC(),hypoHHG()]
+#class 5
+algorithms = [CondIndTest(),IndepTest(),LISTest(),FIT()]
 
-blueprints = BlueprintFactory.getBlueprintsForRealWorldData(algorithms=[chi_square()], dataSources=real_world_data_sources)
+#real_world_data_sources = RealWorldDataSourceFactory().get_all_data_sources()
+#interpolation_strat = RandomInterpolationStrategy()
+#real_world_data_sources =[RealWorldDataSourceFactory().sunspot(interpolation_strategy=interpolation_strat),RealWorldDataSourceFactory().NASDAQ(interpolation_strategy=interpolation_strat), RealWorldDataSourceFactory().hipe(interpolation_strategy=interpolation_strat), RealWorldDataSourceFactory().smartphone(interpolation_strategy=interpolation_strat), RealWorldDataSourceFactory().hydraulic(interpolation_strategy=interpolation_strat)]
+real_world_data_sources =[RealWorldDataSourceFactory().hydraulic()]
+
+
+blueprints = BlueprintFactory.getBlueprintsForRealWorldData(algorithms=algorithms, dataSources=real_world_data_sources)

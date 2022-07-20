@@ -1,7 +1,9 @@
 from abc import abstractmethod
 from dataclasses import dataclass
+import itertools
 from random import randrange
 import subprocess
+from attr import field
 from nptyping import NDArray
 import dcor
 from sklearn.neighbors import NearestNeighbors
@@ -10,11 +12,13 @@ from tensorflow.math import digamma
 import numpy as np
 import pandas as pd
 
+from ide.core.experiment_module import ExperimentModule
+
 @dataclass
 class DependencyMeasure():
     
     @abstractmethod
-    def apply(self,samples):
+    def apply(self, queries, samples):
         return NotImplementedError
 
     def variance(self):
@@ -23,7 +27,7 @@ class DependencyMeasure():
 @dataclass
 class dHSIC(DependencyMeasure):
     
-    def apply(self, samples):
+    def apply(self, queries, samples):
         samples = np.asarray([ele for ele in samples if len(ele) != 0])
         t = self.dHSIC(samples,samples)
         return t
@@ -121,16 +125,23 @@ class dHSIC(DependencyMeasure):
 @dataclass
 class Hoeffdings(DependencyMeasure):
 
-    def apply(self, samples: NDArray):
-        samples = np.squeeze(samples)
-        x, y = samples[:,0], samples[:,1] 
-        r = hoeffding(x,y)
+    def apply(self, queries, samples: NDArray):
+        x = queries.squeeze() 
+        y = samples 
+        pair_wise = []
+        for b in samples.transpose():
+            pair_wise.append(hoeffding(x, b))
+        max_val = max(pair_wise, key=abs)
+        max_index = pair_wise.index(max_val)
+        r = pair_wise[max_index]        
+        if r is None:
+            r = 0
         return r
 
 @dataclass
 class dCor(DependencyMeasure):
 
-    def apply(self, samples: NDArray):
+    def apply(self, queries, samples: NDArray):
         samples = np.squeeze(samples)
         x, y = samples[0], samples[1:] 
         r = dcor.distance_correlation(samples,samples)
@@ -138,11 +149,11 @@ class dCor(DependencyMeasure):
 @dataclass
 class CMI(DependencyMeasure):
 
-    def apply(self, samples):
-        x = np.asarray([item.tolist() for sublist in samples for item in sublist])
+    def apply(self, queries, samples):
 
         dataFile = 'run_data_store/cmiData.csv'
-        df = pd.DataFrame(x)
+        data = np.concatenate((queries,samples),axis=1)
+        df = pd.DataFrame(data)
         df.to_csv(dataFile, sep=",", header='true', index=False)
 
         #output = subprocess.check_output('java -jar target/scala-2.12/MCDE-experiments-1.0.jar -t EstimateDependency -f src/test/resources/data/Independent-5-0.0.csv -a CMI -m 1 -p 1')
@@ -152,12 +163,12 @@ class CMI(DependencyMeasure):
         return score
 
 @dataclass
-class HiCS(DependencyMeasure):
+class HiCS(DependencyMeasure): 
 
-    def apply(self, samples: NDArray):
-        x = np.asarray([item.tolist() for sublist in samples for item in sublist])
+    def apply(self, queries, samples: NDArray):
         dataFile = 'run_data_store/hicsData.csv'
-        df = pd.DataFrame(x)
+        data = np.concatenate((queries,samples),axis=1)
+        df = pd.DataFrame(data)
         df.to_csv(dataFile, sep=",", header='true', index=False)
 
         output = subprocess.check_output('java -jar target/scala-2.12/MCDE-experiments-1.0.jar -t EstimateDependency -f run_data_store/hicsData.csv -a HiCS')
@@ -167,10 +178,10 @@ class HiCS(DependencyMeasure):
 @dataclass
 class MCDE(DependencyMeasure):
 
-    def apply(self, samples: NDArray):
-        x = np.asarray([item.tolist() for sublist in samples for item in sublist])
+    def apply(self, queries, samples: NDArray):
         dataFile = 'run_data_store/mcdeData.csv'
-        df = pd.DataFrame(x)
+        data = np.concatenate((queries,samples),axis=1)
+        df = pd.DataFrame(data)
         df.to_csv(dataFile, sep=",", header='true', index=False)
 
         #output = subprocess.check_output('java -jar target/scala-2.12/MCDE-experiments-1.0.jar -t EstimateDependency -f src/test/resources/data/Independent-5-0.0.csv -a MWP -m 1 -p 1')
@@ -178,59 +189,65 @@ class MCDE(DependencyMeasure):
         score = float(output.splitlines()[5])
         return score
 
-@dataclass
 class IMIE(DependencyMeasure):
 
-    OrderR = []
-    OrderX = []
-    OrderY = []
-    xP = []
-    yP = []
+    queries: NDArray = np.empty(1)
+    results: NDArray = np.empty(1)
     k: int = 5
     offset: float = 0
     mean: float = 0 
     var: float = 0 
     iterations: int = 0
+    OrderR = []
+    OrderX = []
+    OrderY = []
+    xP = []
+    yP = []
 
-    def apply(self,samples):
-        self.xP = samples[:,:1]
-        self.yP = samples[:,1:2]
-        self.offset = digamma(self.xP.size()) + digamma(self.k) - (1.0 / float(self.k))
+    def __repr__(self):
+        return self.__class__.__name__
+
+    def apply(self, queries, samples):
+        self.iterations = 0
+        self.queries = queries
+        self.results = samples
+        self.xP = queries
+        self.yP = samples
+        off = digamma(float(self.xP.size)) + digamma(float(self.k)) - (1.0 / float(self.k))
+        self.offset = off.numpy()
         self.OrderR = list(range(len(samples)))
         self.OrderX = list(range(len(samples)))
         self.OrderY = list(range(len(samples)))
-        for i in range(10):
-            score, v = self.incrementEstimate()
-        return score
+        return self.incrementEstimate()
 
     def deltaX(self,index):
-        q = self.exp_modules.queried_data_pool.queries[index].reshape(-1, 1)       
+        q = self.queries[index].reshape(-1, 1)       
         #get k nearest for p
         knn = NearestNeighbors(n_neighbors=self.k)
-        knn.fit(self.exp_modules.queried_data_pool.queries, self.exp_modules.queried_data_pool.results)
+        knn.fit(self.queries, self.results)
         kneighbor_indexes = knn.kneighbors(q, n_neighbors=self.k, return_distance=False)
-        kneighbors = self.exp_modules.queried_data_pool.results[kneighbor_indexes]
+        kneighbors = self.results[kneighbor_indexes]
         xP = self.xP[index]
 
         return max([abs(xP[0]-x[0]) for x in kneighbors[0]])
 
     def deltaY(self,index):
-        q = self.exp_modules.queried_data_pool.queries[index].reshape(-1, 1)       
+        q = self.queries[index].reshape(-1, 1)       
         #get k nearest for p
         knn = NearestNeighbors(n_neighbors=self.k)
-        knn.fit(self.exp_modules.queried_data_pool.queries, self.exp_modules.queried_data_pool.results)
+        knn.fit(self.queries, self.results)
         kneighbor_indexes = knn.kneighbors(q, n_neighbors=self.k, return_distance=False)
-        kneighbors = self.exp_modules.queried_data_pool.results[kneighbor_indexes]
+        kneighbors = self.results[kneighbor_indexes]
         yP = self.yP[index]
 
         return max([abs(yP[0]-y[0]) for y in kneighbors[0]])
 
 
-    def MC(self,index):
+    def MC(self, index):
         xP = self.xP[index]
         yP = self.yP[index]
         a = len([elem for elem in self.xP if abs(elem - xP) <= self.deltaX(index)])
-        b = len([elem for elem in self.yP if abs(elem - yP) <= self.deltaY(index)])
+        b = len([elem for elem in self.yP if any(abs(elem - yP) <= self.deltaY(index))])
         return (a,b)
     
     def incrementEstimate(self):

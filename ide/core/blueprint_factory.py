@@ -1,10 +1,10 @@
 from typing import List
-from ide.building_blocks.dependency_measure import CMI, MCDE, HiCS, Hoeffdings, dCor, dHSIC
+from ide.building_blocks.dependency_measure import CMI, MCDE, HiCS, Hoeffdings, dCor, dHSIC, IMIE
 from ide.building_blocks.dependency_test import DependencyTest, Kendalltau, XiCor
 from ide.building_blocks.dependency_test_adapter import DependencyTestAdapter
 from ide.building_blocks.evaluator import DataEfficiencyEvaluator, LogBluePrint
 from ide.building_blocks.experiment_modules import DependencyExperiment
-from ide.building_blocks.dependency_test import FIT, PeakSim, Pearson, Spearmanr, GMI, DIMID, IMIE, A_dep_test,chi_square,IndepTest,CondIndTest,LISTest
+from ide.building_blocks.dependency_test import FIT, PeakSim, Pearson, Spearmanr, GMI, DIMID, A_dep_test,chi_square,IndepTest,CondIndTest,LISTest
 from ide.building_blocks.selection_criteria import QueryTestNoSelectionCritera
 from ide.core.blueprint import Blueprint
 from ide.core.data_sampler import DataSampler
@@ -48,22 +48,22 @@ class BlueprintFactory():
         #DependencyTestAdapter(CMI()),
         #GMI(),
         #DIMID(),
-        #IMIE(),
+        #DependencyTestAdapter(IMIE()),
         #PeakSim(),
         #Kendalltau(),
         #Spearmanr(),
         #Pearson(),
         #DependencyTestAdapter(HiCS()),
         #DependencyTestAdapter(MCDE()),
-        XiCor(),
-        #FIT(),
+        #XiCor(),
+        FIT(),
         #A_dep_test(),
-        DependencyTestAdapter(Hoeffdings()),
-        DependencyTestAdapter(dCor()),
+        #DependencyTestAdapter(Hoeffdings()),
+        #DependencyTestAdapter(dCor()),
         #chi_square(),
-        #IndepTest(),
-        #CondIndTest(),
-        #LISTest(),
+        IndepTest(),
+        CondIndTest(),
+        LISTest(),
     ]
     evaluators = [
         DataEfficiencyEvaluator(),
@@ -87,7 +87,7 @@ class BlueprintFactory():
                         initial_query_sampler=UniformQuerySampler(num_queries=10),
                         query_optimizer=NoQueryOptimizer(
                             selection_criteria=QueryTestNoSelectionCritera(),
-                            num_queries=4,
+                            num_queries=10,
                             query_sampler=RandomChoiceQuerySampler(),
                         ),
                         experiment_modules=
@@ -99,7 +99,39 @@ class BlueprintFactory():
                             augmentation=NoiseAugmentation()
                         ),
                         evaluators=evaluators,
-                        #exp_name = type(test).__name__,
+                        exp_name = str(test._Configurable__args[0]).replace('(','').replace(')','') + '_noise_' + str(noiseRatio) if isinstance(test,DependencyTestAdapter) else type(test).__name__ + '_noise_' + str(noiseRatio),
+                        )
+                    )
+            return blueprints
+
+    def getBlueprintsForSyntheticDataCompuationIntensive(    
+        algorithms: List[DependencyTest] = tests, 
+        dataSources: List[DataSource] = [LineDataSource], 
+        evaluators: List[Evaluator] = evaluators,
+        noiseRatio:float = 0.5
+        ):
+            blueprints = []
+            for dataSource in dataSources:
+                for test in algorithms:
+                    blueprints.append(Blueprint(
+                        repeat=1,
+                        stopping_criteria= LearningStepStoppingCriteria(100),
+                        queried_data_pool=FlatQueriedDataPool(),
+                        initial_query_sampler=UniformQuerySampler(num_queries=10),
+                        query_optimizer=NoQueryOptimizer(
+                            selection_criteria=QueryTestNoSelectionCritera(),
+                            num_queries=10,
+                            query_sampler=RandomChoiceQuerySampler(),
+                        ),
+                        experiment_modules=
+                        DependencyExperiment(
+                            dependency_test=test,
+                        ),
+                        oracle = Oracle(
+                            data_source=dataSource,
+                            augmentation=NoiseAugmentation()
+                        ),
+                        evaluators=evaluators,
                         exp_name = str(test._Configurable__args[0]).replace('(','').replace(')','') + '_noise_' + str(noiseRatio) if isinstance(test,DependencyTestAdapter) else type(test).__name__ + '_noise_' + str(noiseRatio),
                         )
                     )
@@ -114,7 +146,7 @@ class BlueprintFactory():
             for dataSource in dataSources:
                 for test in algorithms:
                     blueprints.append(Blueprint(
-                        repeat=100,
+                        repeat=1,
                         stopping_criteria= LearningStepStoppingCriteria(100),
                     
                         queried_data_pool=FlatQueriedDataPool(),
@@ -133,7 +165,7 @@ class BlueprintFactory():
                             augmentation=NoAugmentation()
                         ),
                         evaluators=evaluators,
-                        exp_name = test._Configurable__args[0].replace('(','').replace(')','') if isinstance(test,DependencyTestAdapter) else type(test).__name__,
+                        exp_name = str(test._Configurable__args[0]).replace('(','').replace(')','') if isinstance(test,DependencyTestAdapter) else type(test).__name__,
                     )
                 )
             return blueprints

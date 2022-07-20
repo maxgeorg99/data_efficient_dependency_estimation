@@ -1,11 +1,14 @@
 from __future__ import annotations
 from abc import abstractmethod
+import imp
 import itertools
+from math import perm
 from random import random, randrange
 import subprocess
 from typing import TYPE_CHECKING
 from unittest import result
 import dcor
+from sklearn.model_selection import permutation_test_score
 from sklearn.neighbors import NearestNeighbors
 
 from xicor.xicor import Xi
@@ -21,6 +24,13 @@ from scipy.stats import chi2_contingency
 import numpy as np
 import pandas as pd
 from ide.building_blocks.multi_sample_test import MultiSampleTest
+from hyppo.independence.dcorr import Dcorr
+from hyppo.independence.hsic import Hsic
+from hyppo.independence.hhg import HHG
+from hyppo.independence.mgc import MGC
+from hyppo.independence.kmerf import KMERF
+from hyppo.independence.base import IndependenceTest
+from hyppo.tools.common import perm_test
 
 from ide.core.experiment_module import ExperimentModule
 from ide.core.query.query_pool import QueryPool
@@ -36,6 +46,11 @@ class DependencyTest(ExperimentModule):
     @abstractmethod 
     def test(self):
         raise NotImplementedError
+@dataclass
+class NoDependencyTest(DependencyTest):
+
+    def test(self):
+        return 0,0,0
 
 @dataclass
 class GMI(DependencyTest):
@@ -51,77 +66,10 @@ class DIMID(DependencyTest):
 
 @dataclass
 class IMIE(DependencyTest):
-    OrderR = []
-    OrderX = []
-    OrderY = []
-    xP = []
-    yP = []
-    k: int = 5
-    offset: float = 0
-    mean: float = 0 
-    var: float = 0 
-    iterations: int = 0
 
     def test(self):
-        results = self.exp_modules.queried_data_pool.results
-        self.xP = results[:,:1]
-        self.yP = results[:,1:2]
-        self.offset = digamma(self.xP.size()) + digamma(self.k) - (1.0 / float(self.k))
-        self.OrderR = list(range(len(results)))
-        self.OrderX = list(range(len(results)))
-        self.OrderY = list(range(len(results)))
-        for i in range(10):
-            score, v = self.incrementEstimate()
-        t=0
-        p=0
-        return t,p,v
+        pass
 
-    def deltaX(self,index):
-        q = self.exp_modules.queried_data_pool.queries[index].reshape(-1, 1)       
-        #get k nearest for p
-        knn = NearestNeighbors(n_neighbors=self.k)
-        knn.fit(self.exp_modules.queried_data_pool.queries, self.exp_modules.queried_data_pool.results)
-        kneighbor_indexes = knn.kneighbors(q, n_neighbors=self.k, return_distance=False)
-        kneighbors = self.exp_modules.queried_data_pool.results[kneighbor_indexes]
-        xP = self.xP[index]
-
-        return max([abs(xP[0]-x[0]) for x in kneighbors[0]])
-
-    def deltaY(self,index):
-        q = self.exp_modules.queried_data_pool.queries[index].reshape(-1, 1)       
-        #get k nearest for p
-        knn = NearestNeighbors(n_neighbors=self.k)
-        knn.fit(self.exp_modules.queried_data_pool.queries, self.exp_modules.queried_data_pool.results)
-        kneighbor_indexes = knn.kneighbors(q, n_neighbors=self.k, return_distance=False)
-        kneighbors = self.exp_modules.queried_data_pool.results[kneighbor_indexes]
-        yP = self.yP[index]
-
-        return max([abs(yP[0]-y[0]) for y in kneighbors[0]])
-
-
-    def MC(self,index):
-        xP = self.xP[index]
-        yP = self.yP[index]
-        a = len([elem for elem in self.xP if abs(elem - xP) <= self.deltaX(index)])
-        b = len([elem for elem in self.yP if abs(elem - yP) <= self.deltaY(index)])
-        return (a,b)
-    
-    def incrementEstimate(self):
-        randomIdx = randrange(len(self.xP))
-        self.OrderR[self.iterations], self.OrderR[randomIdx] = self.OrderR[randomIdx], self.OrderR[self.iterations]
-        index = self.OrderR[self.iterations]
-        MCs = self.MC(index)
-        v = digamma(float(MCs[0])).numpy() + digamma(float(MCs[1])).numpy()
-        self.iterations+=1
-        delta = v - self.mean
-        self.mean += (delta / (self.iterations))
-        delta2 = v - self.mean
-        self.var += (delta * delta2)
-
-        score = self.offset - self.mean
-        var = self.var / self.iterations
-        return score, var
-        
 
 @dataclass
 class PeakSim(DependencyTest):
@@ -133,7 +81,15 @@ class Pearson(DependencyTest):
 
     def test(self):
         results = self.exp_modules.queried_data_pool.results
-        if results.shape[1] == 2:
+        quries = self.exp_modules.queried_data_pool.queries
+        
+        if results.shape[1] == 1:
+            x = quries
+            y = results
+            x = [item for sublist in x for item in sublist]
+            y = [item for sublist in y for item in sublist]
+            t, p = pearsonr(x, y)
+        elif results.shape[1] == 2:
             x = results[:,:1]
             y = results[:,1:2]
             x = [item for sublist in x for item in sublist]
@@ -154,7 +110,15 @@ class Spearmanr(DependencyTest):
 
     def test(self):
         results = self.exp_modules.queried_data_pool.results
-        if results.shape[1] == 2:
+        quries = self.exp_modules.queried_data_pool.queries
+        
+        if results.shape[1] == 1:
+            x = quries
+            y = results
+            x = [item for sublist in x for item in sublist]
+            y = [item for sublist in y for item in sublist]
+            t, p = spearmanr(x, y)
+        elif results.shape[1] == 2:
             x = results[:,:1]
             y = results[:,1:2]
             t, p = spearmanr(x, y)
@@ -172,7 +136,15 @@ class Kendalltau(DependencyTest):
 
     def test(self):
         results = self.exp_modules.queried_data_pool.results
-        if results.shape[1] == 2:
+        quries = self.exp_modules.queried_data_pool.queries
+        
+        if results.shape[1] == 1:
+            x = quries
+            y = results
+            x = [item for sublist in x for item in sublist]
+            y = [item for sublist in y for item in sublist]
+            t, p = kendalltau(x, y)
+        elif results.shape[1] == 2:
             x = results[:,:1]
             y = results[:,1:2]
             t, p = kendalltau(x, y)
@@ -190,7 +162,14 @@ class FIT(DependencyTest):
 
     def test(self):
         results = self.exp_modules.queried_data_pool.results
-        if results.shape[1] == 2:
+        quries = self.exp_modules.queried_data_pool.queries
+        if results.shape[1] == 1:
+            x = quries
+            y = results
+            x = [item for sublist in x for item in sublist]
+            y = [item for sublist in y for item in sublist]
+            t, p = fcit.test(x, y)
+        elif results.shape[1] == 2:
             x = results[:,:1]
             y = results[:,1:2]
             p = fcit.test(x, y)
@@ -205,7 +184,14 @@ class XiCor(DependencyTest):
 
     def test(self):
         results = self.exp_modules.queried_data_pool.results
-        if results.shape[1] == 2:
+        quries = self.exp_modules.queried_data_pool.queries
+        if results.shape[1] == 1:
+            x = quries
+            y = results
+            x = [item for sublist in x for item in sublist]
+            y = [item for sublist in y for item in sublist]
+            t, p = self.xi(x, y)
+        elif results.shape[1] == 2:
             x = results[:,:1]
             y = results[:,1:2]
             t, p = self.xi(x, y)
@@ -250,15 +236,15 @@ class IndepTest(DependencyTest):
         queries = self.exp_modules.queried_data_pool.queries
 
         samples = self.exp_modules.queried_data_pool.results
-        x = np.asarray([item.tolist() for sublist in samples for item in sublist])
         dataFile = 'run_data_store/indepTestData.csv'
-        df = pd.DataFrame(x)
+        data = np.concatenate((queries,samples),axis=1)
+        df = pd.DataFrame(data)
         df.to_csv(dataFile, sep=",", header='true', index=False)
  
         command = 'Rscript'
         path = 'C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/r_scripts/IndepTest.r'
         cmd = [command, path, '--vanilla'] 
-        if(len(x)>50):
+        if(len(data)>50):
             output = subprocess.check_output(cmd)
             line = next(x for x in output.splitlines() if x.startswith(b'[1]'))
             p = float(line.split()[1])
@@ -273,9 +259,9 @@ class CondIndTest(DependencyTest):
         queries = self.exp_modules.queried_data_pool.queries
 
         samples = self.exp_modules.queried_data_pool.results
-        x = np.asarray([item.tolist() for sublist in samples for item in sublist])
+        data = np.concatenate((queries,samples),axis=1)
         dataFile = 'run_data_store/condIndTestData.csv'
-        df = pd.DataFrame(x)
+        df = pd.DataFrame(data)
         df.to_csv(dataFile, sep=",", header='true', index=False)
 
         output = subprocess.check_output(["Rscript",  "--vanilla", "C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/r_scripts/CondIndTest.r"])
@@ -289,15 +275,15 @@ class LISTest(DependencyTest):
         queries = self.exp_modules.queried_data_pool.queries
 
         samples = self.exp_modules.queried_data_pool.results
-        x = np.asarray([item.tolist() for sublist in samples for item in sublist])
+        data = np.concatenate((queries,samples),axis=1)
         dataFile = 'run_data_store/LISTestData.csv'
-        df = pd.DataFrame(x)
+        df = pd.DataFrame(data)
         df.to_csv(dataFile, sep=",", header='true', index=False)
 
-        if(len(x)>20 and len(x)<200):
+        if(len(data)>20):
             output = subprocess.check_output(["Rscript",  "--vanilla", "C:/Users/maxig/ThesisActiveLearningFramework/data_efficient_dependency_estimation/r_scripts/LISTest.r"])
-            p = float(output.splitlines()[5].split()[1])
-            t = float(output.splitlines()[8].split()[1])
+            p = float(output.splitlines()[1].split()[1])
+            t = float(output.splitlines()[4].split()[1]) 
         else:
             p = 0
             t = 0
@@ -315,7 +301,7 @@ class NaivDependencyTest(DependencyTest):
 
         sample_queries, samples = self.data_sampler.query(queries)
 
-        t, p = self.multi_sample_test.test(samples)
+        t, p = self.multi_sample_test().test(samples)
 
         return t, p, 0
 
@@ -325,3 +311,58 @@ class NaivDependencyTest(DependencyTest):
         obj.multi_sample_test = obj.multi_sample_test()
         obj.query_sampler = obj.query_sampler(obj.data_sampler)
         return obj
+
+@dataclass
+class hypoDcorr(DependencyTest):
+
+    def test(self):
+        results = self.exp_modules.queried_data_pool.results
+        queries = self.exp_modules.queried_data_pool.queries
+        x = queries
+        y = results
+        stat,pvalue = Dcorr().test(x,y,workers=-1,reps=100)
+        return stat, pvalue, 0
+
+@dataclass
+class hypoHsic(DependencyTest):
+
+    def test(self):
+        results = self.exp_modules.queried_data_pool.results
+        queries = self.exp_modules.queried_data_pool.queries
+        x = queries
+        y = results
+        stat,pvalue = Hsic().test(x,y,workers=-1,reps=100)
+        return stat, pvalue, 0
+
+@dataclass
+class hypoHHG(DependencyTest):
+
+    def test(self):
+        results = self.exp_modules.queried_data_pool.results
+        queries = self.exp_modules.queried_data_pool.queries
+        x = queries
+        y = results
+        stat,pvalue = HHG().test(x,y,workers=-1,reps=100)
+        return stat, pvalue, 0
+
+@dataclass
+class hypoMGC(DependencyTest):
+
+    def test(self):
+        results = self.exp_modules.queried_data_pool.results
+        queries = self.exp_modules.queried_data_pool.queries
+        x = queries
+        y = results
+        stat,pvalue,_ = MGC().test(x,y,workers=-1,reps=100)
+        return stat, pvalue, 0
+
+@dataclass
+class hypoKMERF(DependencyTest):
+
+    def test(self):
+        results = self.exp_modules.queried_data_pool.results
+        queries = self.exp_modules.queried_data_pool.queries
+        x = queries
+        y = results
+        stat,pvalue,_ = KMERF().test(y,x,workers=-1,reps=100)
+        return stat, pvalue, 0
