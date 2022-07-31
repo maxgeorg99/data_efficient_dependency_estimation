@@ -1,1 +1,1 @@
-For Running the Experiments in this Project a Version of Java and R has to be installed on the machine.
+For Running all the experiments in this project java and R has to be installed on the machine.
