@@ -9,7 +9,6 @@ from requests import get
 from statsmodels.stats.power import TTestIndPower
 from sklearn.metrics import auc, average_precision_score, confusion_matrix, f1_score, precision_recall_curve, roc_auc_score
 import statsmodels.stats.power as smp
-import Orange
 from scipy.stats import rankdata
 
 result_folder = "./experiment_results/data_efficiency"
@@ -397,54 +396,10 @@ def plot_power_dim():
         plot.savefig(f'{result_folder}/Power/Power95_{d}_{class_string}.png',dpi=500)
         plot.clf()
 
-def plot_cd_F1():
-    avranks = []
-    ranks = []
-    for i in range(num_experiments):
-        scores = np.nan_to_num([algorithm_F1_95[algorithm,num_iterations-1][1] for algorithm in algorithms])
-        ranks.append(rankdata(scores))
-    ranks = np.asarray(ranks)
-    for i in range(len(algorithms)): 
-        avranks.append(np.mean(ranks[:,i]))
-    cd = Orange.evaluation.compute_CD(avranks, len(datasources))
-    Orange.evaluation.graph_ranks(avranks, algorithms, cd=cd, width = 6, textspace=1.5,filename=f'{result_folder}/CD/{class_string}_cd_f1.png')
-
-def plot_cd_power():
-    avranks = []
-    ranks = []
-    for i in range(num_experiments):
-        scores = np.nan_to_num([algorithm_power95[(algorithm,0.0)][99] for algorithm in algorithms])
-        ranks.append(rankdata(scores))
-    ranks = np.asarray(ranks)
-    for i in range(len(algorithms)): 
-        avranks.append(np.mean(ranks[:,i]))
-    cd = Orange.evaluation.compute_CD(avranks, len(datasources))
-    Orange.evaluation.graph_ranks(avranks, algorithms, cd=cd, width = 6, textspace=1.5,filename=f'{result_folder}/CD/{class_string}_cd_power.png')
-
-def plot_cd_AUC():
-    avranks = []
-    for algorithm in algorithms:
-        avranks.append(algorithm_ROC_AUC95[algorithm,num_iterations-1]) 
-    cd = Orange.evaluation.compute_CD(avranks, len(datasources))
-    Orange.evaluation.graph_ranks(avranks, algorithms, cd=cd, width = 6, textspace=1.5,filename=f'{result_folder}/CD/{class_string}_cd_ROC_AUC.png')
-
-def plot_cd_PR_AUC():
-    avranks = []
-    for algorithm in algorithms:
-        avranks.append(algorithm_PR_AUC95[algorithm,num_iterations-1]) 
-    cd = Orange.evaluation.compute_CD(avranks, len(datasources))
-    Orange.evaluation.graph_ranks(avranks, algorithms, cd=cd, width = 6, textspace=1.5,filename=f'{result_folder}/CD/{class_string}_cd_PR _AUC.png')
-
-
 def plot_data_efficiency(fig_name = "data_efficiency"):
     plot_F1()
     plot_AUC()
     plot_power()
-
-def plot_cd():
-    plot_cd_F1()
-    plot_cd_power()
-    plot_cd_AUC()
 
 def percentile_scala_breeze(list_of_floats: List[float], p: float):
         arr = sorted(list_of_floats)
@@ -477,7 +432,6 @@ algo_marker_dict = dict(zip(algorithms,markers))
 #plot_power()
 #plot_power_noise()
 #plot_data_efficiency()
-plot_cd_power()
 #plot_AUC()
 #plot_PR_AUC()
 #plot_power_dim()
