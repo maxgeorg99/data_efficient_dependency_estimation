@@ -11,7 +11,9 @@ unzip into project folder.
 
 To add additional experiments add a blueprint and specify the experiment parameters.
 
-Start the execution of the experiments by executing the run_experiments.py.
+Start the execution of the experiments by executing the run_experiments.py file.
+
+You can choose which experiment to execute by importing the blueptrints from the experiments.
 
 After the execution run the desired post experiment script from the post_experiment_computaion folder.
 
