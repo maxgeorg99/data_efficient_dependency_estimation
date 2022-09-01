@@ -37,11 +37,11 @@ from hyppo.independence import Hsic
 from ide.core.blueprint_factory import BlueprintFactory
 
 #class 1
-#algorithms = [Pearson(),Spearmanr(),Kendalltau()]
+algorithms = [Pearson(),Spearmanr(),Kendalltau()]
 #class 2
 #algorithms = [hypoDcorr(),hypoHsic(),XiCor(),DependencyTestAdapter(Hoeffdings())]
 #class 3
-algorithms = [DependencyTestAdapter(IMIE()),DependencyTestAdapter(CMI()),DependencyTestAdapter(HiCS()),DependencyTestAdapter(MCDE())]
+#algorithms = [DependencyTestAdapter(IMIE()),DependencyTestAdapter(CMI()),DependencyTestAdapter(HiCS()),DependencyTestAdapter(MCDE())]
 #class 4
 #algorithms = [hypoKMERF(),hypoMGC(),hypoHHG()]
 #class 5

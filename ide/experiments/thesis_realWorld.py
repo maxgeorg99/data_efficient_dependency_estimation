@@ -10,7 +10,7 @@ from ide.building_blocks.dependency_test import FIT, CondIndTest, DependencyTest
 from ide.core.blueprint_factory import BlueprintFactory
 
 #class 1
-#algorithms = [Pearson(),Spearmanr(),Kendalltau()]
+algorithms = [Pearson(),Spearmanr(),Kendalltau()]
 #class 2
 #algorithms = [hypoDcorr(),hypoHsic(),XiCor(),DependencyTestAdapter(Hoeffdings())]
 #class 3
@@ -18,12 +18,8 @@ from ide.core.blueprint_factory import BlueprintFactory
 #class 4
 #algorithms = [hypoKMERF(),hypoMGC(),hypoHHG()]
 #class 5
-algorithms = [CondIndTest(),IndepTest(),LISTest(),FIT()]
+#algorithms = [CondIndTest(),IndepTest(),LISTest(),FIT()]
 
-#real_world_data_sources = RealWorldDataSourceFactory().get_all_data_sources()
-#interpolation_strat = RandomInterpolationStrategy()
-#real_world_data_sources =[RealWorldDataSourceFactory().sunspot(interpolation_strategy=interpolation_strat),RealWorldDataSourceFactory().NASDAQ(interpolation_strategy=interpolation_strat), RealWorldDataSourceFactory().hipe(interpolation_strategy=interpolation_strat), RealWorldDataSourceFactory().smartphone(interpolation_strategy=interpolation_strat), RealWorldDataSourceFactory().hydraulic(interpolation_strategy=interpolation_strat)]
-real_world_data_sources =[RealWorldDataSourceFactory().hydraulic()]
-
+real_world_data_sources = RealWorldDataSourceFactory().get_all_data_sources()
 
 blueprints = BlueprintFactory.getBlueprintsForRealWorldData(algorithms=algorithms, dataSources=real_world_data_sources)

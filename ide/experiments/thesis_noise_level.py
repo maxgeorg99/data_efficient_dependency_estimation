@@ -24,39 +24,37 @@ from ide.building_blocks.dependency_test import FIT, CondIndTest, DependencyTest
 from ide.core.blueprint_factory import BlueprintFactory
 
 #class 1
-#algorithms = [Spearmanr(),Kendalltau()]
+algorithms = [Pearson(),Spearmanr(),Kendalltau()]
 #class 2
 #algorithms = [hypoDcorr(),hypoHsic(),XiCor(),DependencyTestAdapter(Hoeffdings())]
 #class 3
 #algorithms = [DependencyTestAdapter(IMIE()),DependencyTestAdapter(CMI()),DependencyTestAdapter(HiCS()),DependencyTestAdapter(MCDE()),DependencyTestAdapter(Hoeffdings())]
 #class 4
-algorithms = [hypoKMERF(),hypoMGC(),hypoHHG()]
+#algorithms = [hypoKMERF(),hypoMGC(),hypoHHG()]
 #class 5
-#algorithms = [hypoDcorr(),hypoHsic()]
-#algorithms = [FIT()]
+#algorithms = [hypoDcorr(),hypoHsic(), FIT()]
 
 synthetic_data_sources = []
-for i in range(3,4,5):
-    synthetic_data_sources.append(LineDataSource((1,),(2,),a=randint(-100,100),b=randint(-100,100))), 
-    synthetic_data_sources.append(SquareDataSource((1,),(2,),x0=randint(-100,100)*random(),y0=randint(-100,100)*random(),s=randint(-100,100)*random())),
-    synthetic_data_sources.append(SineDataSource((1,),(2,),p=randint(0,10),a=randint(0,100)))
-    synthetic_data_sources.append(CrossDataSource((1,),(2,),a=100*random())),
-    synthetic_data_sources.append(DoubleLinearDataSource((1,),(2,),a=100*random())), 
-    synthetic_data_sources.append(HourglassDataSource((1,),(2,),a=100*random())),
-    synthetic_data_sources.append(StarDataSource((1,),(2,),w=random())),
-    synthetic_data_sources.append(ZDataSource((1,),(2,),a=100*random())),
-    synthetic_data_sources.append(ZInvDataSource((1,),(2,),100*random()))
-    #synthetic_data_sources.append(GausianProcessDataSource((1,),(2,)))
-    synthetic_data_sources.append(LinearPeriodicDataSource((1,),(2,),p=10*random(),a=100*random()))
-    synthetic_data_sources.append(HypercubeDataSource((1,),(2,),w=random()))
-    synthetic_data_sources.append(HypercubeGraphDataSource((1,),(2,),w=random()))
-    synthetic_data_sources.append(HyperSphereDataSource((1,),(2,)))
-    synthetic_data_sources.append(WshapeDataSource((1,),(2,),r=100*random()))
-    synthetic_data_sources.append(SpiralDataSource((1,),(2,),r=randint(1,10)))
-    synthetic_data_sources.append(TwoParabolasDataSource((1,),(2,),r=randint(1,10)))
-    synthetic_data_sources.append(LogarithmicDataSource((1,),(2,)))
+synthetic_data_sources.append(LineDataSource((1,),(2,),a=randint(-100,100),b=randint(-100,100))), 
+synthetic_data_sources.append(SquareDataSource((1,),(2,),x0=randint(-100,100)*random(),y0=randint(-100,100)*random(),s=randint(-100,100)*random())),
+synthetic_data_sources.append(SineDataSource((1,),(2,),p=randint(0,10),a=randint(0,100)))
+synthetic_data_sources.append(CrossDataSource((1,),(2,),a=100*random())),
+synthetic_data_sources.append(DoubleLinearDataSource((1,),(2,),a=100*random())), 
+synthetic_data_sources.append(HourglassDataSource((1,),(2,),a=100*random())),
+synthetic_data_sources.append(StarDataSource((1,),(2,),w=random())),
+synthetic_data_sources.append(ZDataSource((1,),(2,),a=100*random())),
+synthetic_data_sources.append(ZInvDataSource((1,),(2,),100*random()))
+synthetic_data_sources.append(GausianProcessDataSource((1,),(2,)))
+synthetic_data_sources.append(LinearPeriodicDataSource((1,),(2,),p=10*random(),a=100*random()))
+synthetic_data_sources.append(HypercubeDataSource((1,),(2,),w=random()))
+synthetic_data_sources.append(HypercubeGraphDataSource((1,),(2,),w=random()))
+synthetic_data_sources.append(HyperSphereDataSource((1,),(2,)))
+synthetic_data_sources.append(WshapeDataSource((1,),(2,),r=100*random()))
+synthetic_data_sources.append(SpiralDataSource((1,),(2,),r=randint(1,10)))
+synthetic_data_sources.append(TwoParabolasDataSource((1,),(2,),r=randint(1,10)))
+synthetic_data_sources.append(LogarithmicDataSource((1,),(2,)))
 
 blueprints = []
-noise_array = [0.0]
+noise_array = [0.0,0.5,2.0]
 for noise in noise_array: 
     blueprints+=BlueprintFactory.getBlueprintsForSyntheticDataCompuationIntensive(algorithms=algorithms, dataSources=synthetic_data_sources, noiseRatio=noise)
