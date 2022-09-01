@@ -65,7 +65,7 @@ class BlueprintFactory():
     ]
     evaluators = [
         DataEfficiencyEvaluator(),
-        PlotNewDataPointsEvaluator()
+        #PlotNewDataPointsEvaluator()
         #LogBluePrint(),
     ]
 
