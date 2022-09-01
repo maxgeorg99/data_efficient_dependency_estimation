@@ -1,4 +1,4 @@
-For running all the experiments in this project a working version of Python 3, java and R has to be installed on the machine.
+For running all the experiments in this project a working version of Python 3.9.6, java and R has to be installed on the machine.
 
 To install this project on your machine clone the repository and execute the poetry (https://python-poetry.org/) command poetry install. 
 
