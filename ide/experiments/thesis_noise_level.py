@@ -57,4 +57,4 @@ synthetic_data_sources.append(LogarithmicDataSource((1,),(2,)))
 blueprints = []
 noise_array = [0.0,0.5,2.0]
 for noise in noise_array: 
-    blueprints+=BlueprintFactory.getBlueprintsForSyntheticDataCompuationIntensive(algorithms=algorithms, dataSources=synthetic_data_sources, noiseRatio=noise)
+    blueprints+=BlueprintFactory.getBlueprintsForSyntheticData(algorithms=algorithms, dataSources=synthetic_data_sources, noiseRatio=noise)

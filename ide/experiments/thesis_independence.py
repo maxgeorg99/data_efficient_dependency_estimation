@@ -51,4 +51,4 @@ synthetic_data_sources = []
 for i in range(0,16):
     synthetic_data_sources.append(IndependentDataSetDataSource(id=i))
 
-blueprints=BlueprintFactory.getBlueprintsForSyntheticDataCompuationIntensive(algorithms=algorithms,dataSources=synthetic_data_sources, noiseRatio=0.0)
+blueprints=BlueprintFactory.getBlueprintsForSyntheticData(algorithms=algorithms,dataSources=synthetic_data_sources, noiseRatio=0.0)

@@ -79,7 +79,7 @@ class BlueprintFactory():
             for dataSource in dataSources:
                 for test in algorithms:
                     blueprints.append(Blueprint(
-                        repeat=1,
+                        repeat=100,
                         stopping_criteria= LearningStepStoppingCriteria(100),
                         queried_data_pool=FlatQueriedDataPool(),
                         initial_query_sampler=UniformQuerySampler(num_queries=10),
@@ -94,47 +94,14 @@ class BlueprintFactory():
                         ),
                         oracle = Oracle(
                             data_source=dataSource,
-                            augmentation=NoiseAugmentation()
+                            augmentation=NoiseAugmentation(noise_ratio=noiseRatio)
                         ),
                         evaluators=evaluators,
                         exp_name = str(test._Configurable__args[0]).replace('(','').replace(')','') + '_noise_' + str(noiseRatio) if isinstance(test,DependencyTestAdapter) else type(test).__name__ + '_noise_' + str(noiseRatio),
                         )
                     )
             return blueprints
-
-    def getBlueprintsForSyntheticDataCompuationIntensive(    
-        algorithms: List[DependencyTest] = tests, 
-        dataSources: List[DataSource] = [LineDataSource], 
-        evaluators: List[Evaluator] = evaluators,
-        noiseRatio:float = 0.5
-        ):
-            blueprints = []
-            for dataSource in dataSources:
-                for test in algorithms:
-                    blueprints.append(Blueprint(
-                        repeat=1,
-                        stopping_criteria= LearningStepStoppingCriteria(9),
-                        queried_data_pool=FlatQueriedDataPool(),
-                        initial_query_sampler=UniformQuerySampler(num_queries=100),
-                        query_optimizer=NoQueryOptimizer(
-                            selection_criteria=QueryTestNoSelectionCritera(),
-                            num_queries=100,
-                            query_sampler=RandomChoiceQuerySampler(),
-                        ),
-                        experiment_modules=
-                        DependencyExperiment(
-                            dependency_test=test,
-                        ),
-                        oracle = Oracle(
-                            data_source=dataSource,
-                            augmentation=NoiseAugmentation()
-                        ),
-                        evaluators=evaluators,
-                        exp_name = str(test._Configurable__args[0]).replace('(','').replace(')','') + '_noise_' + str(noiseRatio) if isinstance(test,DependencyTestAdapter) else type(test).__name__ + '_noise_' + str(noiseRatio),
-                        )
-                    )
-            return blueprints
-
+ 
     def getBlueprintsForRealWorldData(    
         algorithms: List[DependencyTest] = tests, 
         dataSources: List[DataSource] = [LineDataSource], 

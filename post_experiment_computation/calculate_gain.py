@@ -12,7 +12,7 @@ num_iterations = 100
 ignore_nans_count = -1
 num_experiments = 1
 
-class_string = os.path.dirname(log_folder).split('/')[-1]
+class_string = 'class1'
 
 def walk_files(path):
     for dirpath, dnames, fnames in os.walk(path):

@@ -28,11 +28,10 @@ from hyppo.independence import Hsic
 
 from ide.core.blueprint_factory import BlueprintFactory
 
-#algorithms = [Pearson(),Spearmanr(),Kendalltau()]
+algorithms = [Pearson(),Spearmanr(),Kendalltau()]
 #algorithms = [DependencyTestAdapter(IMIE()),DependencyTestAdapter(CMI()),DependencyTestAdapter(HiCS()),DependencyTestAdapter(MCDE())]
 #algorithms = [hypoMGC(),hypoHHG(),hypoKMERF()]
 #algorithms = [hypoDcorr(),hypoHsic(),XiCor(),DependencyTestAdapter(Hoeffdings())]
-algorithms = [DependencyTestAdapter(CMI())]
 synthetic_data_sources = []
 
 synthetic_data_sources.append(LineDataSource((1,),(2,),a=randint(-100,100),b=randint(-100,100))), 
@@ -52,4 +51,4 @@ synthetic_data_sources.append(WshapeDataSource((1,),(2,),r=100*random()))
 synthetic_data_sources.append(SpiralDataSource((1,),(2,),r=randint(1,10)))
 synthetic_data_sources.append(TwoParabolasDataSource((1,),(2,),r=randint(1,10)))
 synthetic_data_sources.append(LogarithmicDataSource((1,),(2,)))
-blueprints=BlueprintFactory.getBlueprintsForSyntheticData(algorithms=algorithms,dataSources=synthetic_data_sources, noiseRatio=0.0)
+blueprints=BlueprintFactory.getBlueprintsForSyntheticData(algorithms=algorithms,dataSources=synthetic_data_sources)
