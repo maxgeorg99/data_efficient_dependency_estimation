@@ -31,11 +31,11 @@ from ide.core.blueprint_factory import BlueprintFactory
 algorithms = [Pearson(),Spearmanr(),Kendalltau()]
 synthetic_data_sources = []
 
-synthetic_data_sources.append(LineDataSource((1,),(2,),a=randint(-100,100),b=randint(-100,100))), 
-synthetic_data_sources.append(SquareDataSource((1,),(2,),x0=randint(-100,100)*random(),y0=randint(-100,100)*random(),s=randint(-100,100)*random())),
-synthetic_data_sources.append(SineDataSource((1,),(2,),p=randint(0,10),a=randint(0,100)))
-synthetic_data_sources.append(CrossDataSource((1,),(2,),a=100*random())),
-synthetic_data_sources.append(ZDataSource((1,),(2,),a=100*random())),
-synthetic_data_sources.append(ZInvDataSource((1,),(2,),100*random()))
+synthetic_data_sources.append(LineDataSource((1,),(3,),a=randint(-100,100),b=randint(-100,100))), 
+synthetic_data_sources.append(SquareDataSource((1,),(3,),x0=randint(-100,100)*random(),y0=randint(-100,100)*random(),s=randint(-100,100)*random())),
+synthetic_data_sources.append(SineDataSource((1,),(3,),p=randint(0,10),a=randint(0,100)))
+synthetic_data_sources.append(CrossDataSource((1,),(3,),a=100*random())),
+synthetic_data_sources.append(ZDataSource((1,),(3,),a=100*random())),
+synthetic_data_sources.append(ZInvDataSource((1,),(3,),100*random()))
 
 blueprints=BlueprintFactory.getBlueprintsForSyntheticData(algorithms=algorithms,dataSources=synthetic_data_sources)

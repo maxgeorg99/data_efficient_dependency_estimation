@@ -4,10 +4,10 @@ import numpy as np
 import os
 
 folder = "./experiment_results/gain"
-log_folder = "./logs/class3/noise"
+log_folder = "./log"
 log_prefix = "log"
 
-baseline = "MCDE"
+baseline = "Pearson"
 num_iterations = 100
 ignore_nans_count = -1
 num_experiments = 1

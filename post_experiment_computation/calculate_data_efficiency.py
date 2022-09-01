@@ -14,7 +14,7 @@ import itertools
 import math
 
 result_folder = "./experiment_results/data_efficiency"
-log_folder = "./logs/class4/noise"
+log_folder = "./log"
 log_prefix = "DataEfficiency_"
 num_experiments = 1
 ignore_nans_count = -1
@@ -38,16 +38,6 @@ algorithm_pvalues: Dict = {}
 def compute_data_efficiency(data, algorithm, datasource):
     runs_data_p = algorithm_pvalues.get((algorithm,datasource), [])
     runs_data_p.append(data['pValues'][0:100])
-    if len(runs_data_p[0]) <= 11:
-        a = np.zeros(int(math.ceil(100/len(runs_data_p[0])))*len(runs_data_p[0]),dtype=float)
-        a[::int(math.ceil(100/len(runs_data_p[0])))] = runs_data_p[0]
-        a[a == 0] = 'nan'
-        nans, x= np.isnan(a), lambda z: z.nonzero()[0]
-        if not all(np.isnan(a)):
-            a[nans]= np.interp(x(nans), x(~nans), a[~nans])
-            runs_data_p[0] = a[0:100]
-        else:
-            return
     algorithm_pvalues[(algorithm, datasource)] = runs_data_p 
 
 algorithm_F1_90: Dict = {}
@@ -247,7 +237,7 @@ def plot_F1_noise():
         plot.savefig(f'{result_folder}/F1/noise_F1_99_{noise}_{class_string}.png',dpi=500)
         plot.clf()
 
-def plot_AUC():
+def plot_ROC_AUC():
     x = np.arange(num_iterations)
     p_thresholds = [0.01,0.05,0.1]
     noise_level = [0.0]
@@ -324,7 +314,7 @@ def plot_PR_AUC():
 def plot_power():
     x = np.arange(num_iterations)
     for algorithm in algorithms:
-        p = algorithm_power90[(algorithm,0.0)]
+        p = algorithm_power90[(algorithm,0.5)]
         y = np.nan_to_num(p)
         plot.plot(x,y,  algo_marker_dict[algorithm] + '-', label=algorithm)
     plot.ylim(top=1,bottom=0)
@@ -336,7 +326,7 @@ def plot_power():
     plot.clf()
 
     for algorithm in algorithms:
-        p = algorithm_power95[(algorithm,0.0)]
+        p = algorithm_power95[(algorithm,0.5)]
         y = np.nan_to_num(p)
         plot.plot(x,y,  algo_marker_dict[algorithm] + '-', label=algorithm)
     plot.ylim(top=1,bottom=0)
@@ -348,7 +338,7 @@ def plot_power():
     plot.clf()
 
     for algorithm in algorithms:
-        p = algorithm_power99[(algorithm,0.0)]
+        p = algorithm_power99[(algorithm,0.5)]
         y = np.nan_to_num(p)
         plot.plot(x,y,  algo_marker_dict[algorithm] + '-', label=algorithm)
     plot.ylim(top=1,bottom=0)
@@ -430,7 +420,7 @@ def plot_ranking():
 
 def plot_data_efficiency(fig_name = "data_efficiency"):
     plot_F1()
-    plot_AUC()
+    plot_ROC_AUC()
     plot_power()
 
 def percentile_scala_breeze(list_of_floats: List[float], p: float):
@@ -452,19 +442,14 @@ algorithms = sorted(set([x[0] for x in keys]))
 markers = ['.','v','^','<','>','s','P','*','+','x','D','d','|']
 algo_marker_dict = dict(zip(algorithms,markers))
 
-#calculate_power_noise()
-#calculate_F1_noise()
+calculate_power_noise()
+calculate_F1_noise()
 calculate_ROC_AUC()
 calculate_PR_AUC()
-#calculate_prediction_recall_AUC()
-#calculate_power_dim()
 
-#plot_F1_noise()
-#plot_power()
-#plot_power_noise()
-#plot_data_efficiency()
-#plot_cd_power()
-plot_AUC()
+plot_F1_noise()
+plot_power_noise()
+plot_ROC_AUC()
 plot_PR_AUC()
-#plot_power_dim()
-#plot_ranking()
+
+plot_ranking()

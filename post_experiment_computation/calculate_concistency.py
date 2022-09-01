@@ -10,7 +10,7 @@ import statistics as stat
 
 result_folder = "./experiment_results/concistency"
 fig_name = 'concistency'
-log_folder = "./logs/best"
+log_folder = "./log"
 log_prefix = "DataEfficiency_Ps_"
 num_experiments = 1
 num_iterations = 100
@@ -22,7 +22,6 @@ def walk_files(path):
             if f.endswith(".npz"):
                 c = f.split("_")
                 algorithm = c[0]
-                #datasource = c[2].removesuffix('AverageInterpolationStrategy').upper()
                 datasource = ' '.join(c[1:4])
                 with np.load(os.path.join(dirpath, f)) as data:
                     compute_data_efficiency(data,algorithm,datasource)
@@ -72,7 +71,6 @@ datasources = set([x[1] for x in keys])
 algorithms = sorted(set([x[0] for x in keys]))
 
 markers = ['.','v','^','<','>','s','P','*','+','x','D','d','|']
-#algorithms = ['Pearson','Kendall','Spearman','dHSIC','XiCor','Hoeffdings','CMI','HiCS','MCDE','IndepTest','LISTest','FIT','IMIE']
 algo_marker_dict = dict(zip(algorithms,markers))
 
 plot_concistency_scores()
