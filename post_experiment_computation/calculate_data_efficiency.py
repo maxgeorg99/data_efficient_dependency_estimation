@@ -22,7 +22,7 @@ num_iterations = 100
 
 class_string = os.path.dirname(log_folder).split('/')[-1]
 
-noise_levels = [0.0,0.5,2.0]
+noise_levels = [0.5]
 p_thresholds = [0.01,0.05,0.1]
 
 def walk_files(path):
@@ -197,8 +197,7 @@ def plot_F1():
 
 def plot_F1_noise():
     x = np.arange(num_iterations)
-    noise_level = [0.0,0.5,2.0]
-    for noise in noise_level:
+    for noise in noise_levels:
         for algorithm in algorithms:
             y = algorithm_F1_90[algorithm,noise]
             plot.plot(x,y,algo_marker_dict[algorithm] + '-', label=algorithm)
@@ -235,8 +234,7 @@ def plot_F1_noise():
 def plot_ROC_AUC():
     x = np.arange(num_iterations)
     p_thresholds = [0.01,0.05,0.1]
-    noise_level = [0.0]
-    for noise in noise_level:
+    for noise in noise_levels:
         for algorithm in algorithms:
             y = algorithm_ROC_AUC90[(algorithm,noise)]
             plot.plot(x,y,  algo_marker_dict[algorithm] + '-', label=algorithm)
@@ -273,8 +271,7 @@ def plot_ROC_AUC():
 def plot_PR_AUC():
     x = np.arange(num_iterations)
     p_thresholds = [0.01,0.05,0.1]
-    noise_level = [0.0]
-    for noise in noise_level:
+    for noise in noise_levels:
         for algorithm in algorithms:
             y = algorithm_PR_AUC90[(algorithm,noise)]
             plot.plot(x,y,  algo_marker_dict[algorithm] + '-', label=algorithm)
@@ -345,9 +342,8 @@ def plot_power():
     plot.clf()
 
 def plot_power_noise():
-    noise_level = [0.0,0.5,2.0]
     x = list(range(num_iterations))
-    for noise in noise_level:
+    for noise in noise_levels:
         for algorithm in algorithms:
             y = algorithm_power90[(algorithm,noise)]
             plot.plot(x,y,algo_marker_dict[algorithm] + '-', label=algorithm)
@@ -397,7 +393,7 @@ def plot_power_dim():
         plot.clf()
 
 def plot_ranking():
-    power = [algorithm_power95[(algorithm,0.0)] for algorithm in algorithms]
+    power = [algorithm_power95[(algorithm,0.5)] for algorithm in algorithms]
     rankingPower = [np.average(p,weights=np.flip(np.arange(1,1+len(p)))) for p in power]
     rankingPower.sort()
  
