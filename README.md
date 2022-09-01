@@ -6,6 +6,9 @@ To build a  virtual environment we execute the poetry shell command.
 
 The experiments are defined as blueprints in the experiments folder.
 
+Real world data can be downloaded from here: https://efss.qloud.my/index.php/s/oHybxZcjKRJo74N 
+unzip into project folder.
+
 To add additional experiments add a blueprint and specify the experiment parameters.
 
 Start the execution of the experiments by executing the run_experiments.py.
