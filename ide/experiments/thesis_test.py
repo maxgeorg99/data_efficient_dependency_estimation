@@ -21,14 +21,13 @@ from ide.modules.stopping_criteria import LearningStepStoppingCriteria
 
 synthetic_data_sources = []
 synthetic_data_sources.append(StarDataSource((1,),(1,)))
-#synthetic_data_sources.append(SineDataSource((1,),(2,),p=randint(0,10),a=randint(0,100)))
 blueprints = []
 for d in synthetic_data_sources:
     blueprints.append(Blueprint(
-                        repeat=1,
-                        stopping_criteria= LearningStepStoppingCriteria(0),
+                        repeat=10,
+                        stopping_criteria= LearningStepStoppingCriteria(100),
                         queried_data_pool=FlatQueriedDataPool(),
-                        initial_query_sampler=UniformQuerySampler(num_queries=1000),
+                        initial_query_sampler=UniformQuerySampler(num_queries=10),
                         query_optimizer=NoQueryOptimizer(
                             selection_criteria=QueryTestNoSelectionCritera(),
                             num_queries=10,

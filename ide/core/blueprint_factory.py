@@ -67,8 +67,8 @@ class BlueprintFactory():
     ]
     evaluators = [
         DataEfficiencyEvaluator(),
+        PlotNewDataPointsEvaluator()
         #LogBluePrint(),
-        #PlotNewDataPointsEvaluator()
     ]
 
     def getBlueprintsForSyntheticData(    
