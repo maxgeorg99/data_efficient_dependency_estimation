@@ -68,7 +68,7 @@ instance/
 docs/_build/
 
 # PyBuilder
-target/
+target/streams
 
 # Jupyter Notebook
 .ipynb_checkpoints

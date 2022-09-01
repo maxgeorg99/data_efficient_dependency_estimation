@@ -9,22 +9,21 @@ from ide.modules.oracle.data_source_adapter import DataSourceAdapter
 #class 1
 #algorithms = [Pearson(),Spearmanr(),Kendalltau()]
 #class 2
-#algorithms = [hypoDcorr(),hypoHsic(),XiCor()]
+#algorithms = [hypoDcorr(),hypoHsic()]
 #class 3
-algorithms = [DependencyTestAdapter(IMIE()),DependencyTestAdapter(CMI()),DependencyTestAdapter(HiCS()),DependencyTestAdapter(MCDE())]
+#algorithms = [DependencyTestAdapter(IMIE()),DependencyTestAdapter(CMI()),DependencyTestAdapter(HiCS()),DependencyTestAdapter(MCDE())]
 #class 4
 #algorithms = [hypoMGC(),hypoHHG(),hypoKMERF()]
+algorithms = [hypoKMERF()]
 #class 5
 #algorithms = [hypoDcorr(),hypoHsic()]
 
 synthetic_data_sources = []
 
-for i in [1,2,3]:
-        synthetic_data_sources.append(DataSourceAdapter(RandomDataSource(1,i))),
-        synthetic_data_sources.append(IndependentDataSetDataSource(dims=i,id=i))
+for i in [3,4,5]:
         synthetic_data_sources.append(LineDataSource((1,),(i,)))
         synthetic_data_sources.append(SquareDataSource((1,),(i,)))
-        synthetic_data_sources.append(SineDataSource((1,),(i,),p=2))
+        synthetic_data_sources.append(SineDataSource((1,),(i,),p=4))
         synthetic_data_sources.append(CrossDataSource((1,),(i,)))
         synthetic_data_sources.append(DoubleLinearDataSource((1,),(i,)))
         synthetic_data_sources.append(HourglassDataSource((1,),(i,)))
@@ -41,4 +40,4 @@ for i in [1,2,3]:
         synthetic_data_sources.append(HypercubeGraphDataSource((1,),(i,)))
         synthetic_data_sources.append(HyperSphereDataSource((1,),(i,)))
 
-blueprints=BlueprintFactory.getBlueprintsForSyntheticDataCompuationIntensive(algorithms=algorithms,dataSources=synthetic_data_sources, noiseRatio=0.5)
+blueprints=BlueprintFactory.getBlueprintsForSyntheticData(algorithms=algorithms,dataSources=synthetic_data_sources, noiseRatio=0.5)

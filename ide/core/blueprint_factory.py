@@ -81,7 +81,7 @@ class BlueprintFactory():
             for dataSource in dataSources:
                 for test in algorithms:
                     blueprints.append(Blueprint(
-                        repeat=100,
+                        repeat=1,
                         stopping_criteria= LearningStepStoppingCriteria(100),
                         queried_data_pool=FlatQueriedDataPool(),
                         initial_query_sampler=UniformQuerySampler(num_queries=10),
@@ -115,12 +115,12 @@ class BlueprintFactory():
                 for test in algorithms:
                     blueprints.append(Blueprint(
                         repeat=1,
-                        stopping_criteria= LearningStepStoppingCriteria(100),
+                        stopping_criteria= LearningStepStoppingCriteria(9),
                         queried_data_pool=FlatQueriedDataPool(),
-                        initial_query_sampler=UniformQuerySampler(num_queries=10),
+                        initial_query_sampler=UniformQuerySampler(num_queries=100),
                         query_optimizer=NoQueryOptimizer(
                             selection_criteria=QueryTestNoSelectionCritera(),
-                            num_queries=10,
+                            num_queries=100,
                             query_sampler=RandomChoiceQuerySampler(),
                         ),
                         experiment_modules=

@@ -1,0 +1,1186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ivy-report.xsl"?>
+<ivy-report version="1.0">
+	<info
+		organisation="com.edouardfouche"
+		module="mcde-experiments_2.12"
+		revision="1.0"
+		conf="compile-internal"
+		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, pom, scala-tool"
+		date="20211103165524"/>
+	<dependencies>
+		<module organisation="org.scalanlp" name="breeze-natives_2.12">
+			<revision name="0.13.1" status="release" pubdate="20170424083235" resolver="public" artresolver="public" homepage="http://scalanlp.org/" downloaded="true" searched="true" default="false" conf="default, compile, runtime, default(compile), master" position="65">
+				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.html"/>
+				<metadata-artifact status="successful" details="" size="2387" time="187" location="C:\Users\maxig\.ivy2\cache\org.scalanlp\breeze-natives_2.12\ivy-0.13.1.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\org.scalanlp\breeze-natives_2.12\ivy-0.13.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scalanlp/breeze-natives_2.12/0.13.1/breeze-natives_2.12-0.13.1.pom"/>
+				<caller organisation="com.edouardfouche" name="mcde-experiments_2.12" conf="compile-internal, compile, provided, optional" rev="0.13.1" rev-constraint-default="0.13.1" rev-constraint-dynamic="0.13.1" callerrev="1.0"/>
+				<artifacts>
+					<artifact name="breeze-natives_2.12" type="jar" ext="jar" status="successful" details="" size="282" time="392" location="C:\Users\maxig\.ivy2\cache\org.scalanlp\breeze-natives_2.12\jars\breeze-natives_2.12-0.13.1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/scalanlp/breeze-natives_2.12/0.13.1/breeze-natives_2.12-0.13.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.github.fommil.netlib" name="all">
+			<revision name="1.1.2" status="release" pubdate="20131126125721" resolver="public" artresolver="public" homepage="" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="66">
+				<license name="BSD 3 Clause" url="http://opensource.org/licenses/BSD-3-Clause"/>
+				<metadata-artifact status="successful" details="" size="4269" time="92" location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\all\ivy-1.1.2.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\all\ivy-1.1.2.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/github/fommil/netlib/all/1.1.2/all-1.1.2.pom"/>
+				<caller organisation="org.scalanlp" name="breeze-natives_2.12" conf="default, compile, runtime, master" rev="1.1.2" rev-constraint-default="1.1.2" rev-constraint-dynamic="1.1.2" callerrev="0.13.1"/>
+				<artifacts>
+					<artifact name="all" type="pom" ext="pom" status="successful" details="" size="4269" time="257" location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\all\poms\all-1.1.2.pom">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/github/fommil/netlib/all/1.1.2/all-1.1.2.pom"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.github.fommil.netlib" name="netlib-native_system-win-i686">
+			<revision name="1.1" status="release" pubdate="20131012004118" resolver="public" artresolver="public" homepage="" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="81">
+				<license name="BSD 3 Clause" url="http://opensource.org/licenses/BSD-3-Clause"/>
+				<metadata-artifact status="successful" details="" size="5271" time="69" location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\netlib-native_system-win-i686\ivy-1.1.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\netlib-native_system-win-i686\ivy-1.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/github/fommil/netlib/netlib-native_system-win-i686/1.1/netlib-native_system-win-i686-1.1.pom"/>
+				<caller organisation="com.github.fommil.netlib" name="all" conf="compile, runtime" rev="1.1" rev-constraint-default="1.1" rev-constraint-dynamic="1.1" callerrev="1.1.2"/>
+				<artifacts>
+					<artifact name="netlib-native_system-win-i686" type="jar" ext="jar" extra-classifier="natives" status="successful" details="" size="561459" time="531" location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\netlib-native_system-win-i686\jars\netlib-native_system-win-i686-1.1-natives.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/github/fommil/netlib/netlib-native_system-win-i686/1.1/netlib-native_system-win-i686-1.1-natives.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.github.fommil.netlib" name="netlib-native_system-win-x86_64">
+			<revision name="1.1" status="release" pubdate="20131012004207" resolver="public" artresolver="public" homepage="" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="80">
+				<license name="BSD 3 Clause" url="http://opensource.org/licenses/BSD-3-Clause"/>
+				<metadata-artifact status="successful" details="" size="5130" time="102" location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\netlib-native_system-win-x86_64\ivy-1.1.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\netlib-native_system-win-x86_64\ivy-1.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/github/fommil/netlib/netlib-native_system-win-x86_64/1.1/netlib-native_system-win-x86_64-1.1.pom"/>
+				<caller organisation="com.github.fommil.netlib" name="all" conf="compile, runtime" rev="1.1" rev-constraint-default="1.1" rev-constraint-dynamic="1.1" callerrev="1.1.2"/>
+				<artifacts>
+					<artifact name="netlib-native_system-win-x86_64" type="jar" ext="jar" extra-classifier="natives" status="successful" details="" size="637428" time="573" location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\netlib-native_system-win-x86_64\jars\netlib-native_system-win-x86_64-1.1-natives.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/github/fommil/netlib/netlib-native_system-win-x86_64/1.1/netlib-native_system-win-x86_64-1.1-natives.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.github.fommil.netlib" name="netlib-native_system-linux-armhf">
+			<revision name="1.1" status="release" pubdate="20131012013120" resolver="public" artresolver="public" homepage="" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="79">
+				<license name="BSD 3 Clause" url="http://opensource.org/licenses/BSD-3-Clause"/>
+				<metadata-artifact status="successful" details="" size="4780" time="106" location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\netlib-native_system-linux-armhf\ivy-1.1.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\netlib-native_system-linux-armhf\ivy-1.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/github/fommil/netlib/netlib-native_system-linux-armhf/1.1/netlib-native_system-linux-armhf-1.1.pom"/>
+				<caller organisation="com.github.fommil.netlib" name="all" conf="compile, runtime" rev="1.1" rev-constraint-default="1.1" rev-constraint-dynamic="1.1" callerrev="1.1.2"/>
+				<artifacts>
+					<artifact name="netlib-native_system-linux-armhf" type="jar" ext="jar" extra-classifier="natives" status="successful" details="" size="310891" time="518" location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\netlib-native_system-linux-armhf\jars\netlib-native_system-linux-armhf-1.1-natives.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/github/fommil/netlib/netlib-native_system-linux-armhf/1.1/netlib-native_system-linux-armhf-1.1-natives.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.github.fommil.netlib" name="netlib-native_system-linux-i686">
+			<revision name="1.1" status="release" pubdate="20131012013027" resolver="public" artresolver="public" homepage="" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="78">
+				<license name="BSD 3 Clause" url="http://opensource.org/licenses/BSD-3-Clause"/>
+				<metadata-artifact status="successful" details="" size="4869" time="93" location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\netlib-native_system-linux-i686\ivy-1.1.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\netlib-native_system-linux-i686\ivy-1.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/github/fommil/netlib/netlib-native_system-linux-i686/1.1/netlib-native_system-linux-i686-1.1.pom"/>
+				<caller organisation="com.github.fommil.netlib" name="all" conf="compile, runtime" rev="1.1" rev-constraint-default="1.1" rev-constraint-dynamic="1.1" callerrev="1.1.2"/>
+				<artifacts>
+					<artifact name="netlib-native_system-linux-i686" type="jar" ext="jar" extra-classifier="natives" status="successful" details="" size="435365" time="510" location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\netlib-native_system-linux-i686\jars\netlib-native_system-linux-i686-1.1-natives.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/github/fommil/netlib/netlib-native_system-linux-i686/1.1/netlib-native_system-linux-i686-1.1-natives.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.github.fommil.netlib" name="netlib-native_system-linux-x86_64">
+			<revision name="1.1" status="release" pubdate="20131012012927" resolver="public" artresolver="public" homepage="" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="77">
+				<license name="BSD 3 Clause" url="http://opensource.org/licenses/BSD-3-Clause"/>
+				<metadata-artifact status="successful" details="" size="3930" time="86" location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\netlib-native_system-linux-x86_64\ivy-1.1.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\netlib-native_system-linux-x86_64\ivy-1.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/github/fommil/netlib/netlib-native_system-linux-x86_64/1.1/netlib-native_system-linux-x86_64-1.1.pom"/>
+				<caller organisation="com.github.fommil.netlib" name="all" conf="compile, runtime" rev="1.1" rev-constraint-default="1.1" rev-constraint-dynamic="1.1" callerrev="1.1.2"/>
+				<artifacts>
+					<artifact name="netlib-native_system-linux-x86_64" type="jar" ext="jar" extra-classifier="natives" status="successful" details="" size="458605" time="512" location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\netlib-native_system-linux-x86_64\jars\netlib-native_system-linux-x86_64-1.1-natives.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/github/fommil/netlib/netlib-native_system-linux-x86_64/1.1/netlib-native_system-linux-x86_64-1.1-natives.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.github.fommil.netlib" name="netlib-native_system-osx-x86_64">
+			<revision name="1.1" status="release" pubdate="20131012004035" resolver="public" artresolver="public" homepage="" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="75">
+				<license name="BSD 3 Clause" url="http://opensource.org/licenses/BSD-3-Clause"/>
+				<metadata-artifact status="successful" details="" size="3912" time="74" location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\netlib-native_system-osx-x86_64\ivy-1.1.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\netlib-native_system-osx-x86_64\ivy-1.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/github/fommil/netlib/netlib-native_system-osx-x86_64/1.1/netlib-native_system-osx-x86_64-1.1.pom"/>
+				<caller organisation="com.github.fommil.netlib" name="all" conf="compile, runtime" rev="1.1" rev-constraint-default="1.1" rev-constraint-dynamic="1.1" callerrev="1.1.2"/>
+				<artifacts>
+					<artifact name="netlib-native_system-osx-x86_64" type="jar" ext="jar" extra-classifier="natives" status="successful" details="" size="553993" time="530" location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\netlib-native_system-osx-x86_64\jars\netlib-native_system-osx-x86_64-1.1-natives.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/github/fommil/netlib/netlib-native_system-osx-x86_64/1.1/netlib-native_system-osx-x86_64-1.1-natives.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.github.fommil.netlib" name="native_system-java">
+			<revision name="1.1" status="release" pubdate="20131012003956" resolver="public" artresolver="public" homepage="" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="76">
+				<license name="BSD 3 Clause" url="http://opensource.org/licenses/BSD-3-Clause"/>
+				<metadata-artifact status="successful" details="" size="3988" time="80" location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\native_system-java\ivy-1.1.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\native_system-java\ivy-1.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/github/fommil/netlib/native_system-java/1.1/native_system-java-1.1.pom"/>
+				<caller organisation="com.github.fommil.netlib" name="netlib-native_system-linux-x86_64" conf="compile, runtime" rev="1.1" rev-constraint-default="1.1" rev-constraint-dynamic="1.1" callerrev="1.1"/>
+				<caller organisation="com.github.fommil.netlib" name="netlib-native_system-win-i686" conf="compile, runtime" rev="1.1" rev-constraint-default="1.1" rev-constraint-dynamic="1.1" callerrev="1.1"/>
+				<caller organisation="com.github.fommil.netlib" name="netlib-native_system-linux-i686" conf="compile, runtime" rev="1.1" rev-constraint-default="1.1" rev-constraint-dynamic="1.1" callerrev="1.1"/>
+				<caller organisation="com.github.fommil.netlib" name="netlib-native_system-osx-x86_64" conf="compile, runtime" rev="1.1" rev-constraint-default="1.1" rev-constraint-dynamic="1.1" callerrev="1.1"/>
+				<caller organisation="com.github.fommil.netlib" name="netlib-native_system-win-x86_64" conf="compile, runtime" rev="1.1" rev-constraint-default="1.1" rev-constraint-dynamic="1.1" callerrev="1.1"/>
+				<caller organisation="com.github.fommil.netlib" name="netlib-native_system-linux-armhf" conf="compile, runtime" rev="1.1" rev-constraint-default="1.1" rev-constraint-dynamic="1.1" callerrev="1.1"/>
+				<artifacts>
+					<artifact name="native_system-java" type="jar" ext="jar" status="successful" details="" size="54509" time="361" location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\native_system-java\jars\native_system-java-1.1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/github/fommil/netlib/native_system-java/1.1/native_system-java-1.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.github.fommil.netlib" name="netlib-native_ref-linux-armhf">
+			<revision name="1.1" status="release" pubdate="20131012011624" resolver="public" artresolver="public" homepage="" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="74">
+				<license name="BSD 3 Clause" url="http://opensource.org/licenses/BSD-3-Clause"/>
+				<metadata-artifact status="successful" details="" size="3897" time="68" location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\netlib-native_ref-linux-armhf\ivy-1.1.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\netlib-native_ref-linux-armhf\ivy-1.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/github/fommil/netlib/netlib-native_ref-linux-armhf/1.1/netlib-native_ref-linux-armhf-1.1.pom"/>
+				<caller organisation="com.github.fommil.netlib" name="all" conf="compile, runtime" rev="1.1" rev-constraint-default="1.1" rev-constraint-dynamic="1.1" callerrev="1.1.2"/>
+				<artifacts>
+					<artifact name="netlib-native_ref-linux-armhf" type="jar" ext="jar" extra-classifier="natives" status="successful" details="" size="1208080" time="863" location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\netlib-native_ref-linux-armhf\jars\netlib-native_ref-linux-armhf-1.1-natives.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/github/fommil/netlib/netlib-native_ref-linux-armhf/1.1/netlib-native_ref-linux-armhf-1.1-natives.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.github.fommil.netlib" name="netlib-native_ref-win-i686">
+			<revision name="1.1" status="release" pubdate="20131012003716" resolver="public" artresolver="public" homepage="" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="73">
+				<license name="BSD 3 Clause" url="http://opensource.org/licenses/BSD-3-Clause"/>
+				<metadata-artifact status="successful" details="" size="4471" time="117" location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\netlib-native_ref-win-i686\ivy-1.1.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\netlib-native_ref-win-i686\ivy-1.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/github/fommil/netlib/netlib-native_ref-win-i686/1.1/netlib-native_ref-win-i686-1.1.pom"/>
+				<caller organisation="com.github.fommil.netlib" name="all" conf="compile, runtime" rev="1.1" rev-constraint-default="1.1" rev-constraint-dynamic="1.1" callerrev="1.1.2"/>
+				<artifacts>
+					<artifact name="netlib-native_ref-win-i686" type="jar" ext="jar" extra-classifier="natives" status="successful" details="" size="1826785" time="1157" location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\netlib-native_ref-win-i686\jars\netlib-native_ref-win-i686-1.1-natives.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/github/fommil/netlib/netlib-native_ref-win-i686/1.1/netlib-native_ref-win-i686-1.1-natives.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.github.fommil.netlib" name="netlib-native_ref-win-x86_64">
+			<revision name="1.1" status="release" pubdate="20131012003904" resolver="public" artresolver="public" homepage="" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="72">
+				<license name="BSD 3 Clause" url="http://opensource.org/licenses/BSD-3-Clause"/>
+				<metadata-artifact status="successful" details="" size="4378" time="98" location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\netlib-native_ref-win-x86_64\ivy-1.1.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\netlib-native_ref-win-x86_64\ivy-1.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/github/fommil/netlib/netlib-native_ref-win-x86_64/1.1/netlib-native_ref-win-x86_64-1.1.pom"/>
+				<caller organisation="com.github.fommil.netlib" name="all" conf="compile, runtime" rev="1.1" rev-constraint-default="1.1" rev-constraint-dynamic="1.1" callerrev="1.1.2"/>
+				<artifacts>
+					<artifact name="netlib-native_ref-win-x86_64" type="jar" ext="jar" extra-classifier="natives" status="successful" details="" size="2305169" time="1285" location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\netlib-native_ref-win-x86_64\jars\netlib-native_ref-win-x86_64-1.1-natives.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/github/fommil/netlib/netlib-native_ref-win-x86_64/1.1/netlib-native_ref-win-x86_64-1.1-natives.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.github.fommil.netlib" name="netlib-native_ref-linux-i686">
+			<revision name="1.1" status="release" pubdate="20131012011458" resolver="public" artresolver="public" homepage="" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="71">
+				<license name="BSD 3 Clause" url="http://opensource.org/licenses/BSD-3-Clause"/>
+				<metadata-artifact status="successful" details="" size="3739" time="83" location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\netlib-native_ref-linux-i686\ivy-1.1.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\netlib-native_ref-linux-i686\ivy-1.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/github/fommil/netlib/netlib-native_ref-linux-i686/1.1/netlib-native_ref-linux-i686-1.1.pom"/>
+				<caller organisation="com.github.fommil.netlib" name="all" conf="compile, runtime" rev="1.1" rev-constraint-default="1.1" rev-constraint-dynamic="1.1" callerrev="1.1.2"/>
+				<artifacts>
+					<artifact name="netlib-native_ref-linux-i686" type="jar" ext="jar" extra-classifier="natives" status="successful" details="" size="1489507" time="1045" location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\netlib-native_ref-linux-i686\jars\netlib-native_ref-linux-i686-1.1-natives.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/github/fommil/netlib/netlib-native_ref-linux-i686/1.1/netlib-native_ref-linux-i686-1.1-natives.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.github.fommil.netlib" name="netlib-native_ref-linux-x86_64">
+			<revision name="1.1" status="release" pubdate="20131012011310" resolver="public" artresolver="public" homepage="" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="70">
+				<license name="BSD 3 Clause" url="http://opensource.org/licenses/BSD-3-Clause"/>
+				<metadata-artifact status="successful" details="" size="3309" time="101" location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\netlib-native_ref-linux-x86_64\ivy-1.1.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\netlib-native_ref-linux-x86_64\ivy-1.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/github/fommil/netlib/netlib-native_ref-linux-x86_64/1.1/netlib-native_ref-linux-x86_64-1.1.pom"/>
+				<caller organisation="com.github.fommil.netlib" name="all" conf="compile, runtime" rev="1.1" rev-constraint-default="1.1" rev-constraint-dynamic="1.1" callerrev="1.1.2"/>
+				<artifacts>
+					<artifact name="netlib-native_ref-linux-x86_64" type="jar" ext="jar" extra-classifier="natives" status="successful" details="" size="1749371" time="1074" location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\netlib-native_ref-linux-x86_64\jars\netlib-native_ref-linux-x86_64-1.1-natives.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/github/fommil/netlib/netlib-native_ref-linux-x86_64/1.1/netlib-native_ref-linux-x86_64-1.1-natives.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.github.fommil.netlib" name="netlib-native_ref-osx-x86_64">
+			<revision name="1.1" status="release" pubdate="20131012003537" resolver="public" artresolver="public" homepage="" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="67">
+				<license name="BSD 3 Clause" url="http://opensource.org/licenses/BSD-3-Clause"/>
+				<metadata-artifact status="successful" details="" size="3620" time="64" location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\netlib-native_ref-osx-x86_64\ivy-1.1.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\netlib-native_ref-osx-x86_64\ivy-1.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/github/fommil/netlib/netlib-native_ref-osx-x86_64/1.1/netlib-native_ref-osx-x86_64-1.1.pom"/>
+				<caller organisation="com.github.fommil.netlib" name="all" conf="compile, runtime" rev="1.1" rev-constraint-default="1.1" rev-constraint-dynamic="1.1" callerrev="1.1.2"/>
+				<artifacts>
+					<artifact name="netlib-native_ref-osx-x86_64" type="jar" ext="jar" extra-classifier="natives" status="successful" details="" size="1839499" time="804" location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\netlib-native_ref-osx-x86_64\jars\netlib-native_ref-osx-x86_64-1.1-natives.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/github/fommil/netlib/netlib-native_ref-osx-x86_64/1.1/netlib-native_ref-osx-x86_64-1.1-natives.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.github.fommil.netlib" name="native_ref-java">
+			<revision name="1.1" status="release" pubdate="20131012003421" resolver="public" artresolver="public" homepage="" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="68">
+				<license name="BSD 3 Clause" url="http://opensource.org/licenses/BSD-3-Clause"/>
+				<metadata-artifact status="successful" details="" size="3973" time="106" location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\native_ref-java\ivy-1.1.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\native_ref-java\ivy-1.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/github/fommil/netlib/native_ref-java/1.1/native_ref-java-1.1.pom"/>
+				<caller organisation="com.github.fommil.netlib" name="netlib-native_ref-linux-armhf" conf="compile, runtime" rev="1.1" rev-constraint-default="1.1" rev-constraint-dynamic="1.1" callerrev="1.1"/>
+				<caller organisation="com.github.fommil.netlib" name="netlib-native_ref-osx-x86_64" conf="compile, runtime" rev="1.1" rev-constraint-default="1.1" rev-constraint-dynamic="1.1" callerrev="1.1"/>
+				<caller organisation="com.github.fommil.netlib" name="netlib-native_ref-win-i686" conf="compile, runtime" rev="1.1" rev-constraint-default="1.1" rev-constraint-dynamic="1.1" callerrev="1.1"/>
+				<caller organisation="com.github.fommil.netlib" name="netlib-native_ref-win-x86_64" conf="compile, runtime" rev="1.1" rev-constraint-default="1.1" rev-constraint-dynamic="1.1" callerrev="1.1"/>
+				<caller organisation="com.github.fommil.netlib" name="netlib-native_ref-linux-i686" conf="compile, runtime" rev="1.1" rev-constraint-default="1.1" rev-constraint-dynamic="1.1" callerrev="1.1"/>
+				<caller organisation="com.github.fommil.netlib" name="netlib-native_ref-linux-x86_64" conf="compile, runtime" rev="1.1" rev-constraint-default="1.1" rev-constraint-dynamic="1.1" callerrev="1.1"/>
+				<artifacts>
+					<artifact name="native_ref-java" type="jar" ext="jar" status="successful" details="" size="54461" time="358" location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\native_ref-java\jars\native_ref-java-1.1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/github/fommil/netlib/native_ref-java/1.1/native_ref-java-1.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.github.fommil" name="jniloader">
+			<revision name="1.1" status="release" pubdate="20131011223947" resolver="public" artresolver="public" homepage="https://github.com/fommil/jniloader" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="69">
+				<license name="LGPL" url="http://www.gnu.org/licenses/lgpl.txt"/>
+				<metadata-artifact status="successful" details="" size="3648" time="93" location="C:\Users\maxig\.ivy2\cache\com.github.fommil\jniloader\ivy-1.1.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\com.github.fommil\jniloader\ivy-1.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/github/fommil/jniloader/1.1/jniloader-1.1.pom"/>
+				<caller organisation="com.github.fommil.netlib" name="native_ref-java" conf="compile, runtime" rev="1.1" rev-constraint-default="1.1" rev-constraint-dynamic="1.1" callerrev="1.1"/>
+				<caller organisation="com.github.fommil.netlib" name="native_system-java" conf="compile, runtime" rev="1.1" rev-constraint-default="1.1" rev-constraint-dynamic="1.1" callerrev="1.1"/>
+				<artifacts>
+					<artifact name="jniloader" type="jar" ext="jar" status="successful" details="" size="8685" time="373" location="C:\Users\maxig\.ivy2\cache\com.github.fommil\jniloader\jars\jniloader-1.1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/github/fommil/jniloader/1.1/jniloader-1.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="commons-io" name="commons-io">
+			<revision name="2.6" status="release" pubdate="20171015120052" resolver="public" artresolver="public" homepage="http://commons.apache.org/proper/commons-io/" downloaded="true" searched="true" default="false" conf="default, compile, runtime, default(compile), master, runtime(*), master(compile), compile(*)" position="49">
+				<license name="Apache License, Version 2.0" url="https://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="successful" details="" size="14256" time="98" location="C:\Users\maxig\.ivy2\cache\commons-io\commons-io\ivy-2.6.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\commons-io\commons-io\ivy-2.6.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/commons-io/commons-io/2.6/commons-io-2.6.pom"/>
+				<caller organisation="org.jzy3d" name="jzy3d-jdt-core" conf="compile, runtime" rev="2.3" rev-constraint-default="2.3" rev-constraint-dynamic="2.3" callerrev="1.0.0"/>
+				<caller organisation="com.edouardfouche" name="mcde-experiments_2.12" conf="compile-internal, compile, provided, optional" rev="2.6" rev-constraint-default="2.6" rev-constraint-dynamic="2.6" callerrev="1.0"/>
+				<artifacts>
+					<artifact name="commons-io" type="jar" ext="jar" status="successful" details="" size="214788" time="426" location="C:\Users\maxig\.ivy2\cache\commons-io\commons-io\jars\commons-io-2.6.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/commons-io/commons-io/2.6/commons-io-2.6.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+			<revision name="2.3" evicted="latest-revision" evicted-reason="" downloaded="false" searched="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master, default(compile)" position="-1">
+				<evicted-by rev="2.6"/>
+				<caller organisation="org.jzy3d" name="jzy3d-jdt-core" conf="compile, runtime" rev="2.3" rev-constraint-default="2.3" rev-constraint-dynamic="2.3" callerrev="1.0.0"/>
+				<caller organisation="com.edouardfouche" name="mcde-experiments_2.12" conf="compile-internal, compile, provided, optional" rev="2.6" rev-constraint-default="2.6" rev-constraint-dynamic="2.6" callerrev="1.0"/>
+				<artifacts>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.commons" name="commons-math3">
+			<revision name="3.6.1" status="release" pubdate="20160317183511" resolver="public" artresolver="public" homepage="http://commons.apache.org/proper/commons-math/" downloaded="true" searched="true" default="false" conf="default, compile, runtime, default(compile), master, runtime(*), master(compile), compile(*)" position="39">
+				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="successful" details="" size="28697" time="71" location="C:\Users\maxig\.ivy2\cache\org.apache.commons\commons-math3\ivy-3.6.1.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\org.apache.commons\commons-math3\ivy-3.6.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/commons/commons-math3/3.6.1/commons-math3-3.6.1.pom"/>
+				<caller organisation="org.scalanlp" name="breeze_2.12" conf="compile, runtime" rev="3.2" rev-constraint-default="3.2" rev-constraint-dynamic="3.2" callerrev="0.13.1"/>
+				<caller organisation="com.edouardfouche" name="mcde-experiments_2.12" conf="compile-internal, compile, provided, optional" rev="3.6.1" rev-constraint-default="3.6.1" rev-constraint-dynamic="3.6.1" callerrev="1.0"/>
+				<artifacts>
+					<artifact name="commons-math3" type="jar" ext="jar" status="successful" details="" size="2213560" time="451" location="C:\Users\maxig\.ivy2\cache\org.apache.commons\commons-math3\jars\commons-math3-3.6.1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/commons/commons-math3/3.6.1/commons-math3-3.6.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+			<revision name="3.2" evicted="latest-revision" evicted-reason="" downloaded="false" searched="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master, default(compile)" position="-1">
+				<evicted-by rev="3.6.1"/>
+				<caller organisation="org.scalanlp" name="breeze_2.12" conf="compile, runtime" rev="3.2" rev-constraint-default="3.2" rev-constraint-dynamic="3.2" callerrev="0.13.1"/>
+				<caller organisation="com.edouardfouche" name="mcde-experiments_2.12" conf="compile-internal, compile, provided, optional" rev="3.6.1" rev-constraint-default="3.6.1" rev-constraint-dynamic="3.6.1" callerrev="1.0"/>
+				<artifacts>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.scala-lang" name="scala-reflect">
+			<revision name="2.12.8" status="release" pubdate="20181204111524" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.scala-lang.org/" extra-info.apiURL="http://www.scala-lang.org/api/2.12.8/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="34">
+				<license name="Apache-2.0" url="https://www.apache.org/licenses/LICENSE-2.0"/>
+				<metadata-artifact status="no" details="" size="2863" time="0" location="C:\Users\maxig\.ivy2\cache\org.scala-lang\scala-reflect\ivy-2.12.8.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scala-lang/scala-reflect/2.12.8/scala-reflect-2.12.8.pom"/>
+				<caller organisation="org.typelevel" name="machinist_2.12" conf="compile, runtime" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="0.6.1"/>
+				<caller organisation="org.scalanlp" name="breeze-macros_2.12" conf="compile, runtime" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="0.13.1"/>
+				<caller organisation="com.typesafe.scala-logging" name="scala-logging_2.12" conf="compile, runtime" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="3.8.0"/>
+				<artifacts>
+					<artifact name="scala-reflect" type="jar" ext="jar" status="no" details="" size="3645095" time="0" location="C:\Users\maxig\.ivy2\cache\org.scala-lang\scala-reflect\jars\scala-reflect-2.12.8.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/scala-lang/scala-reflect/2.12.8/scala-reflect-2.12.8.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="io.github.edouardfouche" name="datagenerator_2.12">
+			<revision name="0.1.0" status="release" pubdate="20190313103118" resolver="public" artresolver="public" homepage="https://github.com/edouardfouche/DataGenerator" downloaded="true" searched="true" default="false" conf="default, compile, runtime, default(compile), master" position="31">
+				<license name="AGPLv3" url="https://www.gnu.org/licenses/agpl-3.0.en.html"/>
+				<metadata-artifact status="successful" details="" size="2499" time="234" location="C:\Users\maxig\.ivy2\cache\io.github.edouardfouche\datagenerator_2.12\ivy-0.1.0.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\io.github.edouardfouche\datagenerator_2.12\ivy-0.1.0.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/github/edouardfouche/datagenerator_2.12/0.1.0/datagenerator_2.12-0.1.0.pom"/>
+				<caller organisation="com.edouardfouche" name="mcde-experiments_2.12" conf="compile-internal, compile, provided, optional" rev="0.1.0" rev-constraint-default="0.1.0" rev-constraint-dynamic="0.1.0" callerrev="1.0"/>
+				<artifacts>
+					<artifact name="datagenerator_2.12" type="jar" ext="jar" status="successful" details="" size="201694" time="477" location="C:\Users\maxig\.ivy2\cache\io.github.edouardfouche\datagenerator_2.12\jars\datagenerator_2.12-0.1.0.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/io/github/edouardfouche/datagenerator_2.12/0.1.0/datagenerator_2.12-0.1.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.typesafe.scala-logging" name="scala-logging_2.12">
+			<revision name="3.8.0" status="release" pubdate="20180221121150" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/lightbend/scala-logging" downloaded="false" searched="false" default="false" conf="default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master" position="64">
+				<license name="Apache 2.0 License" url="http://www.apache.org/licenses/LICENSE-2.0.html"/>
+				<metadata-artifact status="no" details="" size="3393" time="0" location="C:\Users\maxig\.ivy2\cache\com.typesafe.scala-logging\scala-logging_2.12\ivy-3.8.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/typesafe/scala-logging/scala-logging_2.12/3.8.0/scala-logging_2.12-3.8.0.pom"/>
+				<caller organisation="io.github.edouardfouche" name="datagenerator_2.12" conf="default, compile, runtime, master" rev="3.8.0" rev-constraint-default="3.8.0" rev-constraint-dynamic="3.8.0" callerrev="0.1.0"/>
+				<caller organisation="com.edouardfouche" name="mcde-experiments_2.12" conf="compile-internal, compile, provided, optional" rev="3.8.0" rev-constraint-default="3.8.0" rev-constraint-dynamic="3.8.0" callerrev="1.0"/>
+				<artifacts>
+					<artifact name="scala-logging_2.12" type="bundle" ext="jar" status="no" details="" size="53142" time="0" location="C:\Users\maxig\.ivy2\cache\com.typesafe.scala-logging\scala-logging_2.12\bundles\scala-logging_2.12-3.8.0.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/typesafe/scala-logging/scala-logging_2.12/3.8.0/scala-logging_2.12-3.8.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="ch.qos.logback" name="logback-classic">
+			<revision name="1.2.3" status="release" pubdate="20170331212753" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master, default(compile)" position="61">
+				<license name="Eclipse Public License - v 1.0" url="http://www.eclipse.org/legal/epl-v10.html"/>
+				<license name="GNU Lesser General Public License" url="http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html"/>
+				<metadata-artifact status="no" details="" size="10512" time="0" location="C:\Users\maxig\.ivy2\cache\ch.qos.logback\logback-classic\ivy-1.2.3.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/ch/qos/logback/logback-classic/1.2.3/logback-classic-1.2.3.pom"/>
+				<caller organisation="io.github.edouardfouche" name="datagenerator_2.12" conf="default, compile, runtime, master" rev="1.2.3" rev-constraint-default="1.2.3" rev-constraint-dynamic="1.2.3" callerrev="0.1.0"/>
+				<caller organisation="com.edouardfouche" name="mcde-experiments_2.12" conf="compile-internal, compile, provided, optional" rev="1.1.2" rev-constraint-default="1.1.2" rev-constraint-dynamic="1.1.2" callerrev="1.0"/>
+				<artifacts>
+					<artifact name="logback-classic" type="jar" ext="jar" status="no" details="" size="290339" time="0" location="C:\Users\maxig\.ivy2\cache\ch.qos.logback\logback-classic\jars\logback-classic-1.2.3.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/ch/qos/logback/logback-classic/1.2.3/logback-classic-1.2.3.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+			<revision name="1.1.2" evicted="latest-revision" evicted-reason="" downloaded="false" searched="false" conf="default, compile, runtime, default(compile), master" position="-1">
+				<evicted-by rev="1.2.3"/>
+				<caller organisation="com.edouardfouche" name="mcde-experiments_2.12" conf="compile-internal, compile, provided, optional" rev="1.1.2" rev-constraint-default="1.1.2" rev-constraint-dynamic="1.1.2" callerrev="1.0"/>
+				<artifacts>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.slf4j" name="slf4j-api">
+			<revision name="1.7.25" status="release" pubdate="20170316173632" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.slf4j.org" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="63">
+				<license name="MIT License" url="http://www.opensource.org/licenses/mit-license.php"/>
+				<metadata-artifact status="no" details="" size="5250" time="0" location="C:\Users\maxig\.ivy2\cache\org.slf4j\slf4j-api\ivy-1.7.25.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/slf4j/slf4j-api/1.7.25/slf4j-api-1.7.25.pom"/>
+				<caller organisation="ch.qos.logback" name="logback-classic" conf="compile, runtime" rev="1.7.25" rev-constraint-default="1.7.25" rev-constraint-dynamic="1.7.25" callerrev="1.2.3"/>
+				<caller organisation="com.typesafe.scala-logging" name="scala-logging_2.12" conf="compile, runtime" rev="1.7.25" rev-constraint-default="1.7.25" rev-constraint-dynamic="1.7.25" callerrev="3.8.0"/>
+				<caller organisation="org.scalanlp" name="breeze_2.12" conf="compile, runtime" rev="1.7.5" rev-constraint-default="1.7.5" rev-constraint-dynamic="1.7.5" callerrev="0.13.1"/>
+				<artifacts>
+					<artifact name="slf4j-api" type="jar" ext="jar" status="no" details="" size="41203" time="0" location="C:\Users\maxig\.ivy2\cache\org.slf4j\slf4j-api\jars\slf4j-api-1.7.25.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/slf4j/slf4j-api/1.7.25/slf4j-api-1.7.25.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+			<revision name="1.7.5" status="release" pubdate="20130325215215" resolver="sbt-chain" artresolver="sbt-chain" evicted="latest-revision" evicted-reason="" homepage="http://www.slf4j.org" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="-1">
+				<license name="MIT License" url="http://www.opensource.org/licenses/mit-license.php"/>
+				<metadata-artifact status="no" details="" size="4426" time="0" location="C:\Users\maxig\.ivy2\cache\org.slf4j\slf4j-api\ivy-1.7.5.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/slf4j/slf4j-api/1.7.5/slf4j-api-1.7.5.pom"/>
+				<evicted-by rev="1.7.25"/>
+				<caller organisation="org.scalanlp" name="breeze_2.12" conf="compile, runtime" rev="1.7.5" rev-constraint-default="1.7.5" rev-constraint-dynamic="1.7.5" callerrev="0.13.1"/>
+				<artifacts>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="ch.qos.logback" name="logback-core">
+			<revision name="1.2.3" status="release" pubdate="20170331212715" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="62">
+				<license name="Eclipse Public License - v 1.0" url="http://www.eclipse.org/legal/epl-v10.html"/>
+				<license name="GNU Lesser General Public License" url="http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html"/>
+				<metadata-artifact status="no" details="" size="7994" time="0" location="C:\Users\maxig\.ivy2\cache\ch.qos.logback\logback-core\ivy-1.2.3.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/ch/qos/logback/logback-core/1.2.3/logback-core-1.2.3.pom"/>
+				<caller organisation="ch.qos.logback" name="logback-classic" conf="compile, runtime" rev="1.2.3" rev-constraint-default="1.2.3" rev-constraint-dynamic="1.2.3" callerrev="1.2.3"/>
+				<artifacts>
+					<artifact name="logback-core" type="jar" ext="jar" status="no" details="" size="471901" time="0" location="C:\Users\maxig\.ivy2\cache\ch.qos.logback\logback-core\jars\logback-core-1.2.3.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/ch/qos/logback/logback-core/1.2.3/logback-core-1.2.3.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.jzy3d" name="jzy3d-api">
+			<revision name="1.0.0" status="release" pubdate="20170204171738" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master" position="47">
+				<license name="The (New) BSD License" url="http://www.opensource.org/licenses/bsd-license.php"/>
+				<metadata-artifact status="no" details="" size="4752" time="0" location="C:\Users\maxig\.ivy2\cache\org.jzy3d\jzy3d-api\ivy-1.0.0.xml" searched="false" origin-is-local="false" origin-location="http://maven.jzy3d.org/releases/org/jzy3d/jzy3d-api/1.0.0/jzy3d-api-1.0.0.pom"/>
+				<caller organisation="io.github.edouardfouche" name="datagenerator_2.12" conf="default, compile, runtime, master" rev="1.0.0" rev-constraint-default="1.0.0" rev-constraint-dynamic="1.0.0" callerrev="0.1.0"/>
+				<caller organisation="com.edouardfouche" name="mcde-experiments_2.12" conf="compile-internal, compile, provided, optional" rev="1.0.0" rev-constraint-default="1.0.0" rev-constraint-dynamic="1.0.0" callerrev="1.0"/>
+				<artifacts>
+					<artifact name="jzy3d-api" type="jar" ext="jar" status="no" details="" size="708874" time="0" location="C:\Users\maxig\.ivy2\cache\org.jzy3d\jzy3d-api\jars\jzy3d-api-1.0.0.jar">
+						<origin-location is-local="false" location="http://maven.jzy3d.org/releases/org/jzy3d/jzy3d-api/1.0.0/jzy3d-api-1.0.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="log4j" name="log4j">
+			<revision name="1.2.16" status="release" pubdate="20100331062544" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://logging.apache.org/log4j/1.2/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="58">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="3529" time="0" location="C:\Users\maxig\.ivy2\cache\log4j\log4j\ivy-1.2.16.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/log4j/log4j/1.2.16/log4j-1.2.16.pom"/>
+				<caller organisation="org.jzy3d" name="jzy3d-api" conf="compile, runtime" rev="1.2.16" rev-constraint-default="1.2.16" rev-constraint-dynamic="1.2.16" callerrev="1.0.0"/>
+				<artifacts>
+					<artifact name="log4j" type="bundle" ext="jar" status="no" details="" size="481535" time="0" location="C:\Users\maxig\.ivy2\cache\log4j\log4j\bundles\log4j-1.2.16.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/log4j/log4j/1.2.16/log4j-1.2.16.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.miglayout" name="miglayout">
+			<revision name="3.7.4" status="release" pubdate="20110130235629" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.miglayout.com/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="57">
+				<license name="BSD" url="http://www.debian.org/misc/bsd.license"/>
+				<metadata-artifact status="no" details="" size="3193" time="0" location="C:\Users\maxig\.ivy2\cache\com.miglayout\miglayout\ivy-3.7.4.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/miglayout/miglayout/3.7.4/miglayout-3.7.4.pom"/>
+				<caller organisation="org.jzy3d" name="jzy3d-api" conf="compile, runtime" rev="3.7.4" rev-constraint-default="3.7.4" rev-constraint-dynamic="3.7.4" callerrev="1.0.0"/>
+				<artifacts>
+					<artifact name="miglayout" type="jar" ext="jar" status="no" details="" size="201819" time="0" location="C:\Users\maxig\.ivy2\cache\com.miglayout\miglayout\jars\miglayout-3.7.4.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/miglayout/miglayout/3.7.4/miglayout-3.7.4.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="net.sourceforge.jmatio" name="jmatio">
+			<revision name="1.0" status="release" pubdate="20121213080108" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://sourceforge.net/projects/jmatio/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="56">
+				<license name="BSD" url="http://www.linfo.org/bsdlicense.html"/>
+				<metadata-artifact status="no" details="" size="2912" time="0" location="C:\Users\maxig\.ivy2\cache\net.sourceforge.jmatio\jmatio\ivy-1.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/net/sourceforge/jmatio/jmatio/1.0/jmatio-1.0.pom"/>
+				<caller organisation="org.jzy3d" name="jzy3d-api" conf="compile, runtime" rev="1.0" rev-constraint-default="1.0" rev-constraint-dynamic="1.0" callerrev="1.0.0"/>
+				<artifacts>
+					<artifact name="jmatio" type="jar" ext="jar" status="no" details="" size="66536" time="0" location="C:\Users\maxig\.ivy2\cache\net.sourceforge.jmatio\jmatio\jars\jmatio-1.0.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/net/sourceforge/jmatio/jmatio/1.0/jmatio-1.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.smurn" name="jply">
+			<revision name="0.2.1" status="release" pubdate="20170203222558" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://jply.smurn.org/jply/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="55">
+				<license name="The Apache Software License, Version 2.0" url="/LICENSE.txt"/>
+				<metadata-artifact status="no" details="" size="3390" time="0" location="C:\Users\maxig\.ivy2\cache\org.smurn\jply\ivy-0.2.1.xml" searched="false" origin-is-local="false" origin-location="http://maven.jzy3d.org/releases/org/smurn/jply/0.2.1/jply-0.2.1.pom"/>
+				<caller organisation="org.jzy3d" name="jzy3d-api" conf="compile, runtime" rev="0.2.1" rev-constraint-default="0.2.1" rev-constraint-dynamic="0.2.1" callerrev="1.0.0"/>
+				<artifacts>
+					<artifact name="jply" type="jar" ext="jar" status="no" details="" size="57107" time="0" location="C:\Users\maxig\.ivy2\cache\org.smurn\jply\jars\jply-0.2.1.jar">
+						<origin-location is-local="false" location="http://maven.jzy3d.org/releases/org/smurn/jply/0.2.1/jply-0.2.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.jogamp.jogl" name="jogl-all-main">
+			<revision name="2.3.2" status="release" pubdate="20151010163743" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://jogamp.org/jogl/www/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="53">
+				<license name="BSD-2 License" url="http://www.opensource.org/licenses/BSD-2-Clause"/>
+				<license name="BSD-3 License" url="http://www.opensource.org/licenses/BSD-3-Clause"/>
+				<license name="SGI Free Software License B" url="http://oss.sgi.com/projects/FreeB"/>
+				<license name="Apache License Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
+				<license name="Apache License Version 1.1" url="http://www.apache.org/licenses/LICENSE-1.1"/>
+				<license name="Ubuntu Font Licence 1.0" url="http://font.ubuntu.com/ufl/ubuntu-font-licence-1.0.txt"/>
+				<metadata-artifact status="no" details="" size="4606" time="0" location="C:\Users\maxig\.ivy2\cache\org.jogamp.jogl\jogl-all-main\ivy-2.3.2.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/jogamp/jogl/jogl-all-main/2.3.2/jogl-all-main-2.3.2.pom"/>
+				<caller organisation="org.jzy3d" name="jzy3d-api" conf="compile, runtime" rev="2.3.2" rev-constraint-default="2.3.2" rev-constraint-dynamic="2.3.2" callerrev="1.0.0"/>
+				<artifacts>
+					<artifact name="jogl-all-main" type="jar" ext="jar" status="no" details="" size="345" time="0" location="C:\Users\maxig\.ivy2\cache\org.jogamp.jogl\jogl-all-main\jars\jogl-all-main-2.3.2.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/jogamp/jogl/jogl-all-main/2.3.2/jogl-all-main-2.3.2.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.jogamp.jogl" name="jogl-all">
+			<revision name="2.3.2" status="release" pubdate="20151010163557" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://jogamp.org/jogl/www/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="54">
+				<license name="BSD-2 License" url="http://www.opensource.org/licenses/BSD-2-Clause"/>
+				<license name="BSD-3 License" url="http://www.opensource.org/licenses/BSD-3-Clause"/>
+				<license name="SGI Free Software License B" url="http://oss.sgi.com/projects/FreeB"/>
+				<license name="Apache License Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
+				<license name="Apache License Version 1.1" url="http://www.apache.org/licenses/LICENSE-1.1"/>
+				<license name="Ubuntu Font Licence 1.0" url="http://font.ubuntu.com/ufl/ubuntu-font-licence-1.0.txt"/>
+				<metadata-artifact status="no" details="" size="3087" time="0" location="C:\Users\maxig\.ivy2\cache\org.jogamp.jogl\jogl-all\ivy-2.3.2.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/jogamp/jogl/jogl-all/2.3.2/jogl-all-2.3.2.pom"/>
+				<caller organisation="org.jogamp.jogl" name="jogl-all-main" conf="compile, runtime" rev="2.3.2" rev-constraint-default="2.3.2" rev-constraint-dynamic="2.3.2" callerrev="2.3.2"/>
+				<artifacts>
+					<artifact name="jogl-all" type="jar" ext="jar" extra-classifier="natives-linux-i586" status="no" details="" size="217274" time="0" location="C:\Users\maxig\.ivy2\cache\org.jogamp.jogl\jogl-all\jars\jogl-all-2.3.2-natives-linux-i586.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/jogamp/jogl/jogl-all/2.3.2/jogl-all-2.3.2-natives-linux-i586.jar"/>
+					</artifact>
+					<artifact name="jogl-all" type="jar" ext="jar" extra-classifier="natives-windows-amd64" status="no" details="" size="240721" time="0" location="C:\Users\maxig\.ivy2\cache\org.jogamp.jogl\jogl-all\jars\jogl-all-2.3.2-natives-windows-amd64.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/jogamp/jogl/jogl-all/2.3.2/jogl-all-2.3.2-natives-windows-amd64.jar"/>
+					</artifact>
+					<artifact name="jogl-all" type="jar" ext="jar" extra-classifier="natives-linux-armv6" status="no" details="" size="161199" time="0" location="C:\Users\maxig\.ivy2\cache\org.jogamp.jogl\jogl-all\jars\jogl-all-2.3.2-natives-linux-armv6.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/jogamp/jogl/jogl-all/2.3.2/jogl-all-2.3.2-natives-linux-armv6.jar"/>
+					</artifact>
+					<artifact name="jogl-all" type="jar" ext="jar" extra-classifier="natives-windows-i586" status="no" details="" size="209445" time="0" location="C:\Users\maxig\.ivy2\cache\org.jogamp.jogl\jogl-all\jars\jogl-all-2.3.2-natives-windows-i586.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/jogamp/jogl/jogl-all/2.3.2/jogl-all-2.3.2-natives-windows-i586.jar"/>
+					</artifact>
+					<artifact name="jogl-all" type="jar" ext="jar" extra-classifier="natives-linux-amd64" status="no" details="" size="224010" time="0" location="C:\Users\maxig\.ivy2\cache\org.jogamp.jogl\jogl-all\jars\jogl-all-2.3.2-natives-linux-amd64.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/jogamp/jogl/jogl-all/2.3.2/jogl-all-2.3.2-natives-linux-amd64.jar"/>
+					</artifact>
+					<artifact name="jogl-all" type="jar" ext="jar" extra-classifier="natives-solaris-amd64" status="no" details="" size="220298" time="0" location="C:\Users\maxig\.ivy2\cache\org.jogamp.jogl\jogl-all\jars\jogl-all-2.3.2-natives-solaris-amd64.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/jogamp/jogl/jogl-all/2.3.2/jogl-all-2.3.2-natives-solaris-amd64.jar"/>
+					</artifact>
+					<artifact name="jogl-all" type="jar" ext="jar" extra-classifier="natives-android-aarch64" status="no" details="" size="64488" time="0" location="C:\Users\maxig\.ivy2\cache\org.jogamp.jogl\jogl-all\jars\jogl-all-2.3.2-natives-android-aarch64.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/jogamp/jogl/jogl-all/2.3.2/jogl-all-2.3.2-natives-android-aarch64.jar"/>
+					</artifact>
+					<artifact name="jogl-all" type="jar" ext="jar" extra-classifier="natives-macosx-universal" status="no" details="" size="443876" time="0" location="C:\Users\maxig\.ivy2\cache\org.jogamp.jogl\jogl-all\jars\jogl-all-2.3.2-natives-macosx-universal.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/jogamp/jogl/jogl-all/2.3.2/jogl-all-2.3.2-natives-macosx-universal.jar"/>
+					</artifact>
+					<artifact name="jogl-all" type="jar" ext="jar" extra-classifier="natives-android-armv6" status="no" details="" size="62645" time="0" location="C:\Users\maxig\.ivy2\cache\org.jogamp.jogl\jogl-all\jars\jogl-all-2.3.2-natives-android-armv6.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/jogamp/jogl/jogl-all/2.3.2/jogl-all-2.3.2-natives-android-armv6.jar"/>
+					</artifact>
+					<artifact name="jogl-all" type="jar" ext="jar" extra-classifier="natives-linux-armv6hf" status="no" details="" size="164852" time="0" location="C:\Users\maxig\.ivy2\cache\org.jogamp.jogl\jogl-all\jars\jogl-all-2.3.2-natives-linux-armv6hf.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/jogamp/jogl/jogl-all/2.3.2/jogl-all-2.3.2-natives-linux-armv6hf.jar"/>
+					</artifact>
+					<artifact name="jogl-all" type="jar" ext="jar" status="no" details="" size="3414448" time="0" location="C:\Users\maxig\.ivy2\cache\org.jogamp.jogl\jogl-all\jars\jogl-all-2.3.2.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/jogamp/jogl/jogl-all/2.3.2/jogl-all-2.3.2.jar"/>
+					</artifact>
+					<artifact name="jogl-all" type="jar" ext="jar" extra-classifier="natives-solaris-i586" status="no" details="" size="161229" time="0" location="C:\Users\maxig\.ivy2\cache\org.jogamp.jogl\jogl-all\jars\jogl-all-2.3.2-natives-solaris-i586.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/jogamp/jogl/jogl-all/2.3.2/jogl-all-2.3.2-natives-solaris-i586.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.jogamp.gluegen" name="gluegen-rt-main">
+			<revision name="2.3.2" status="release" pubdate="20151010162928" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://jogamp.org/gluegen/www/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="51">
+				<license name="BSD-2 License" url="http://www.opensource.org/licenses/BSD-2-Clause"/>
+				<license name="BSD-3 License" url="http://www.opensource.org/licenses/BSD-3-Clause"/>
+				<license name="BSD-4 License" url="http://www.spdx.org/licenses/BSD-4-Clause"/>
+				<metadata-artifact status="no" details="" size="4331" time="0" location="C:\Users\maxig\.ivy2\cache\org.jogamp.gluegen\gluegen-rt-main\ivy-2.3.2.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/jogamp/gluegen/gluegen-rt-main/2.3.2/gluegen-rt-main-2.3.2.pom"/>
+				<caller organisation="org.jzy3d" name="jzy3d-api" conf="compile, runtime" rev="2.3.2" rev-constraint-default="2.3.2" rev-constraint-dynamic="2.3.2" callerrev="1.0.0"/>
+				<artifacts>
+					<artifact name="gluegen-rt-main" type="jar" ext="jar" status="no" details="" size="345" time="0" location="C:\Users\maxig\.ivy2\cache\org.jogamp.gluegen\gluegen-rt-main\jars\gluegen-rt-main-2.3.2.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/jogamp/gluegen/gluegen-rt-main/2.3.2/gluegen-rt-main-2.3.2.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.jogamp.gluegen" name="gluegen-rt">
+			<revision name="2.3.2" status="release" pubdate="20151010162802" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://jogamp.org/gluegen/www/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="52">
+				<license name="BSD-2 License" url="http://www.opensource.org/licenses/BSD-2-Clause"/>
+				<license name="BSD-3 License" url="http://www.opensource.org/licenses/BSD-3-Clause"/>
+				<license name="BSD-4 License" url="http://www.spdx.org/licenses/BSD-4-Clause"/>
+				<metadata-artifact status="no" details="" size="2783" time="0" location="C:\Users\maxig\.ivy2\cache\org.jogamp.gluegen\gluegen-rt\ivy-2.3.2.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/jogamp/gluegen/gluegen-rt/2.3.2/gluegen-rt-2.3.2.pom"/>
+				<caller organisation="org.jogamp.gluegen" name="gluegen-rt-main" conf="compile, runtime" rev="2.3.2" rev-constraint-default="2.3.2" rev-constraint-dynamic="2.3.2" callerrev="2.3.2"/>
+				<artifacts>
+					<artifact name="gluegen-rt" type="jar" ext="jar" extra-classifier="natives-solaris-i586" status="no" details="" size="3949" time="0" location="C:\Users\maxig\.ivy2\cache\org.jogamp.gluegen\gluegen-rt\jars\gluegen-rt-2.3.2-natives-solaris-i586.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/jogamp/gluegen/gluegen-rt/2.3.2/gluegen-rt-2.3.2-natives-solaris-i586.jar"/>
+					</artifact>
+					<artifact name="gluegen-rt" type="jar" ext="jar" extra-classifier="natives-linux-armv6hf" status="no" details="" size="3050" time="0" location="C:\Users\maxig\.ivy2\cache\org.jogamp.gluegen\gluegen-rt\jars\gluegen-rt-2.3.2-natives-linux-armv6hf.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/jogamp/gluegen/gluegen-rt/2.3.2/gluegen-rt-2.3.2-natives-linux-armv6hf.jar"/>
+					</artifact>
+					<artifact name="gluegen-rt" type="jar" ext="jar" extra-classifier="natives-android-armv6" status="no" details="" size="7218" time="0" location="C:\Users\maxig\.ivy2\cache\org.jogamp.gluegen\gluegen-rt\jars\gluegen-rt-2.3.2-natives-android-armv6.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/jogamp/gluegen/gluegen-rt/2.3.2/gluegen-rt-2.3.2-natives-android-armv6.jar"/>
+					</artifact>
+					<artifact name="gluegen-rt" type="jar" ext="jar" extra-classifier="natives-windows-amd64" status="no" details="" size="8159" time="0" location="C:\Users\maxig\.ivy2\cache\org.jogamp.gluegen\gluegen-rt\jars\gluegen-rt-2.3.2-natives-windows-amd64.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/jogamp/gluegen/gluegen-rt/2.3.2/gluegen-rt-2.3.2-natives-windows-amd64.jar"/>
+					</artifact>
+					<artifact name="gluegen-rt" type="jar" ext="jar" extra-classifier="natives-linux-amd64" status="no" details="" size="4149" time="0" location="C:\Users\maxig\.ivy2\cache\org.jogamp.gluegen\gluegen-rt\jars\gluegen-rt-2.3.2-natives-linux-amd64.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/jogamp/gluegen/gluegen-rt/2.3.2/gluegen-rt-2.3.2-natives-linux-amd64.jar"/>
+					</artifact>
+					<artifact name="gluegen-rt" type="jar" ext="jar" extra-classifier="natives-android-aarch64" status="no" details="" size="3347" time="0" location="C:\Users\maxig\.ivy2\cache\org.jogamp.gluegen\gluegen-rt\jars\gluegen-rt-2.3.2-natives-android-aarch64.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/jogamp/gluegen/gluegen-rt/2.3.2/gluegen-rt-2.3.2-natives-android-aarch64.jar"/>
+					</artifact>
+					<artifact name="gluegen-rt" type="jar" ext="jar" extra-classifier="natives-macosx-universal" status="no" details="" size="5076" time="0" location="C:\Users\maxig\.ivy2\cache\org.jogamp.gluegen\gluegen-rt\jars\gluegen-rt-2.3.2-natives-macosx-universal.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/jogamp/gluegen/gluegen-rt/2.3.2/gluegen-rt-2.3.2-natives-macosx-universal.jar"/>
+					</artifact>
+					<artifact name="gluegen-rt" type="jar" ext="jar" extra-classifier="natives-solaris-amd64" status="no" details="" size="4640" time="0" location="C:\Users\maxig\.ivy2\cache\org.jogamp.gluegen\gluegen-rt\jars\gluegen-rt-2.3.2-natives-solaris-amd64.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/jogamp/gluegen/gluegen-rt/2.3.2/gluegen-rt-2.3.2-natives-solaris-amd64.jar"/>
+					</artifact>
+					<artifact name="gluegen-rt" type="jar" ext="jar" status="no" details="" size="345605" time="0" location="C:\Users\maxig\.ivy2\cache\org.jogamp.gluegen\gluegen-rt\jars\gluegen-rt-2.3.2.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/jogamp/gluegen/gluegen-rt/2.3.2/gluegen-rt-2.3.2.jar"/>
+					</artifact>
+					<artifact name="gluegen-rt" type="jar" ext="jar" extra-classifier="natives-windows-i586" status="no" details="" size="7577" time="0" location="C:\Users\maxig\.ivy2\cache\org.jogamp.gluegen\gluegen-rt\jars\gluegen-rt-2.3.2-natives-windows-i586.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/jogamp/gluegen/gluegen-rt/2.3.2/gluegen-rt-2.3.2-natives-windows-i586.jar"/>
+					</artifact>
+					<artifact name="gluegen-rt" type="jar" ext="jar" extra-classifier="natives-linux-armv6" status="no" details="" size="3042" time="0" location="C:\Users\maxig\.ivy2\cache\org.jogamp.gluegen\gluegen-rt\jars\gluegen-rt-2.3.2-natives-linux-armv6.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/jogamp/gluegen/gluegen-rt/2.3.2/gluegen-rt-2.3.2-natives-linux-armv6.jar"/>
+					</artifact>
+					<artifact name="gluegen-rt" type="jar" ext="jar" extra-classifier="natives-linux-i586" status="no" details="" size="4130" time="0" location="C:\Users\maxig\.ivy2\cache\org.jogamp.gluegen\gluegen-rt\jars\gluegen-rt-2.3.2-natives-linux-i586.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/jogamp/gluegen/gluegen-rt/2.3.2/gluegen-rt-2.3.2-natives-linux-i586.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.jzy3d" name="jzy3d-jdt-core">
+			<revision name="1.0.0" status="release" pubdate="20170204171712" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="48">
+				<license name="The (New) BSD License" url="http://www.opensource.org/licenses/bsd-license.php"/>
+				<metadata-artifact status="no" details="" size="4335" time="0" location="C:\Users\maxig\.ivy2\cache\org.jzy3d\jzy3d-jdt-core\ivy-1.0.0.xml" searched="false" origin-is-local="false" origin-location="http://maven.jzy3d.org/releases/org/jzy3d/jzy3d-jdt-core/1.0.0/jzy3d-jdt-core-1.0.0.pom"/>
+				<caller organisation="org.jzy3d" name="jzy3d-api" conf="compile, runtime" rev="1.0.0" rev-constraint-default="1.0.0" rev-constraint-dynamic="1.0.0" callerrev="1.0.0"/>
+				<artifacts>
+					<artifact name="jzy3d-jdt-core" type="jar" ext="jar" status="no" details="" size="31718" time="0" location="C:\Users\maxig\.ivy2\cache\org.jzy3d\jzy3d-jdt-core\jars\jzy3d-jdt-core-1.0.0.jar">
+						<origin-location is-local="false" location="http://maven.jzy3d.org/releases/org/jzy3d/jzy3d-jdt-core/1.0.0/jzy3d-jdt-core-1.0.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.commons" name="commons-lang3">
+			<revision name="3.1" status="release" pubdate="20111115082705" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://commons.apache.org/lang/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="50">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="8108" time="0" location="C:\Users\maxig\.ivy2\cache\org.apache.commons\commons-lang3\ivy-3.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/commons/commons-lang3/3.1/commons-lang3-3.1.pom"/>
+				<caller organisation="org.smurn" name="jply" conf="compile, runtime" rev="3.1" rev-constraint-default="3.1" rev-constraint-dynamic="3.1" callerrev="0.2.1"/>
+				<caller organisation="org.jzy3d" name="jzy3d-jdt-core" conf="compile, runtime" rev="3.1" rev-constraint-default="3.1" rev-constraint-dynamic="3.1" callerrev="1.0.0"/>
+				<artifacts>
+					<artifact name="commons-lang3" type="jar" ext="jar" status="no" details="" size="315805" time="0" location="C:\Users\maxig\.ivy2\cache\org.apache.commons\commons-lang3\jars\commons-lang3-3.1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/commons/commons-lang3/3.1/commons-lang3-3.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.jfree" name="jfreechart">
+			<revision name="1.0.19" status="release" pubdate="20140731143450" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.jfree.org/jfreechart/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="45">
+				<license name="GNU Lesser General Public Licence" url="http://www.gnu.org/licenses/lgpl.txt"/>
+				<metadata-artifact status="no" details="" size="4089" time="0" location="C:\Users\maxig\.ivy2\cache\org.jfree\jfreechart\ivy-1.0.19.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/jfree/jfreechart/1.0.19/jfreechart-1.0.19.pom"/>
+				<caller organisation="io.github.edouardfouche" name="datagenerator_2.12" conf="default, compile, runtime, master" rev="1.0.19" rev-constraint-default="1.0.19" rev-constraint-dynamic="1.0.19" callerrev="0.1.0"/>
+				<artifacts>
+					<artifact name="jfreechart" type="jar" ext="jar" status="no" details="" size="1565065" time="0" location="C:\Users\maxig\.ivy2\cache\org.jfree\jfreechart\jars\jfreechart-1.0.19.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/jfree/jfreechart/1.0.19/jfreechart-1.0.19.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.jfree" name="jcommon">
+			<revision name="1.0.23" status="release" pubdate="20140724173644" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.jfree.org/jcommon/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="46">
+				<license name="GNU Lesser General Public Licence" url="http://www.gnu.org/licenses/lgpl.txt"/>
+				<metadata-artifact status="no" details="" size="3697" time="0" location="C:\Users\maxig\.ivy2\cache\org.jfree\jcommon\ivy-1.0.23.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/jfree/jcommon/1.0.23/jcommon-1.0.23.pom"/>
+				<caller organisation="org.jfree" name="jfreechart" conf="compile, runtime" rev="1.0.23" rev-constraint-default="1.0.23" rev-constraint-dynamic="1.0.23" callerrev="1.0.19"/>
+				<artifacts>
+					<artifact name="jcommon" type="jar" ext="jar" status="no" details="" size="330246" time="0" location="C:\Users\maxig\.ivy2\cache\org.jfree\jcommon\jars\jcommon-1.0.23.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/jfree/jcommon/1.0.23/jcommon-1.0.23.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.scalanlp" name="breeze_2.12">
+			<revision name="0.13.1" status="release" pubdate="20170424083538" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://scalanlp.org/" downloaded="false" searched="false" default="false" conf="default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master" position="32">
+				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.html"/>
+				<metadata-artifact status="no" details="" size="4879" time="0" location="C:\Users\maxig\.ivy2\cache\org.scalanlp\breeze_2.12\ivy-0.13.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scalanlp/breeze_2.12/0.13.1/breeze_2.12-0.13.1.pom"/>
+				<caller organisation="io.github.edouardfouche" name="datagenerator_2.12" conf="default, compile, runtime, master" rev="0.13.1" rev-constraint-default="0.13.1" rev-constraint-dynamic="0.13.1" callerrev="0.1.0"/>
+				<caller organisation="org.scalanlp" name="breeze-natives_2.12" conf="default, compile, runtime, master" rev="0.13.1" rev-constraint-default="0.13.1" rev-constraint-dynamic="0.13.1" callerrev="0.13.1"/>
+				<caller organisation="com.edouardfouche" name="mcde-experiments_2.12" conf="compile-internal, compile, provided, optional" rev="0.13.1" rev-constraint-default="0.13.1" rev-constraint-dynamic="0.13.1" callerrev="1.0"/>
+				<artifacts>
+					<artifact name="breeze_2.12" type="jar" ext="jar" status="no" details="" size="13319453" time="0" location="C:\Users\maxig\.ivy2\cache\org.scalanlp\breeze_2.12\jars\breeze_2.12-0.13.1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/scalanlp/breeze_2.12/0.13.1/breeze_2.12-0.13.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.spire-math" name="spire_2.12">
+			<revision name="0.13.0" status="release" pubdate="20161129053252" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://spire-math.org" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="40">
+				<license name="MIT" url="http://opensource.org/licenses/MIT"/>
+				<metadata-artifact status="no" details="" size="3095" time="0" location="C:\Users\maxig\.ivy2\cache\org.spire-math\spire_2.12\ivy-0.13.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/spire-math/spire_2.12/0.13.0/spire_2.12-0.13.0.pom"/>
+				<caller organisation="org.scalanlp" name="breeze_2.12" conf="compile, runtime" rev="0.13.0" rev-constraint-default="0.13.0" rev-constraint-dynamic="0.13.0" callerrev="0.13.1"/>
+				<artifacts>
+					<artifact name="spire_2.12" type="jar" ext="jar" status="no" details="" size="9660469" time="0" location="C:\Users\maxig\.ivy2\cache\org.spire-math\spire_2.12\jars\spire_2.12-0.13.0.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/spire-math/spire_2.12/0.13.0/spire_2.12-0.13.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.spire-math" name="spire-macros_2.12">
+			<revision name="0.13.0" status="release" pubdate="20161129053152" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://spire-math.org" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="41">
+				<license name="MIT" url="http://opensource.org/licenses/MIT"/>
+				<metadata-artifact status="no" details="" size="3332" time="0" location="C:\Users\maxig\.ivy2\cache\org.spire-math\spire-macros_2.12\ivy-0.13.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/spire-math/spire-macros_2.12/0.13.0/spire-macros_2.12-0.13.0.pom"/>
+				<caller organisation="org.spire-math" name="spire_2.12" conf="compile, runtime" rev="0.13.0" rev-constraint-default="0.13.0" rev-constraint-dynamic="0.13.0" callerrev="0.13.0"/>
+				<artifacts>
+					<artifact name="spire-macros_2.12" type="jar" ext="jar" status="no" details="" size="69702" time="0" location="C:\Users\maxig\.ivy2\cache\org.spire-math\spire-macros_2.12\jars\spire-macros_2.12-0.13.0.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/spire-math/spire-macros_2.12/0.13.0/spire-macros_2.12-0.13.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.chuusai" name="shapeless_2.12">
+			<revision name="2.3.2" status="release" pubdate="20161102105049" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/milessabin/shapeless" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="43">
+				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="3263" time="0" location="C:\Users\maxig\.ivy2\cache\com.chuusai\shapeless_2.12\ivy-2.3.2.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/chuusai/shapeless_2.12/2.3.2/shapeless_2.12-2.3.2.pom"/>
+				<caller organisation="org.scalanlp" name="breeze_2.12" conf="compile, runtime" rev="2.3.2" rev-constraint-default="2.3.2" rev-constraint-dynamic="2.3.2" callerrev="0.13.1"/>
+				<artifacts>
+					<artifact name="shapeless_2.12" type="bundle" ext="jar" status="no" details="" size="2829843" time="0" location="C:\Users\maxig\.ivy2\cache\com.chuusai\shapeless_2.12\bundles\shapeless_2.12-2.3.2.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/chuusai/shapeless_2.12/2.3.2/shapeless_2.12-2.3.2.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.typelevel" name="macro-compat_2.12">
+			<revision name="1.1.1" status="release" pubdate="20161102094258" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/milessabin/macro-compat" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="44">
+				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="2999" time="0" location="C:\Users\maxig\.ivy2\cache\org.typelevel\macro-compat_2.12\ivy-1.1.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/typelevel/macro-compat_2.12/1.1.1/macro-compat_2.12-1.1.1.pom"/>
+				<caller organisation="com.chuusai" name="shapeless_2.12" conf="compile, runtime" rev="1.1.1" rev-constraint-default="1.1.1" rev-constraint-dynamic="1.1.1" callerrev="2.3.2"/>
+				<artifacts>
+					<artifact name="macro-compat_2.12" type="jar" ext="jar" status="no" details="" size="3180" time="0" location="C:\Users\maxig\.ivy2\cache\org.typelevel\macro-compat_2.12\jars\macro-compat_2.12-1.1.1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/typelevel/macro-compat_2.12/1.1.1/macro-compat_2.12-1.1.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.typelevel" name="machinist_2.12">
+			<revision name="0.6.1" status="release" pubdate="20161029171418" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://github.com/typelevel/machinist" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="42">
+				<license name="MIT" url="http://opensource.org/licenses/MIT"/>
+				<metadata-artifact status="no" details="" size="2819" time="0" location="C:\Users\maxig\.ivy2\cache\org.typelevel\machinist_2.12\ivy-0.6.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/typelevel/machinist_2.12/0.6.1/machinist_2.12-0.6.1.pom"/>
+				<caller organisation="org.spire-math" name="spire_2.12" conf="compile, runtime" rev="0.6.1" rev-constraint-default="0.6.1" rev-constraint-dynamic="0.6.1" callerrev="0.13.0"/>
+				<caller organisation="org.spire-math" name="spire-macros_2.12" conf="compile, runtime" rev="0.6.1" rev-constraint-default="0.6.1" rev-constraint-dynamic="0.6.1" callerrev="0.13.0"/>
+				<artifacts>
+					<artifact name="machinist_2.12" type="jar" ext="jar" status="no" details="" size="33650" time="0" location="C:\Users\maxig\.ivy2\cache\org.typelevel\machinist_2.12\jars\machinist_2.12-0.6.1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/typelevel/machinist_2.12/0.6.1/machinist_2.12-0.6.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.github.rwl" name="jtransforms">
+			<revision name="2.4.0" status="release" pubdate="20120519160656" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://sourceforge.net/projects/jtransforms/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="38">
+				<license name="MPL" url="http://www.mozilla.org/MPL/2.0/index.txt"/>
+				<license name="LGPL" url="http://www.gnu.org/licenses/lgpl-2.1.txt"/>
+				<license name="GPL" url="http://www.gnu.org/licenses/gpl-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="3027" time="0" location="C:\Users\maxig\.ivy2\cache\com.github.rwl\jtransforms\ivy-2.4.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/github/rwl/jtransforms/2.4.0/jtransforms-2.4.0.pom"/>
+				<caller organisation="org.scalanlp" name="breeze_2.12" conf="compile, runtime" rev="2.4.0" rev-constraint-default="2.4.0" rev-constraint-dynamic="2.4.0" callerrev="0.13.1"/>
+				<artifacts>
+					<artifact name="jtransforms" type="jar" ext="jar" status="no" details="" size="764569" time="0" location="C:\Users\maxig\.ivy2\cache\com.github.rwl\jtransforms\jars\jtransforms-2.4.0.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/github/rwl/jtransforms/2.4.0/jtransforms-2.4.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="junit" name="junit">
+			<revision name="4.8.2" status="release" pubdate="20101005105127" resolver="sbt-chain" artresolver="sbt-chain" evicted="latest-revision" evicted-reason="" homepage="http://junit.org" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="-1">
+				<license name="Common Public License Version 1.0" url="http://www.opensource.org/licenses/cpl1.0.txt"/>
+				<metadata-artifact status="no" details="" size="2576" time="0" location="C:\Users\maxig\.ivy2\cache\junit\junit\ivy-4.8.2.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/junit/junit/4.8.2/junit-4.8.2.pom"/>
+				<evicted-by rev="4.11"/>
+				<caller organisation="com.github.rwl" name="jtransforms" conf="compile, runtime" rev="4.8.2" rev-constraint-default="4.8.2" rev-constraint-dynamic="4.8.2" callerrev="2.4.0"/>
+				<artifacts>
+				</artifacts>
+			</revision>
+			<revision name="4.11" status="release" pubdate="20121114202147" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://junit.org" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="59">
+				<license name="Common Public License Version 1.0" url="http://www.opensource.org/licenses/cpl1.0.txt"/>
+				<metadata-artifact status="no" details="" size="2932" time="0" location="C:\Users\maxig\.ivy2\cache\junit\junit\ivy-4.11.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/junit/junit/4.11/junit-4.11.pom"/>
+				<caller organisation="org.jzy3d" name="jzy3d-api" conf="compile, runtime" rev="4.11" rev-constraint-default="4.11" rev-constraint-dynamic="4.11" callerrev="1.0.0"/>
+				<caller organisation="com.github.rwl" name="jtransforms" conf="compile, runtime" rev="4.8.2" rev-constraint-default="4.8.2" rev-constraint-dynamic="4.8.2" callerrev="2.4.0"/>
+				<artifacts>
+					<artifact name="junit" type="jar" ext="jar" status="no" details="" size="245039" time="0" location="C:\Users\maxig\.ivy2\cache\junit\junit\jars\junit-4.11.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/junit/junit/4.11/junit-4.11.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="net.sf.opencsv" name="opencsv">
+			<revision name="2.3" status="release" pubdate="20110728070018" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://opencsv.sf.net" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="37">
+				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="3390" time="0" location="C:\Users\maxig\.ivy2\cache\net.sf.opencsv\opencsv\ivy-2.3.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/net/sf/opencsv/opencsv/2.3/opencsv-2.3.pom"/>
+				<caller organisation="org.jzy3d" name="jzy3d-api" conf="compile, runtime" rev="2.1" rev-constraint-default="2.1" rev-constraint-dynamic="2.1" callerrev="1.0.0"/>
+				<caller organisation="org.scalanlp" name="breeze_2.12" conf="compile, runtime" rev="2.3" rev-constraint-default="2.3" rev-constraint-dynamic="2.3" callerrev="0.13.1"/>
+				<artifacts>
+					<artifact name="opencsv" type="jar" ext="jar" status="no" details="" size="19827" time="0" location="C:\Users\maxig\.ivy2\cache\net.sf.opencsv\opencsv\jars\opencsv-2.3.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/net/sf/opencsv/opencsv/2.3/opencsv-2.3.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+			<revision name="2.1" evicted="latest-revision" evicted-reason="" downloaded="false" searched="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="-1">
+				<evicted-by rev="2.3"/>
+				<caller organisation="org.jzy3d" name="jzy3d-api" conf="compile, runtime" rev="2.1" rev-constraint-default="2.1" rev-constraint-dynamic="2.1" callerrev="1.0.0"/>
+				<artifacts>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.github.fommil.netlib" name="core">
+			<revision name="1.1.2" status="release" pubdate="20131126125411" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="35">
+				<license name="BSD 3 Clause" url="http://opensource.org/licenses/BSD-3-Clause"/>
+				<metadata-artifact status="no" details="" size="4941" time="0" location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\core\ivy-1.1.2.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/github/fommil/netlib/core/1.1.2/core-1.1.2.pom"/>
+				<caller organisation="com.github.fommil.netlib" name="native_ref-java" conf="compile, runtime" rev="1.1" rev-constraint-default="1.1" rev-constraint-dynamic="1.1" callerrev="1.1"/>
+				<caller organisation="org.scalanlp" name="breeze_2.12" conf="compile, runtime" rev="1.1.2" rev-constraint-default="1.1.2" rev-constraint-dynamic="1.1.2" callerrev="0.13.1"/>
+				<caller organisation="com.github.fommil.netlib" name="all" conf="compile, runtime" rev="1.1.2" rev-constraint-default="1.1.2" rev-constraint-dynamic="1.1.2" callerrev="1.1.2"/>
+				<caller organisation="com.github.fommil.netlib" name="native_system-java" conf="compile, runtime" rev="1.1" rev-constraint-default="1.1" rev-constraint-dynamic="1.1" callerrev="1.1"/>
+				<artifacts>
+					<artifact name="core" type="jar" ext="jar" status="no" details="" size="164422" time="0" location="C:\Users\maxig\.ivy2\cache\com.github.fommil.netlib\core\jars\core-1.1.2.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/github/fommil/netlib/core/1.1.2/core-1.1.2.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+			<revision name="1.1" evicted="latest-revision" evicted-reason="" downloaded="false" searched="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="-1">
+				<evicted-by rev="1.1.2"/>
+				<caller organisation="com.github.fommil.netlib" name="native_ref-java" conf="compile, runtime" rev="1.1" rev-constraint-default="1.1" rev-constraint-dynamic="1.1" callerrev="1.1"/>
+				<caller organisation="com.github.fommil.netlib" name="native_system-java" conf="compile, runtime" rev="1.1" rev-constraint-default="1.1" rev-constraint-dynamic="1.1" callerrev="1.1"/>
+				<artifacts>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.hamcrest" name="hamcrest-core">
+			<revision name="1.3" status="release" pubdate="20120709230802" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="60">
+				<license name="New BSD License" url="http://www.opensource.org/licenses/bsd-license.php"/>
+				<metadata-artifact status="no" details="" size="2647" time="0" location="C:\Users\maxig\.ivy2\cache\org.hamcrest\hamcrest-core\ivy-1.3.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.pom"/>
+				<caller organisation="junit" name="junit" conf="compile, runtime" rev="1.3" rev-constraint-default="1.3" rev-constraint-dynamic="1.3" callerrev="4.11"/>
+				<artifacts>
+					<artifact name="hamcrest-core" type="jar" ext="jar" status="no" details="" size="45024" time="0" location="C:\Users\maxig\.ivy2\cache\org.hamcrest\hamcrest-core\jars\hamcrest-core-1.3.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="net.sourceforge.f2j" name="arpack_combined_all">
+			<revision name="0.1" status="release" pubdate="20130709062740" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://f2j.sourceforge.net" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="36">
+				<license name="The BSD License" url="http://www.opensource.org/licenses/bsd-license.php"/>
+				<metadata-artifact status="no" details="" size="2597" time="0" location="C:\Users\maxig\.ivy2\cache\net.sourceforge.f2j\arpack_combined_all\ivy-0.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/net/sourceforge/f2j/arpack_combined_all/0.1/arpack_combined_all-0.1.pom"/>
+				<caller organisation="org.scalanlp" name="breeze_2.12" conf="compile, runtime" rev="0.1" rev-constraint-default="0.1" rev-constraint-dynamic="0.1" callerrev="0.13.1"/>
+				<artifacts>
+					<artifact name="arpack_combined_all" type="jar" ext="jar" status="no" details="" size="1194003" time="0" location="C:\Users\maxig\.ivy2\cache\net.sourceforge.f2j\arpack_combined_all\jars\arpack_combined_all-0.1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/net/sourceforge/f2j/arpack_combined_all/0.1/arpack_combined_all-0.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.scalanlp" name="breeze-macros_2.12">
+			<revision name="0.13.1" status="release" pubdate="20170424083111" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://scalanlp.org/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="33">
+				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.html"/>
+				<metadata-artifact status="no" details="" size="3189" time="0" location="C:\Users\maxig\.ivy2\cache\org.scalanlp\breeze-macros_2.12\ivy-0.13.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scalanlp/breeze-macros_2.12/0.13.1/breeze-macros_2.12-0.13.1.pom"/>
+				<caller organisation="org.scalanlp" name="breeze_2.12" conf="compile, runtime" rev="0.13.1" rev-constraint-default="0.13.1" rev-constraint-dynamic="0.13.1" callerrev="0.13.1"/>
+				<artifacts>
+					<artifact name="breeze-macros_2.12" type="jar" ext="jar" status="no" details="" size="125330" time="0" location="C:\Users\maxig\.ivy2\cache\org.scalanlp\breeze-macros_2.12\jars\breeze-macros_2.12-0.13.1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/scalanlp/breeze-macros_2.12/0.13.1/breeze-macros_2.12-0.13.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="de.lmu.ifi.dbs.elki" name="elki">
+			<revision name="0.7.5" status="release" pubdate="20190215191325" resolver="public" artresolver="public" homepage="https://elki-project.github.io/" downloaded="true" searched="true" default="false" conf="default, compile, runtime, default(compile), master" position="1">
+				<license name="GNU Affero General Public License (AGPL) version 3.0" url="http://www.gnu.org/licenses/agpl-3.0.txt"/>
+				<metadata-artifact status="successful" details="" size="3713" time="195" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki\ivy-0.7.5.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki\ivy-0.7.5.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki/0.7.5/elki-0.7.5.pom"/>
+				<caller organisation="com.edouardfouche" name="mcde-experiments_2.12" conf="compile-internal, compile, provided, optional" rev="0.7.5" rev-constraint-default="0.7.5" rev-constraint-dynamic="0.7.5" callerrev="1.0"/>
+				<artifacts>
+					<artifact name="elki" type="jar" ext="jar" status="successful" details="" size="472147" time="479" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki\jars\elki-0.7.5.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki/0.7.5/elki-0.7.5.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="de.lmu.ifi.dbs.elki" name="elki-core-dbids-int">
+			<revision name="0.7.5" status="release" pubdate="20190215191754" resolver="public" artresolver="public" homepage="https://elki-project.github.io/" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="30">
+				<license name="GNU Affero General Public License (AGPL) version 3.0" url="http://www.gnu.org/licenses/agpl-3.0.txt"/>
+				<metadata-artifact status="successful" details="" size="1707" time="166" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-core-dbids-int\ivy-0.7.5.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-core-dbids-int\ivy-0.7.5.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-core-dbids-int/0.7.5/elki-core-dbids-int-0.7.5.pom"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki" conf="default, compile, runtime, master" rev="0.7.5" rev-constraint-default="0.7.5" rev-constraint-dynamic="0.7.5" callerrev="0.7.5"/>
+				<artifacts>
+					<artifact name="elki-core-dbids-int" type="jar" ext="jar" status="successful" details="" size="89262" time="194" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-core-dbids-int\jars\elki-core-dbids-int-0.7.5.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-core-dbids-int/0.7.5/elki-core-dbids-int-0.7.5.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="de.lmu.ifi.dbs.elki" name="elki-geo">
+			<revision name="0.7.5" status="release" pubdate="20190215192205" resolver="public" artresolver="public" homepage="https://elki-project.github.io/" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="29">
+				<license name="GNU Affero General Public License (AGPL) version 3.0" url="http://www.gnu.org/licenses/agpl-3.0.txt"/>
+				<metadata-artifact status="successful" details="" size="1657" time="175" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-geo\ivy-0.7.5.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-geo\ivy-0.7.5.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-geo/0.7.5/elki-geo-0.7.5.pom"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki" conf="default, compile, runtime, master" rev="0.7.5" rev-constraint-default="0.7.5" rev-constraint-dynamic="0.7.5" callerrev="0.7.5"/>
+				<artifacts>
+					<artifact name="elki-geo" type="jar" ext="jar" status="successful" details="" size="73600" time="189" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-geo\jars\elki-geo-0.7.5.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-geo/0.7.5/elki-geo-0.7.5.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="de.lmu.ifi.dbs.elki" name="elki-precomputed">
+			<revision name="0.7.5" status="release" pubdate="20190215192712" resolver="public" artresolver="public" homepage="https://elki-project.github.io/" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="28">
+				<license name="GNU Affero General Public License (AGPL) version 3.0" url="http://www.gnu.org/licenses/agpl-3.0.txt"/>
+				<metadata-artifact status="successful" details="" size="1869" time="166" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-precomputed\ivy-0.7.5.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-precomputed\ivy-0.7.5.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-precomputed/0.7.5/elki-precomputed-0.7.5.pom"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki" conf="default, compile, runtime, master" rev="0.7.5" rev-constraint-default="0.7.5" rev-constraint-dynamic="0.7.5" callerrev="0.7.5"/>
+				<artifacts>
+					<artifact name="elki-precomputed" type="jar" ext="jar" status="successful" details="" size="66151" time="210" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-precomputed\jars\elki-precomputed-0.7.5.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-precomputed/0.7.5/elki-precomputed-0.7.5.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="de.lmu.ifi.dbs.elki" name="elki-index-various">
+			<revision name="0.7.5" status="release" pubdate="20190215192508" resolver="public" artresolver="public" homepage="https://elki-project.github.io/" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="27">
+				<license name="GNU Affero General Public License (AGPL) version 3.0" url="http://www.gnu.org/licenses/agpl-3.0.txt"/>
+				<metadata-artifact status="successful" details="" size="1665" time="179" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-index-various\ivy-0.7.5.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-index-various\ivy-0.7.5.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-index-various/0.7.5/elki-index-various-0.7.5.pom"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki" conf="default, compile, runtime, master" rev="0.7.5" rev-constraint-default="0.7.5" rev-constraint-dynamic="0.7.5" callerrev="0.7.5"/>
+				<artifacts>
+					<artifact name="elki-index-various" type="jar" ext="jar" status="successful" details="" size="112435" time="181" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-index-various\jars\elki-index-various-0.7.5.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-index-various/0.7.5/elki-index-various-0.7.5.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="de.lmu.ifi.dbs.elki" name="elki-index-lsh">
+			<revision name="0.7.5" status="release" pubdate="20190215192401" resolver="public" artresolver="public" homepage="https://elki-project.github.io/" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="26">
+				<license name="GNU Affero General Public License (AGPL) version 3.0" url="http://www.gnu.org/licenses/agpl-3.0.txt"/>
+				<metadata-artifact status="successful" details="" size="1683" time="186" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-index-lsh\ivy-0.7.5.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-index-lsh\ivy-0.7.5.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-index-lsh/0.7.5/elki-index-lsh-0.7.5.pom"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki" conf="default, compile, runtime, master" rev="0.7.5" rev-constraint-default="0.7.5" rev-constraint-dynamic="0.7.5" callerrev="0.7.5"/>
+				<artifacts>
+					<artifact name="elki-index-lsh" type="jar" ext="jar" status="successful" details="" size="38490" time="253" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-index-lsh\jars\elki-index-lsh-0.7.5.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-index-lsh/0.7.5/elki-index-lsh-0.7.5.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="de.lmu.ifi.dbs.elki" name="elki-index-mtree">
+			<revision name="0.7.5" status="release" pubdate="20190215192412" resolver="public" artresolver="public" homepage="https://elki-project.github.io/" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="25">
+				<license name="GNU Affero General Public License (AGPL) version 3.0" url="http://www.gnu.org/licenses/agpl-3.0.txt"/>
+				<metadata-artifact status="successful" details="" size="1663" time="173" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-index-mtree\ivy-0.7.5.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-index-mtree\ivy-0.7.5.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-index-mtree/0.7.5/elki-index-mtree-0.7.5.pom"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki" conf="default, compile, runtime, master" rev="0.7.5" rev-constraint-default="0.7.5" rev-constraint-dynamic="0.7.5" callerrev="0.7.5"/>
+				<artifacts>
+					<artifact name="elki-index-mtree" type="jar" ext="jar" status="successful" details="" size="168679" time="206" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-index-mtree\jars\elki-index-mtree-0.7.5.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-index-mtree/0.7.5/elki-index-mtree-0.7.5.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="de.lmu.ifi.dbs.elki" name="elki-index-rtree">
+			<revision name="0.7.5" status="release" pubdate="20190215192448" resolver="public" artresolver="public" homepage="https://elki-project.github.io/" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="22">
+				<license name="GNU Affero General Public License (AGPL) version 3.0" url="http://www.gnu.org/licenses/agpl-3.0.txt"/>
+				<metadata-artifact status="successful" details="" size="1663" time="196" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-index-rtree\ivy-0.7.5.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-index-rtree\ivy-0.7.5.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-index-rtree/0.7.5/elki-index-rtree-0.7.5.pom"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki" conf="default, compile, runtime, master" rev="0.7.5" rev-constraint-default="0.7.5" rev-constraint-dynamic="0.7.5" callerrev="0.7.5"/>
+				<artifacts>
+					<artifact name="elki-index-rtree" type="jar" ext="jar" status="successful" details="" size="181662" time="244" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-index-rtree\jars\elki-index-rtree-0.7.5.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-index-rtree/0.7.5/elki-index-rtree-0.7.5.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="de.lmu.ifi.dbs.elki" name="elki-index">
+			<revision name="0.7.5" status="release" pubdate="20190215192337" resolver="public" artresolver="public" homepage="https://elki-project.github.io/" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="23">
+				<license name="GNU Affero General Public License (AGPL) version 3.0" url="http://www.gnu.org/licenses/agpl-3.0.txt"/>
+				<metadata-artifact status="successful" details="" size="1847" time="183" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-index\ivy-0.7.5.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-index\ivy-0.7.5.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-index/0.7.5/elki-index-0.7.5.pom"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki-geo" conf="compile, runtime" rev="0.7.5" rev-constraint-default="0.7.5" rev-constraint-dynamic="0.7.5" callerrev="0.7.5"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki-index-mtree" conf="compile, runtime" rev="0.7.5" rev-constraint-default="0.7.5" rev-constraint-dynamic="0.7.5" callerrev="0.7.5"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki-index-lsh" conf="compile, runtime" rev="0.7.5" rev-constraint-default="0.7.5" rev-constraint-dynamic="0.7.5" callerrev="0.7.5"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki-index-rtree" conf="compile, runtime" rev="0.7.5" rev-constraint-default="0.7.5" rev-constraint-dynamic="0.7.5" callerrev="0.7.5"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki-index-various" conf="compile, runtime" rev="0.7.5" rev-constraint-default="0.7.5" rev-constraint-dynamic="0.7.5" callerrev="0.7.5"/>
+				<artifacts>
+					<artifact name="elki-index" type="jar" ext="jar" status="successful" details="" size="59023" time="566" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-index\jars\elki-index-0.7.5.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-index/0.7.5/elki-index-0.7.5.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="de.lmu.ifi.dbs.elki" name="elki-persistent">
+			<revision name="0.7.5" status="release" pubdate="20190215192702" resolver="public" artresolver="public" homepage="https://elki-project.github.io/" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="24">
+				<license name="GNU Affero General Public License (AGPL) version 3.0" url="http://www.gnu.org/licenses/agpl-3.0.txt"/>
+				<metadata-artifact status="successful" details="" size="1670" time="200" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-persistent\ivy-0.7.5.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-persistent\ivy-0.7.5.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-persistent/0.7.5/elki-persistent-0.7.5.pom"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki-index" conf="compile, runtime" rev="0.7.5" rev-constraint-default="0.7.5" rev-constraint-dynamic="0.7.5" callerrev="0.7.5"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki-precomputed" conf="compile, runtime" rev="0.7.5" rev-constraint-default="0.7.5" rev-constraint-dynamic="0.7.5" callerrev="0.7.5"/>
+				<artifacts>
+					<artifact name="elki-persistent" type="jar" ext="jar" status="successful" details="" size="27853" time="517" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-persistent\jars\elki-persistent-0.7.5.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-persistent/0.7.5/elki-persistent-0.7.5.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="de.lmu.ifi.dbs.elki" name="elki-data-generator">
+			<revision name="0.7.5" status="release" pubdate="20190215192030" resolver="public" artresolver="public" homepage="https://elki-project.github.io/" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="21">
+				<license name="GNU Affero General Public License (AGPL) version 3.0" url="http://www.gnu.org/licenses/agpl-3.0.txt"/>
+				<metadata-artifact status="successful" details="" size="1853" time="166" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-data-generator\ivy-0.7.5.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-data-generator\ivy-0.7.5.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-data-generator/0.7.5/elki-data-generator-0.7.5.pom"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki" conf="default, compile, runtime, master" rev="0.7.5" rev-constraint-default="0.7.5" rev-constraint-dynamic="0.7.5" callerrev="0.7.5"/>
+				<artifacts>
+					<artifact name="elki-data-generator" type="jar" ext="jar" status="successful" details="" size="54308" time="193" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-data-generator\jars\elki-data-generator-0.7.5.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-data-generator/0.7.5/elki-data-generator-0.7.5.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="de.lmu.ifi.dbs.elki" name="elki-timeseries">
+			<revision name="0.7.5" status="release" pubdate="20190215192731" resolver="public" artresolver="public" homepage="https://elki-project.github.io/" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="19">
+				<license name="GNU Affero General Public License (AGPL) version 3.0" url="http://www.gnu.org/licenses/agpl-3.0.txt"/>
+				<metadata-artifact status="successful" details="" size="1656" time="188" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-timeseries\ivy-0.7.5.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-timeseries\ivy-0.7.5.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-timeseries/0.7.5/elki-timeseries-0.7.5.pom"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki" conf="default, compile, runtime, master" rev="0.7.5" rev-constraint-default="0.7.5" rev-constraint-dynamic="0.7.5" callerrev="0.7.5"/>
+				<artifacts>
+					<artifact name="elki-timeseries" type="jar" ext="jar" status="successful" details="" size="28874" time="227" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-timeseries\jars\elki-timeseries-0.7.5.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-timeseries/0.7.5/elki-timeseries-0.7.5.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="de.lmu.ifi.dbs.elki" name="elki-outlier">
+			<revision name="0.7.5" status="release" pubdate="20190215192632" resolver="public" artresolver="public" homepage="https://elki-project.github.io/" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="20">
+				<license name="GNU Affero General Public License (AGPL) version 3.0" url="http://www.gnu.org/licenses/agpl-3.0.txt"/>
+				<metadata-artifact status="successful" details="" size="1684" time="185" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-outlier\ivy-0.7.5.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-outlier\ivy-0.7.5.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-outlier/0.7.5/elki-outlier-0.7.5.pom"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki-timeseries" conf="compile, runtime" rev="0.7.5" rev-constraint-default="0.7.5" rev-constraint-dynamic="0.7.5" callerrev="0.7.5"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki-data-generator" conf="compile, runtime" rev="0.7.5" rev-constraint-default="0.7.5" rev-constraint-dynamic="0.7.5" callerrev="0.7.5"/>
+				<artifacts>
+					<artifact name="elki-outlier" type="jar" ext="jar" status="successful" details="" size="521811" time="637" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-outlier\jars\elki-outlier-0.7.5.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-outlier/0.7.5/elki-outlier-0.7.5.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="de.lmu.ifi.dbs.elki" name="elki-classification">
+			<revision name="0.7.5" status="release" pubdate="20190215191451" resolver="public" artresolver="public" homepage="https://elki-project.github.io/" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="18">
+				<license name="GNU Affero General Public License (AGPL) version 3.0" url="http://www.gnu.org/licenses/agpl-3.0.txt"/>
+				<metadata-artifact status="successful" details="" size="1685" time="191" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-classification\ivy-0.7.5.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-classification\ivy-0.7.5.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-classification/0.7.5/elki-classification-0.7.5.pom"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki" conf="default, compile, runtime, master" rev="0.7.5" rev-constraint-default="0.7.5" rev-constraint-dynamic="0.7.5" callerrev="0.7.5"/>
+				<artifacts>
+					<artifact name="elki-classification" type="jar" ext="jar" status="successful" details="" size="48447" time="287" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-classification\jars\elki-classification-0.7.5.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-classification/0.7.5/elki-classification-0.7.5.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="de.lmu.ifi.dbs.elki" name="elki-itemsets">
+			<revision name="0.7.5" status="release" pubdate="20190215192554" resolver="public" artresolver="public" homepage="https://elki-project.github.io/" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="17">
+				<license name="GNU Affero General Public License (AGPL) version 3.0" url="http://www.gnu.org/licenses/agpl-3.0.txt"/>
+				<metadata-artifact status="successful" details="" size="1657" time="190" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-itemsets\ivy-0.7.5.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-itemsets\ivy-0.7.5.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-itemsets/0.7.5/elki-itemsets-0.7.5.pom"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki" conf="default, compile, runtime, master" rev="0.7.5" rev-constraint-default="0.7.5" rev-constraint-dynamic="0.7.5" callerrev="0.7.5"/>
+				<artifacts>
+					<artifact name="elki-itemsets" type="jar" ext="jar" status="successful" details="" size="77443" time="223" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-itemsets\jars\elki-itemsets-0.7.5.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-itemsets/0.7.5/elki-itemsets-0.7.5.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="de.lmu.ifi.dbs.elki" name="elki-clustering">
+			<revision name="0.7.5" status="release" pubdate="20190215191509" resolver="public" artresolver="public" homepage="https://elki-project.github.io/" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="2">
+				<license name="GNU Affero General Public License (AGPL) version 3.0" url="http://www.gnu.org/licenses/agpl-3.0.txt"/>
+				<metadata-artifact status="successful" details="" size="1673" time="194" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-clustering\ivy-0.7.5.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-clustering\ivy-0.7.5.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-clustering/0.7.5/elki-clustering-0.7.5.pom"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki" conf="default, compile, runtime, master" rev="0.7.5" rev-constraint-default="0.7.5" rev-constraint-dynamic="0.7.5" callerrev="0.7.5"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki-data-generator" conf="compile, runtime" rev="0.7.5" rev-constraint-default="0.7.5" rev-constraint-dynamic="0.7.5" callerrev="0.7.5"/>
+				<artifacts>
+					<artifact name="elki-clustering" type="jar" ext="jar" status="successful" details="" size="986838" time="479" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-clustering\jars\elki-clustering-0.7.5.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-clustering/0.7.5/elki-clustering-0.7.5.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="de.lmu.ifi.dbs.elki" name="elki-core">
+			<revision name="0.7.5" status="release" pubdate="20190215191618" resolver="public" artresolver="public" homepage="https://elki-project.github.io/" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="3">
+				<license name="GNU Affero General Public License (AGPL) version 3.0" url="http://www.gnu.org/licenses/agpl-3.0.txt"/>
+				<metadata-artifact status="successful" details="" size="1865" time="214" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-core\ivy-0.7.5.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-core\ivy-0.7.5.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-core/0.7.5/elki-core-0.7.5.pom"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki-outlier" conf="compile, runtime" rev="0.7.5" rev-constraint-default="0.7.5" rev-constraint-dynamic="0.7.5" callerrev="0.7.5"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki-itemsets" conf="compile, runtime" rev="0.7.5" rev-constraint-default="0.7.5" rev-constraint-dynamic="0.7.5" callerrev="0.7.5"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki-clustering" conf="compile, runtime" rev="0.7.5" rev-constraint-default="0.7.5" rev-constraint-dynamic="0.7.5" callerrev="0.7.5"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki-classification" conf="compile, runtime" rev="0.7.5" rev-constraint-default="0.7.5" rev-constraint-dynamic="0.7.5" callerrev="0.7.5"/>
+				<artifacts>
+					<artifact name="elki-core" type="jar" ext="jar" status="successful" details="" size="137296" time="185" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-core\jars\elki-core-0.7.5.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-core/0.7.5/elki-core-0.7.5.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="de.lmu.ifi.dbs.elki" name="elki-core-parallel">
+			<revision name="0.7.5" status="release" pubdate="20190215191943" resolver="public" artresolver="public" homepage="https://elki-project.github.io/" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="16">
+				<license name="GNU Affero General Public License (AGPL) version 3.0" url="http://www.gnu.org/licenses/agpl-3.0.txt"/>
+				<metadata-artifact status="successful" details="" size="1687" time="187" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-core-parallel\ivy-0.7.5.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-core-parallel\ivy-0.7.5.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-core-parallel/0.7.5/elki-core-parallel-0.7.5.pom"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki-core" conf="compile, runtime" rev="0.7.5" rev-constraint-default="0.7.5" rev-constraint-dynamic="0.7.5" callerrev="0.7.5"/>
+				<artifacts>
+					<artifact name="elki-core-parallel" type="jar" ext="jar" status="successful" details="" size="39430" time="301" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-core-parallel\jars\elki-core-parallel-0.7.5.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-core-parallel/0.7.5/elki-core-parallel-0.7.5.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="de.lmu.ifi.dbs.elki" name="elki-index-preprocessed">
+			<revision name="0.7.5" status="release" pubdate="20190215192432" resolver="public" artresolver="public" homepage="https://elki-project.github.io/" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="4">
+				<license name="GNU Affero General Public License (AGPL) version 3.0" url="http://www.gnu.org/licenses/agpl-3.0.txt"/>
+				<metadata-artifact status="successful" details="" size="1703" time="171" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-index-preprocessed\ivy-0.7.5.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-index-preprocessed\ivy-0.7.5.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-index-preprocessed/0.7.5/elki-index-preprocessed-0.7.5.pom"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki-index" conf="compile, runtime" rev="0.7.5" rev-constraint-default="0.7.5" rev-constraint-dynamic="0.7.5" callerrev="0.7.5"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki-precomputed" conf="compile, runtime" rev="0.7.5" rev-constraint-default="0.7.5" rev-constraint-dynamic="0.7.5" callerrev="0.7.5"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki-core" conf="compile, runtime" rev="0.7.5" rev-constraint-default="0.7.5" rev-constraint-dynamic="0.7.5" callerrev="0.7.5"/>
+				<artifacts>
+					<artifact name="elki-index-preprocessed" type="jar" ext="jar" status="successful" details="" size="124407" time="232" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-index-preprocessed\jars\elki-index-preprocessed-0.7.5.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-index-preprocessed/0.7.5/elki-index-preprocessed-0.7.5.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="de.lmu.ifi.dbs.elki" name="elki-database">
+			<revision name="0.7.5" status="release" pubdate="20190215192058" resolver="public" artresolver="public" homepage="https://elki-project.github.io/" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="5">
+				<license name="GNU Affero General Public License (AGPL) version 3.0" url="http://www.gnu.org/licenses/agpl-3.0.txt"/>
+				<metadata-artifact status="successful" details="" size="1646" time="301" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-database\ivy-0.7.5.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-database\ivy-0.7.5.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-database/0.7.5/elki-database-0.7.5.pom"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki-index-preprocessed" conf="compile, runtime" rev="0.7.5" rev-constraint-default="0.7.5" rev-constraint-dynamic="0.7.5" callerrev="0.7.5"/>
+				<artifacts>
+					<artifact name="elki-database" type="jar" ext="jar" status="successful" details="" size="101497" time="223" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-database\jars\elki-database-0.7.5.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-database/0.7.5/elki-database-0.7.5.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="de.lmu.ifi.dbs.elki" name="elki-input">
+			<revision name="0.7.5" status="release" pubdate="20190215192530" resolver="public" artresolver="public" homepage="https://elki-project.github.io/" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="6">
+				<license name="GNU Affero General Public License (AGPL) version 3.0" url="http://www.gnu.org/licenses/agpl-3.0.txt"/>
+				<metadata-artifact status="successful" details="" size="1655" time="212" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-input\ivy-0.7.5.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-input\ivy-0.7.5.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-input/0.7.5/elki-input-0.7.5.pom"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki-database" conf="compile, runtime" rev="0.7.5" rev-constraint-default="0.7.5" rev-constraint-dynamic="0.7.5" callerrev="0.7.5"/>
+				<artifacts>
+					<artifact name="elki-input" type="jar" ext="jar" status="successful" details="" size="268618" time="222" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-input\jars\elki-input-0.7.5.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-input/0.7.5/elki-input-0.7.5.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="de.lmu.ifi.dbs.elki" name="elki-core-distance">
+			<revision name="0.7.5" status="release" pubdate="20190215191828" resolver="public" artresolver="public" homepage="https://elki-project.github.io/" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="7">
+				<license name="GNU Affero General Public License (AGPL) version 3.0" url="http://www.gnu.org/licenses/agpl-3.0.txt"/>
+				<metadata-artifact status="successful" details="" size="1871" time="187" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-core-distance\ivy-0.7.5.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-core-distance\ivy-0.7.5.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-core-distance/0.7.5/elki-core-distance-0.7.5.pom"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki-input" conf="compile, runtime" rev="0.7.5" rev-constraint-default="0.7.5" rev-constraint-dynamic="0.7.5" callerrev="0.7.5"/>
+				<artifacts>
+					<artifact name="elki-core-distance" type="jar" ext="jar" status="successful" details="" size="232844" time="243" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-core-distance\jars\elki-core-distance-0.7.5.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-core-distance/0.7.5/elki-core-distance-0.7.5.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="de.lmu.ifi.dbs.elki" name="elki-core-math">
+			<revision name="0.7.5" status="release" pubdate="20190215191905" resolver="public" artresolver="public" homepage="https://elki-project.github.io/" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="15">
+				<license name="GNU Affero General Public License (AGPL) version 3.0" url="http://www.gnu.org/licenses/agpl-3.0.txt"/>
+				<metadata-artifact status="successful" details="" size="1696" time="179" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-core-math\ivy-0.7.5.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-core-math\ivy-0.7.5.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-core-math/0.7.5/elki-core-math-0.7.5.pom"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki-core-distance" conf="compile, runtime" rev="0.7.5" rev-constraint-default="0.7.5" rev-constraint-dynamic="0.7.5" callerrev="0.7.5"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki-core-parallel" conf="compile, runtime" rev="0.7.5" rev-constraint-default="0.7.5" rev-constraint-dynamic="0.7.5" callerrev="0.7.5"/>
+				<artifacts>
+					<artifact name="elki-core-math" type="jar" ext="jar" status="successful" details="" size="524988" time="251" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-core-math\jars\elki-core-math-0.7.5.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-core-math/0.7.5/elki-core-math-0.7.5.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="de.lmu.ifi.dbs.elki" name="elki-core-data">
+			<revision name="0.7.5" status="release" pubdate="20190215191705" resolver="public" artresolver="public" homepage="https://elki-project.github.io/" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="8">
+				<license name="GNU Affero General Public License (AGPL) version 3.0" url="http://www.gnu.org/licenses/agpl-3.0.txt"/>
+				<metadata-artifact status="successful" details="" size="1664" time="191" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-core-data\ivy-0.7.5.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-core-data\ivy-0.7.5.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-core-data/0.7.5/elki-core-data-0.7.5.pom"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki-core-distance" conf="compile, runtime" rev="0.7.5" rev-constraint-default="0.7.5" rev-constraint-dynamic="0.7.5" callerrev="0.7.5"/>
+				<artifacts>
+					<artifact name="elki-core-data" type="jar" ext="jar" status="successful" details="" size="146578" time="243" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-core-data\jars\elki-core-data-0.7.5.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-core-data/0.7.5/elki-core-data-0.7.5.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="de.lmu.ifi.dbs.elki" name="elki-core-api">
+			<revision name="0.7.5" status="release" pubdate="20190215191639" resolver="public" artresolver="public" homepage="https://elki-project.github.io/" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="9">
+				<license name="GNU Affero General Public License (AGPL) version 3.0" url="http://www.gnu.org/licenses/agpl-3.0.txt"/>
+				<metadata-artifact status="successful" details="" size="1653" time="223" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-core-api\ivy-0.7.5.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-core-api\ivy-0.7.5.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-core-api/0.7.5/elki-core-api-0.7.5.pom"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki-core-math" conf="compile, runtime" rev="0.7.5" rev-constraint-default="0.7.5" rev-constraint-dynamic="0.7.5" callerrev="0.7.5"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki-core-data" conf="compile, runtime" rev="0.7.5" rev-constraint-default="0.7.5" rev-constraint-dynamic="0.7.5" callerrev="0.7.5"/>
+				<artifacts>
+					<artifact name="elki-core-api" type="jar" ext="jar" status="successful" details="" size="121703" time="238" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-core-api\jars\elki-core-api-0.7.5.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-core-api/0.7.5/elki-core-api-0.7.5.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="de.lmu.ifi.dbs.elki" name="elki-core-dbids">
+			<revision name="0.7.5" status="release" pubdate="20190215191739" resolver="public" artresolver="public" homepage="https://elki-project.github.io/" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="10">
+				<license name="GNU Affero General Public License (AGPL) version 3.0" url="http://www.gnu.org/licenses/agpl-3.0.txt"/>
+				<metadata-artifact status="successful" details="" size="1664" time="198" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-core-dbids\ivy-0.7.5.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-core-dbids\ivy-0.7.5.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-core-dbids/0.7.5/elki-core-dbids-0.7.5.pom"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki-core-api" conf="compile, runtime" rev="0.7.5" rev-constraint-default="0.7.5" rev-constraint-dynamic="0.7.5" callerrev="0.7.5"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki-core-dbids-int" conf="compile, runtime" rev="0.7.5" rev-constraint-default="0.7.5" rev-constraint-dynamic="0.7.5" callerrev="0.7.5"/>
+				<artifacts>
+					<artifact name="elki-core-dbids" type="jar" ext="jar" status="successful" details="" size="74795" time="239" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-core-dbids\jars\elki-core-dbids-0.7.5.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-core-dbids/0.7.5/elki-core-dbids-0.7.5.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="de.lmu.ifi.dbs.elki" name="elki-core-util">
+			<revision name="0.7.5" status="release" pubdate="20190215191957" resolver="public" artresolver="public" homepage="https://elki-project.github.io/" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="11">
+				<license name="GNU Affero General Public License (AGPL) version 3.0" url="http://www.gnu.org/licenses/agpl-3.0.txt"/>
+				<metadata-artifact status="successful" details="" size="2007" time="205" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-core-util\ivy-0.7.5.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-core-util\ivy-0.7.5.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-core-util/0.7.5/elki-core-util-0.7.5.pom"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki-persistent" conf="compile, runtime" rev="0.7.5" rev-constraint-default="0.7.5" rev-constraint-dynamic="0.7.5" callerrev="0.7.5"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki-core-dbids" conf="compile, runtime" rev="0.7.5" rev-constraint-default="0.7.5" rev-constraint-dynamic="0.7.5" callerrev="0.7.5"/>
+				<artifacts>
+					<artifact name="elki-core-util" type="jar" ext="jar" status="successful" details="" size="358777" time="378" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-core-util\jars\elki-core-util-0.7.5.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-core-util/0.7.5/elki-core-util-0.7.5.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="it.unimi.dsi" name="fastutil">
+			<revision name="8.5.6" status="release" pubdate="20210913205904" resolver="public" artresolver="public" homepage="http://fastutil.di.unimi.it/" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="14">
+				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.html"/>
+				<metadata-artifact status="successful" details="" size="1547" time="81" location="C:\Users\maxig\.ivy2\cache\it.unimi.dsi\fastutil\ivy-8.5.6.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\it.unimi.dsi\fastutil\ivy-8.5.6.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/it/unimi/dsi/fastutil/8.5.6/fastutil-8.5.6.pom"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki-core-util" conf="compile, runtime" rev="[8,9)" rev-constraint-default="[8,9)" rev-constraint-dynamic="[8,9)" callerrev="0.7.5"/>
+				<artifacts>
+					<artifact name="fastutil" type="jar" ext="jar" status="successful" details="" size="23565248" time="4025" location="C:\Users\maxig\.ivy2\cache\it.unimi.dsi\fastutil\jars\fastutil-8.5.6.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/it/unimi/dsi/fastutil/8.5.6/fastutil-8.5.6.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="net.jafama" name="jafama">
+			<revision name="2.3.2" status="release" pubdate="20200818234634" resolver="public" artresolver="public" homepage="http://sourceforge.net/projects/jafama/" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="13">
+				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="successful" details="" size="1002" time="260" location="C:\Users\maxig\.ivy2\cache\net.jafama\jafama\ivy-2.3.2.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\net.jafama\jafama\ivy-2.3.2.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/net/jafama/jafama/2.3.2/jafama-2.3.2.pom"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki-core-util" conf="compile, runtime" rev="[2.3.0,3)" rev-constraint-default="[2.3.0,3)" rev-constraint-dynamic="[2.3.0,3)" callerrev="0.7.5"/>
+				<artifacts>
+					<artifact name="jafama" type="jar" ext="jar" status="successful" details="" size="49076" time="407" location="C:\Users\maxig\.ivy2\cache\net.jafama\jafama\jars\jafama-2.3.2.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/net/jafama/jafama/2.3.2/jafama-2.3.2.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="de.lmu.ifi.dbs.elki" name="elki-logging">
+			<revision name="0.7.5" status="release" pubdate="20190215192615" resolver="public" artresolver="public" homepage="https://elki-project.github.io/" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="12">
+				<license name="GNU Affero General Public License (AGPL) version 3.0" url="http://www.gnu.org/licenses/agpl-3.0.txt"/>
+				<metadata-artifact status="successful" details="" size="1426" time="204" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-logging\ivy-0.7.5.xml" searched="true" original-local-location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-logging\ivy-0.7.5.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-logging/0.7.5/elki-logging-0.7.5.pom"/>
+				<caller organisation="de.lmu.ifi.dbs.elki" name="elki-core-util" conf="compile, runtime" rev="0.7.5" rev-constraint-default="0.7.5" rev-constraint-dynamic="0.7.5" callerrev="0.7.5"/>
+				<artifacts>
+					<artifact name="elki-logging" type="jar" ext="jar" status="successful" details="" size="46725" time="292" location="C:\Users\maxig\.ivy2\cache\de.lmu.ifi.dbs.elki\elki-logging\jars\elki-logging-0.7.5.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/de/lmu/ifi/dbs/elki/elki-logging/0.7.5/elki-logging-0.7.5.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.scala-lang" name="scala-library">
+			<revision name="2.12.8" status="release" pubdate="20181204111556" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.scala-lang.org/" extra-info.apiURL="http://www.scala-lang.org/api/2.12.8/" downloaded="false" searched="false" default="false" conf="default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master" position="0">
+				<license name="Apache-2.0" url="https://www.apache.org/licenses/LICENSE-2.0"/>
+				<metadata-artifact status="no" details="" size="2688" time="0" location="C:\Users\maxig\.ivy2\cache\org.scala-lang\scala-library\ivy-2.12.8.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scala-lang/scala-library/2.12.8/scala-library-2.12.8.pom"/>
+				<caller organisation="com.chuusai" name="shapeless_2.12" conf="compile, runtime" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="2.3.2"/>
+				<caller organisation="org.typelevel" name="machinist_2.12" conf="compile, runtime" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="0.6.1"/>
+				<caller organisation="org.scala-lang" name="scala-reflect" conf="compile, runtime" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="2.12.8"/>
+				<caller organisation="org.scalanlp" name="breeze-macros_2.12" conf="compile, runtime" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="0.13.1"/>
+				<caller organisation="org.spire-math" name="spire_2.12" conf="compile, runtime" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="0.13.0"/>
+				<caller organisation="io.github.edouardfouche" name="datagenerator_2.12" conf="default, compile, runtime, master" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="0.1.0"/>
+				<caller organisation="org.spire-math" name="spire-macros_2.12" conf="compile, runtime" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="0.13.0"/>
+				<caller organisation="com.typesafe.scala-logging" name="scala-logging_2.12" conf="compile, runtime" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="3.8.0"/>
+				<caller organisation="org.scalanlp" name="breeze_2.12" conf="compile, runtime" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="0.13.1"/>
+				<caller organisation="org.scalanlp" name="breeze-natives_2.12" conf="default, compile, runtime, master" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="0.13.1"/>
+				<caller organisation="com.edouardfouche" name="mcde-experiments_2.12" conf="compile-internal, compile, provided, optional" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="1.0"/>
+				<caller organisation="org.typelevel" name="macro-compat_2.12" conf="compile, runtime" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="1.1.1"/>
+				<artifacts>
+					<artifact name="scala-library" type="jar" ext="jar" status="no" details="" size="5272591" time="0" location="C:\Users\maxig\.ivy2\cache\org.scala-lang\scala-library\jars\scala-library-2.12.8.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/scala-lang/scala-library/2.12.8/scala-library-2.12.8.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+	</dependencies>
+</ivy-report>
