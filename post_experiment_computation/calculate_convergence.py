@@ -57,7 +57,7 @@ def convergence_rate(x,e):
 def plot_convergence(): 
     #for each datasource plot variance of every algorithm
     #legend with all algorithms colors
-    start = 20
+    start = 0
     end = 100
     step = 1
     num_experiments = 5

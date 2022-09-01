@@ -614,7 +614,7 @@ class HypercubeDataSource(DataSource):
                     results_for_dim.append(queries[i])
             results.append(results_for_dim)
         results = np.asarray(results)
-        results = np.squeeze(results)
+        results = np.squeeze(results,axis=2)
         return queries, results
 
 
@@ -649,7 +649,7 @@ class HypercubeGraphDataSource(DataSource):
                     results_for_dim.append(np.asarray([Random().randint(0,1)]))
             results.append(results_for_dim)
         results = np.asarray(results)
-        results = np.squeeze(results)
+        results = np.squeeze(results,axis=2)
         return queries, results
 
 
@@ -669,7 +669,7 @@ class StarDataSource(DataSource):
 
     query_shape: Tuple[int,...] = (1,)
     result_shape: Tuple[int,...] = (1,)
-    w: float = 0.05
+    w: float = 0.1
 
     def query(self, queries):
 
@@ -686,7 +686,7 @@ class StarDataSource(DataSource):
 
         random = np.random.uniform(-0.5,0.5, size=(queries.shape[0], *self.result_shape))
 
-        mask = np.greater(queries, -self.w) * np.less(queries, self.w)
+        mask = np.equal(queries, 0)
 
         results = mask * random + (1 - mask) * result_const
 

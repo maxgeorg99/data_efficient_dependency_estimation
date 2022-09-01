@@ -10,9 +10,11 @@ from statsmodels.stats.power import TTestIndPower
 from sklearn.metrics import auc, average_precision_score, confusion_matrix, f1_score, precision_recall_curve, roc_auc_score
 import statsmodels.stats.power as smp
 from scipy.stats import rankdata
+import itertools
+import math
 
 result_folder = "./experiment_results/data_efficiency"
-log_folder = "./logs/class4/dim"
+log_folder = "./logs/class4/noise"
 log_prefix = "DataEfficiency_"
 num_experiments = 1
 ignore_nans_count = -1
@@ -35,7 +37,17 @@ def walk_files(path):
 algorithm_pvalues: Dict = {}
 def compute_data_efficiency(data, algorithm, datasource):
     runs_data_p = algorithm_pvalues.get((algorithm,datasource), [])
-    runs_data_p.append(data['pValues'][0:101])
+    runs_data_p.append(data['pValues'][0:100])
+    if len(runs_data_p[0]) <= 11:
+        a = np.zeros(int(math.ceil(100/len(runs_data_p[0])))*len(runs_data_p[0]),dtype=float)
+        a[::int(math.ceil(100/len(runs_data_p[0])))] = runs_data_p[0]
+        a[a == 0] = 'nan'
+        nans, x= np.isnan(a), lambda z: z.nonzero()[0]
+        if not all(np.isnan(a)):
+            a[nans]= np.interp(x(nans), x(~nans), a[~nans])
+            runs_data_p[0] = a[0:100]
+        else:
+            return
     algorithm_pvalues[(algorithm, datasource)] = runs_data_p 
 
 algorithm_F1_90: Dict = {}
@@ -47,7 +59,7 @@ def calculate_F1_noise():
     for noise in noise_levels:
         for algorithm in algorithms:
             datasources_with_noise = [datasource for datasource in datasources if datasource.startswith('noise ' + str(noise)) or 'Independent' in datasource or 'Random' in datasource]
-            avg_pvalues = np.stack([algorithm_pvalues[(algorithm, ds)] for ds in datasources_with_noise]).mean(1)
+            avg_pvalues = np.stack([algorithm_pvalues[(algorithm, ds)] for ds in [x[1] for x in algorithm_pvalues.keys() if x[0] == algorithm]]).mean(1)
             F1_90 = []  
             F1_95 = []
             F1_99 = []
@@ -68,12 +80,12 @@ algorithm_ROC_AUC90: Dict = {}
 algorithm_ROC_AUC95: Dict = {}
 algorithm_ROC_AUC99: Dict = {}
 def calculate_ROC_AUC():
-    noise_levels = [0.0,0.5,2.0]
+    noise_levels = [0.0]
     p_thresholds = [0.01,0.05,0.1]
     for noise in noise_levels:
         for algorithm in algorithms:
-            datasources_with_noise = [datasource for datasource in datasources if datasource.startswith('noise ' + str(noise)) or 'Independent' in datasource or 'Random' in datasource]
-            avg_pvalues = np.stack([algorithm_pvalues[(algorithm, ds)] for ds in datasources_with_noise]).mean(1)
+            datasources_with_noise = [x[1] for x in algorithm_pvalues.keys() if x[0] == algorithm]
+            avg_pvalues = np.stack([algorithm_pvalues[(algorithm, ds)] for ds in [x[1] for x in algorithm_pvalues.keys() if x[0] == algorithm]]).mean(1)
             AUC_90 = []
             AUC_95 = []
             AUC_99 = []
@@ -94,12 +106,12 @@ algorithm_PR_AUC90: Dict = {}
 algorithm_PR_AUC95: Dict = {}
 algorithm_PR_AUC99: Dict = {}
 def calculate_PR_AUC():
-    noise_levels = [0.0,0.5,2.0]
+    noise_levels = [0.0]
     p_thresholds = [0.01,0.05,0.1]
     for noise in noise_levels:
         for algorithm in algorithms:
-            datasources_with_noise = [datasource for datasource in datasources if datasource.startswith('noise ' + str(noise)) or 'Independent' in datasource or 'Random' in datasource]
-            avg_pvalues = np.stack([algorithm_pvalues[(algorithm, ds)] for ds in datasources_with_noise]).mean(1)
+            datasources_with_noise = [x[1] for x in algorithm_pvalues.keys() if x[0] == algorithm]
+            avg_pvalues = np.stack([algorithm_pvalues[(algorithm, ds)] for ds in [x[1] for x in algorithm_pvalues.keys() if x[0] == algorithm]]).mean(1)
             AUC_90 = []
             AUC_95 = []
             AUC_99 = []
@@ -120,12 +132,12 @@ algorithm_power90: Dict = {}
 algorithm_power95: Dict = {}
 algorithm_power99: Dict = {}
 def calculate_power_noise():
-    noise_levels = [0.0,0.5,2.0]
+    noise_levels = [0.0]
     p_thresholds = [0.01,0.05,0.1]
     for noise in noise_levels:
         for algorithm in algorithms:
             datasources_with_noise = [datasource for datasource in datasources if datasource.startswith('noise ' + str(noise)) or 'Independent' in datasource or 'Random' in datasource]
-            avg_pvalues = np.stack([algorithm_pvalues[(algorithm, ds)] for ds in datasources_with_noise]).mean(1)
+            avg_pvalues = np.stack([algorithm_pvalues[(algorithm, ds)] for ds in [x[1] for x in algorithm_pvalues.keys() if x[0] == algorithm]]).mean(1)
             power90 = []
             power95 = []
             power99 = []
@@ -134,7 +146,7 @@ def calculate_power_noise():
                 for p in p_thresholds:
                     predictions = [1 if x >= p else 0 for x in avg_pvalues[:,i]]
 
-                    cnf_matrix = confusion_matrix(get_ground_truth(datasources_with_noise), predictions)
+                    cnf_matrix = confusion_matrix(get_ground_truth([x[1] for x in algorithm_pvalues.keys() if x[0] == algorithm]), predictions)
 
                     FN = cnf_matrix.sum(axis=1) - np.diag(cnf_matrix)
                     TP = np.diag(cnf_matrix)
@@ -157,8 +169,11 @@ def calculate_power_dim():
     dimensions = [1,2,3,4,5]
     for algorithm in algorithms:
         for d in dimensions:
-            datasource_with_dim = [datasource for datasource in datasources if str(d) + 'd' in datasource or 'Independent' in datasource or 'Random' in datasource]
-            avg_pvalues = np.stack([algorithm_pvalues[(algorithm, ds)] for ds in datasource_with_dim]).mean(1)
+            if algorithm == 'hypoKMERF':
+                datasource_with_dim = [x[1] for x in algorithm_pvalues.keys() if x[0] == algorithm]
+            else:
+                datasource_with_dim = [x[1] for x in algorithm_pvalues.keys() if x[0] == algorithm and (str(d) + 'd' in x[1] or 'Independent' in x[1] or 'Random' in x[1])]
+            avg_pvalues = np.stack([algorithm_pvalues[(algorithm, ds)][0] for ds in datasource_with_dim])
             power95 = []
             for i in range(num_iterations):
                 predictions = [1 if x >= 0.05 else 0 for x in avg_pvalues[:,i]]
@@ -225,7 +240,7 @@ def plot_F1_noise():
             y = algorithm_F1_99[algorithm,noise]
             plot.plot(x,y,algo_marker_dict[algorithm] + '-', label=algorithm)
         plot.figlegend()
-        plot.ylim(top=0.7)
+        plot.ylim(top=1)
         plot.ylabel("F1 score")
         plot.xlabel("iteration")
         plot.title(f'F1 99',fontsize=30)
@@ -235,7 +250,7 @@ def plot_F1_noise():
 def plot_AUC():
     x = np.arange(num_iterations)
     p_thresholds = [0.01,0.05,0.1]
-    noise_level = [0.0,0.5,2.0]
+    noise_level = [0.0]
     for noise in noise_level:
         for algorithm in algorithms:
             y = algorithm_ROC_AUC90[(algorithm,noise)]
@@ -273,7 +288,7 @@ def plot_AUC():
 def plot_PR_AUC():
     x = np.arange(num_iterations)
     p_thresholds = [0.01,0.05,0.1]
-    noise_level = [0.0,0.5,2.0]
+    noise_level = [0.0]
     for noise in noise_level:
         for algorithm in algorithms:
             y = algorithm_PR_AUC90[(algorithm,noise)]
@@ -312,11 +327,11 @@ def plot_power():
         p = algorithm_power90[(algorithm,0.0)]
         y = np.nan_to_num(p)
         plot.plot(x,y,  algo_marker_dict[algorithm] + '-', label=algorithm)
-    plot.ylim(top=1)
+    plot.ylim(top=1,bottom=0)
     plot.ylabel("power")
     plot.xlabel("iteration")
     plot.title(f'Power 90',fontsize=30)
-    plot.legend()
+    plot.figlegend()
     plot.savefig(f'{result_folder}/Power/{class_string}_Power90.png',dpi=500)
     plot.clf()
 
@@ -324,11 +339,11 @@ def plot_power():
         p = algorithm_power95[(algorithm,0.0)]
         y = np.nan_to_num(p)
         plot.plot(x,y,  algo_marker_dict[algorithm] + '-', label=algorithm)
-    plot.ylim(top=1)
+    plot.ylim(top=1,bottom=0)
     plot.ylabel("power")
     plot.xlabel("iteration")
     plot.title(f'Power 95',fontsize=30)
-    plot.legend()
+    plot.figlegend()
     plot.savefig(f'{result_folder}/Power/{class_string}_Power95.png',dpi=500)
     plot.clf()
 
@@ -336,11 +351,11 @@ def plot_power():
         p = algorithm_power99[(algorithm,0.0)]
         y = np.nan_to_num(p)
         plot.plot(x,y,  algo_marker_dict[algorithm] + '-', label=algorithm)
-    plot.ylim(top=1)
+    plot.ylim(top=1,bottom=0)
     plot.ylabel("power")
     plot.xlabel("iteration")
     plot.title(f'Power 99',fontsize=30)
-    plot.legend()
+    plot.figlegend()
     plot.savefig(f'{result_folder}/Power/{class_string}_Power99.png',dpi=500)
     plot.clf()
 
@@ -388,13 +403,30 @@ def plot_power_dim():
         for algorithm in algorithms:
             y = algorithm_power95_dim[(algorithm,d)]
             plot.plot(x,y,algo_marker_dict[algorithm] + '-', label=algorithm)
-        plot.ylim(top=1)
+        plot.ylim(top=1,bottom=0.2)
         plot.ylabel("power")
         plot.xlabel("iteration")
         plot.figlegend()
         plot.title(f'Power 95 d = {d}',fontsize=30)
         plot.savefig(f'{result_folder}/Power/Power95_{d}_{class_string}.png',dpi=500)
         plot.clf()
+
+def plot_ranking():
+    power = [algorithm_power95[(algorithm,0.0)] for algorithm in algorithms]
+    rankingPower = [np.average(p,weights=np.flip(np.arange(1,1+len(p)))) for p in power]
+    rankingPower.sort()
+ 
+    X_axis = np.arange(len(algorithms))
+    
+    plot.barh(X_axis,rankingPower)
+    
+    plot.yticks(X_axis, algorithms)
+    plot.ylabel("Tests")
+    plot.xlabel("Weighted Average Power")
+    plot.title("Ranking of Independence Tests")
+    plot.subplots_adjust(left=0.15)
+    plot.savefig(f'{result_folder}/Rank/ranking.png',dpi=500)
+    plot.clf()
 
 def plot_data_efficiency(fig_name = "data_efficiency"):
     plot_F1()
@@ -422,16 +454,17 @@ algo_marker_dict = dict(zip(algorithms,markers))
 
 #calculate_power_noise()
 #calculate_F1_noise()
-#calculate_ROC_AUC()
-#calculate_PR_AUC()
+calculate_ROC_AUC()
+calculate_PR_AUC()
 #calculate_prediction_recall_AUC()
-#calculate_power_dim()
 #calculate_power_dim()
 
 #plot_F1_noise()
 #plot_power()
 #plot_power_noise()
 #plot_data_efficiency()
-#plot_AUC()
-#plot_PR_AUC()
+#plot_cd_power()
+plot_AUC()
+plot_PR_AUC()
 #plot_power_dim()
+#plot_ranking()

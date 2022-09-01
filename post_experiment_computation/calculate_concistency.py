@@ -10,7 +10,7 @@ import statistics as stat
 
 result_folder = "./experiment_results/concistency"
 fig_name = 'concistency'
-log_folder = "./logs/class5/noise"
+log_folder = "./logs/best"
 log_prefix = "DataEfficiency_Ps_"
 num_experiments = 1
 num_iterations = 100
@@ -31,7 +31,7 @@ algorithm_p: Dict = {}
 algorithm_v: Dict = {}
 def compute_data_efficiency(data, algorithm, datasource):
     runs_data_p = algorithm_p.get((algorithm,datasource), [])
-    runs_data_p.append(data['pValues'])
+    runs_data_p.append(data['pValues'])        
     algorithm_p[(algorithm, datasource)] = runs_data_p
 
     runs_data_v = algorithm_p.get((algorithm,datasource), [])
@@ -51,10 +51,8 @@ def plot_concistency_scores():
                 var = np.var([ps[j][i] for j in range(num_experiments)])
                 predticted_var = np.mean([variances[j][i] for j in range(num_experiments)])
                 score = predticted_var - var
-                if algo == 'Hoeffdings':
-                    score = min(1-score,score)
                 scores_iteration.append(score) 
-            scores[(algo,source)]= scores_iteration  
+            scores[(algo,source)] = scores_iteration
         for k, v in scores.items():
             if k[1] == source:
                 plt.plot(range(0, len(v)), v, algo_marker_dict[k[0]] + '-', label=k[0])
@@ -64,7 +62,7 @@ def plot_concistency_scores():
         plt.title(source)
         plt.figlegend(bbox_to_anchor=(1, 1))
         class_string = os.path.dirname(log_folder).split('/')[-1]
-        plt.savefig(f'{result_folder}/{source}_{fig_name}_{class_string}.png',dpi=1000)
+        plt.savefig(f'{result_folder}/{source}_{fig_name}_{class_string}.png',dpi=500)
         plt.clf()
 
 walk_files(log_folder)

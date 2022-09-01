@@ -4,7 +4,7 @@ import numpy as np
 import os
 
 folder = "./experiment_results/gain"
-log_folder = "./logs/class2/dim"
+log_folder = "./logs/class3/noise"
 log_prefix = "log"
 
 baseline = "MCDE"
@@ -50,7 +50,7 @@ algorithm_vars: Dict = {}
 def calculate_vars():
     for item in algorithm_data.items():
         vars = []
-        for i in range(num_iterations):
+        for i in range(num_iterations):     
             vars.append(np.nanvar([item[1][j]['pValues'][i] for j in range(num_experiments)], axis=0))
         algorithm_vars[item[0]] = np.asarray(vars)
 def plot_p_value(fig_name = "p-value"):
@@ -106,9 +106,6 @@ def plot_p_gain(p_gain, fig_name = "p-gain"):
         for algorithm in algorithms:
             key = (algorithm,datasource)
             y = p_gain[key]
-            mask = np.isnan(y)
-            y[mask] = np.interp(np.flatnonzero(mask), np.flatnonzero(~mask), y[~mask])
-            y = np.repeat(y, 10)
             x = np.asarray([i for i in range(len(y))])
             plot.xlim(0,len(y))
             plot.ylim(-1,1)
@@ -124,13 +121,14 @@ def plot_p_gain(p_gain, fig_name = "p-gain"):
         plot.clf()
 
 max_p = 0.25
+min_p = 0.75
 mean_data_gain: Dict = {}
 def calculate_mean_data_gain():
     for key in algorithm_data.keys():
         mean = algorithm_means[key]
         base_mean = algorithm_means[(baseline,key[1])]
 
-        mean_data_gain[key] = calculate_data_gain(mean, base_mean)
+        mean_data_gain[key] = calculate_data_gain(mean, base_mean, key)
 
 median_data_gain: Dict = {}
 def calculate_median_data_gain():
@@ -138,16 +136,23 @@ def calculate_median_data_gain():
         median = algorithm_medians[key]
         base_median = algorithm_medians[(baseline,key[1])]
 
-        median_data_gain[key] = calculate_data_gain(median, base_median)
+        median_data_gain[key] = calculate_data_gain(median, base_median, key)
 
-def calculate_data_gain(mean, base_mean):
-        ps = np.linspace(max_p, 0)
+def calculate_data_gain(mean, base_mean, key):
+        if 'Independent' in key[1] or 'Random' in key[1]:
+            ps = np.linspace(max_p,1)
+        else:
+            ps = np.linspace(max_p, 0)
         itters = []
         base_itters = []
         gains_p = []
         for i in range(ps.shape[0]):
-            itter = np.where(mean <= ps[i])
-            base_itter = np.where(base_mean<= ps[i])
+            if 'Independent' in key[1] or 'Random' in key[1]:
+                itter = np.where(mean >= ps[i])
+                base_itter = np.where(base_mean >= ps[i])
+            else:
+                itter = np.where(mean <= ps[i])
+                base_itter = np.where(base_mean <= ps[i])
 
             try:
                 base_itter = base_itter[0][0]
@@ -177,11 +182,14 @@ def plot_data_gain(data_gain, fig_name = "data-gain"):
         for algorithm in algorithms:
             key = (algorithm,datasource)
             x, y = data_gain[key]
-            plot.xlim(max_p,0)
+            if 'Independent' in datasource or 'Random' in datasource:
+                plot.xlim(min_p,1)
+            else:
+                plot.xlim(max_p,0)
             plot.ylim(-1,1)
             plot.plot(x, y, label=f'{key[0]}')
 
-        plot.title(datasource,fontsize=20)
+        plot.title(datasource[:-1],fontsize=20)
         plot.xlabel("p-value")
         plot.ylabel("data gain against baseline")
         plot.legend(bbox_to_anchor=(1.02, 1), loc='upper left', borderaxespad=0)
