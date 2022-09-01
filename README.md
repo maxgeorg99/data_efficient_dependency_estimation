@@ -15,4 +15,6 @@ Start the execution of the experiments by executing the run_experiments.py.
 
 After the execution run the desired post experiment script from the post_experiment_computaion folder.
 
+For the results of the calculate_gain script you have to run the algorithms class by class and define the baseline in the calculate_gain.py script.
+
 The output graphics are placed in the experiment_results or fig folder.
