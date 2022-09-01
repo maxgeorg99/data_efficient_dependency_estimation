@@ -22,6 +22,9 @@ num_iterations = 100
 
 class_string = os.path.dirname(log_folder).split('/')[-1]
 
+noise_levels = [0.0,0.5,2.0]
+p_thresholds = [0.01,0.05,0.1]
+
 def walk_files(path):
     for dirpath, dnames, fnames in os.walk(path):
         f: str
@@ -44,8 +47,6 @@ algorithm_F1_90: Dict = {}
 algorithm_F1_95: Dict = {}
 algorithm_F1_99: Dict = {}
 def calculate_F1_noise():
-    noise_levels = [0.0,0.5,2.0]
-    p_thresholds = [0.01,0.05,0.1]
     for noise in noise_levels:
         for algorithm in algorithms:
             datasources_with_noise = [datasource for datasource in datasources if datasource.startswith('noise ' + str(noise)) or 'Independent' in datasource or 'Random' in datasource]
@@ -70,8 +71,6 @@ algorithm_ROC_AUC90: Dict = {}
 algorithm_ROC_AUC95: Dict = {}
 algorithm_ROC_AUC99: Dict = {}
 def calculate_ROC_AUC():
-    noise_levels = [0.0]
-    p_thresholds = [0.01,0.05,0.1]
     for noise in noise_levels:
         for algorithm in algorithms:
             datasources_with_noise = [x[1] for x in algorithm_pvalues.keys() if x[0] == algorithm]
@@ -96,8 +95,6 @@ algorithm_PR_AUC90: Dict = {}
 algorithm_PR_AUC95: Dict = {}
 algorithm_PR_AUC99: Dict = {}
 def calculate_PR_AUC():
-    noise_levels = [0.0]
-    p_thresholds = [0.01,0.05,0.1]
     for noise in noise_levels:
         for algorithm in algorithms:
             datasources_with_noise = [x[1] for x in algorithm_pvalues.keys() if x[0] == algorithm]
@@ -122,8 +119,6 @@ algorithm_power90: Dict = {}
 algorithm_power95: Dict = {}
 algorithm_power99: Dict = {}
 def calculate_power_noise():
-    noise_levels = [0.0]
-    p_thresholds = [0.01,0.05,0.1]
     for noise in noise_levels:
         for algorithm in algorithms:
             datasources_with_noise = [datasource for datasource in datasources if datasource.startswith('noise ' + str(noise)) or 'Independent' in datasource or 'Random' in datasource]
